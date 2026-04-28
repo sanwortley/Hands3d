@@ -428,47 +428,47 @@ const App = () => {
 
       {/* 01. HERO */}
       <Section id="hero" onVisible={setNavDark}>
-        <div className="relative w-full flex flex-col items-center justify-center min-h-[60vh] text-center">
+        <div className="relative w-full flex flex-col items-center justify-center min-h-[50vh] md:min-h-[60vh] text-center pt-10 md:pt-0">
           <Reveal>
             <div className="space-y-8 md:space-y-12">
-              <div className="space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 <motion.h2 
                   initial={{ opacity: 0, letterSpacing: "1em" }}
                   animate={{ opacity: 0.4, letterSpacing: "0.6em" }}
                   transition={{ duration: 2 }}
-                  className="text-brand-beige text-[8px] md:text-[10px] uppercase font-bold text-glow"
+                  className="text-brand-beige text-[7px] md:text-[10px] uppercase font-bold text-glow tracking-[0.4em] md:tracking-[0.6em]"
                 >
                   {t.hero.sub}
                 </motion.h2>
-                <h1 className="font-space font-black text-6xl md:text-[11rem] leading-none tracking-tighter text-brand-beige">
+                <h1 className="font-space font-black text-5xl md:text-[11rem] leading-none tracking-tighter text-brand-beige">
                   {t.hero.title[0]}<span className="opacity-70">{t.hero.title[1]}</span>
                 </h1>
               </div>
               
-              <p className="text-base md:text-2xl font-light opacity-50 max-w-2xl mx-auto leading-relaxed tracking-wide italic">
+              <p className="text-sm md:text-2xl font-light opacity-50 max-w-sm md:max-w-2xl mx-auto leading-relaxed tracking-wide italic">
                 {t.hero.desc}
               </p>
 
-              <div className="pt-10 flex flex-col md:flex-row gap-6 justify-center items-center">
+              <div className="pt-6 md:pt-10 flex flex-col md:flex-row gap-4 md:gap-6 justify-center items-center">
                 <motion.button 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-brand-beige text-brand-dark px-14 py-6 rounded-full font-space font-black text-[11px] tracking-[0.5em] uppercase shadow-2xl hover:bg-white transition-colors"
+                  className="bg-brand-beige text-brand-dark px-10 py-5 md:px-14 md:py-6 rounded-full font-space font-black text-[10px] md:text-[11px] tracking-[0.4em] md:tracking-[0.5em] uppercase shadow-2xl hover:bg-white transition-colors"
                 >
                   {t.hero.cta}
                 </motion.button>
                 <div className="w-12 h-px bg-white/20 hidden md:block" />
-                <span className="text-[10px] uppercase tracking-[0.4em] opacity-30 font-bold">{t.hero.studio}</span>
+                <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] opacity-30 font-bold">{t.hero.studio}</span>
               </div>
             </div>
           </Reveal>
 
           <div className="absolute inset-0 -z-10 overflow-hidden">
             <motion.img 
-              animate={{ y: [0, -30, 0], rotate: [0, 2, 0] }}
+              animate={{ y: [0, -20, 0], rotate: [0, 1, 0] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               src="/brand/hero_3d_v2.png" 
-              className="w-full h-full object-contain grayscale opacity-[0.1] scale-125 brightness-125"
+              className="w-full h-full object-contain grayscale opacity-[0.2] md:opacity-[0.1] scale-125 brightness-125"
             />
           </div>
         </div>
@@ -476,8 +476,8 @@ const App = () => {
 
       {/* 02. PRODUCTOS */}
       <Section id="productos" number="02" onVisible={setNavDark}>
-        <div className="flex flex-col lg:flex-row items-center gap-16 md:gap-32">
-          <div className="flex-1 space-y-12 text-center lg:text-left">
+        <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-32">
+          <div className="w-full lg:flex-1 space-y-8 md:space-y-12 text-center lg:text-left">
             <Reveal>
               <h2 className="font-space font-black text-4xl md:text-8xl tracking-tighter leading-none text-brand-beige uppercase">
                 {t.products.title[0]}<br/><span className="opacity-40">{t.products.title[1]}</span>
@@ -485,22 +485,22 @@ const App = () => {
             </Reveal>
             
             <Reveal>
-              <div className="flex flex-col gap-4 mt-12 relative z-50">
+              <div className="flex flex-col gap-3 md:gap-4 mt-8 md:mt-12 relative z-50">
                 {t.products.items.map((m, i) => (
                   <button 
                     key={i}
                     onClick={() => setSelectedModel(translations.en.products.items[i].path || (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl'))}
-                    className={`group flex flex-col items-start px-10 py-8 rounded-[30px] border transition-all duration-500 text-left ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige' : 'bg-white/5 text-brand-beige border-white/5 hover:bg-white/10'}`}
+                    className={`group flex flex-col items-start px-8 py-6 md:px-10 md:py-8 rounded-[25px] md:rounded-[30px] border transition-all duration-500 text-left ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/5 text-brand-beige border-white/5 hover:bg-white/10'}`}
                   >
-                    <span className="font-space font-black tracking-widest uppercase text-xs mb-1">{m.name}</span>
-                    <span className="text-[10px] opacity-50 uppercase tracking-widest font-bold">{m.desc}</span>
+                    <span className="font-space font-black tracking-widest uppercase text-[10px] md:text-xs mb-1">{m.name}</span>
+                    <span className="text-[8px] md:text-[10px] opacity-50 uppercase tracking-widest font-bold">{m.desc}</span>
                   </button>
                 ))}
               </div>
             </Reveal>
           </div>
           
-          <div className="flex-[1.4] w-full">
+          <div className="flex-[1.4] w-full min-h-[350px] md:min-h-[600px]">
             <Reveal>
               <STLViewer modelUrl={selectedModel} />
             </Reveal>
@@ -510,27 +510,27 @@ const App = () => {
 
       {/* 03. SHOWCASE */}
       <Section id="showcase" number="03" onVisible={setNavDark}>
-        <div className="space-y-20">
+        <div className="space-y-12 md:space-y-20">
           <Reveal>
-            <div className="flex flex-col md:flex-row justify-between items-end gap-8">
-              <h2 className="font-space font-black text-5xl md:text-9xl tracking-tighter uppercase leading-none">
+            <div className="flex flex-col md:flex-row justify-between items-end gap-6 md:gap-8">
+              <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter uppercase leading-none">
                 {t.showcase.title}
               </h2>
-              <p className="text-[10px] md:text-xs opacity-40 font-bold tracking-[0.5em] uppercase text-right max-w-[200px]">
+              <p className="text-[10px] md:text-xs opacity-40 font-bold tracking-[0.4em] md:tracking-[0.5em] uppercase text-left md:text-right max-w-[200px]">
                 {t.showcase.desc}
               </p>
             </div>
           </Reveal>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {[1, 2, 3, 4].slice(0, typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 4).map((i) => (
               <Reveal key={i}>
-                <div className="relative aspect-[4/5] bg-white/5 overflow-hidden rounded-[40px] border border-white/5 group">
+                <div className="relative aspect-[4/5] bg-white/5 overflow-hidden rounded-[30px] md:rounded-[40px] border border-white/5 group">
                   <video autoPlay loop muted playsInline className="w-full h-full object-cover grayscale brightness-50 group-hover:brightness-100 transition-all duration-[2000ms]">
                     <source src={`/videos/showcase_${i}.mp4`} type="video/mp4" />
                   </video>
-                  <div className="absolute bottom-10 left-10 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0">
-                    <span className="text-[8px] font-black uppercase tracking-[0.4em] bg-brand-beige text-brand-dark px-4 py-2 rounded-full">{t.showcase.phase} 0{i}</span>
+                  <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0">
+                    <span className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] bg-brand-beige text-brand-dark px-3 py-1.5 md:px-4 md:py-2 rounded-full">{t.showcase.phase} 0{i}</span>
                   </div>
                 </div>
               </Reveal>
@@ -541,25 +541,25 @@ const App = () => {
 
       {/* 04. ARCHIVO */}
       <Section id="archivo" number="04" onVisible={setNavDark}>
-        <div className="flex flex-col md:flex-row items-center gap-20 md:gap-40">
-          <div className="flex-1 order-2 md:order-1">
+        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-40">
+          <div className="w-full md:flex-1 order-2 md:order-1 flex justify-center">
             <Reveal>
-              <img src="/brand/pointing_3d_v2.png" className="w-full max-w-lg rounded-[50px] grayscale opacity-80 border border-white/10" />
+              <img src="/brand/pointing_3d_v2.png" className="w-full max-w-sm md:max-w-lg rounded-[30px] md:rounded-[50px] grayscale opacity-80 border border-white/10 shadow-2xl" />
             </Reveal>
           </div>
-          <div className="flex-1 space-y-12 order-1 md:order-2 text-center md:text-left">
+          <div className="flex-1 space-y-8 md:space-y-12 order-1 md:order-2 text-center md:text-left">
             <Reveal>
-              <h2 className="font-space font-black text-5xl md:text-9xl tracking-tighter leading-none uppercase">
+              <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter leading-none uppercase">
                 {t.archive.title[0]}<span className="text-brand-gold opacity-50">{t.archive.title[1]}</span>
               </h2>
             </Reveal>
             <Reveal>
-              <p className="text-xl md:text-4xl font-light italic opacity-50 leading-tight">{t.archive.desc}</p>
+              <p className="text-lg md:text-4xl font-light italic opacity-50 leading-tight">{t.archive.desc}</p>
             </Reveal>
             <Reveal>
-              <div className="flex flex-wrap gap-4 justify-center md:justify-start pt-6">
+              <div className="flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start pt-4 md:pt-6">
                 {t.archive.tags.map(tag => (
-                  <span key={tag} className="px-8 py-3 border border-white/10 rounded-full text-[9px] font-bold tracking-[0.4em] opacity-40 uppercase">{tag}</span>
+                  <span key={tag} className="px-5 py-2 md:px-8 md:py-3 border border-white/10 rounded-full text-[8px] md:text-[9px] font-bold tracking-[0.3em] md:tracking-[0.4em] opacity-40 uppercase">{tag}</span>
                 ))}
               </div>
             </Reveal>
@@ -569,33 +569,33 @@ const App = () => {
 
       {/* 05. MATERIALES */}
       <Section id="materiales" number="05" onVisible={setNavDark}>
-        <div className="flex flex-col lg:flex-row items-center gap-20">
-          <div className="flex-[1.5] space-y-16 w-full">
+        <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-20">
+          <div className="flex-[1.5] space-y-12 md:space-y-16 w-full">
             <Reveal>
-              <h2 className="font-space font-black text-5xl md:text-9xl tracking-tighter uppercase leading-[0.8]">
+              <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter uppercase leading-[0.8]">
                 {t.materia.title[0]}<br/><span className="opacity-30">{t.materia.title[1]}</span>
               </h2>
             </Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {t.materia.items.map((m, i) => (
                 <Reveal key={i}>
                   <motion.div 
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setSelectedMaterial(m)}
-                    className="bg-white/[0.02] p-10 border border-white/5 rounded-[40px] hover:bg-white/[0.05] transition-all group cursor-pointer"
+                    className="bg-white/[0.02] p-8 md:p-10 border border-white/5 rounded-[30px] md:rounded-[40px] hover:bg-white/[0.05] transition-all group cursor-pointer"
                   >
-                    <span className="text-[7px] tracking-[0.5em] opacity-40 uppercase font-black mb-4 block text-brand-gold">{m.s}</span>
-                    <h3 className="font-space font-black text-2xl md:text-4xl mb-4 tracking-tighter">{m.t}</h3>
-                    <p className="text-[11px] md:text-sm font-light opacity-40 leading-relaxed">{m.d}</p>
+                    <span className="text-[7px] tracking-[0.5em] opacity-40 uppercase font-black mb-3 block text-brand-gold">{m.s}</span>
+                    <h3 className="font-space font-black text-xl md:text-4xl mb-3 tracking-tighter">{m.t}</h3>
+                    <p className="text-[10px] md:text-sm font-light opacity-40 leading-relaxed">{m.d}</p>
                   </motion.div>
                 </Reveal>
               ))}
             </div>
           </div>
-          <div className="flex-1 hidden lg:flex justify-end relative">
+          <div className="flex-1 flex justify-center lg:justify-end relative mt-12 lg:mt-0">
              <Reveal>
-               <img src="/brand/composite_3d_v2.png" className="h-[80vh] w-auto object-contain grayscale opacity-50 contrast-125" />
+               <img src="/brand/composite_3d_v2.png" className="h-[40vh] md:h-[80vh] w-auto object-contain grayscale opacity-40 md:opacity-50 contrast-125" />
              </Reveal>
           </div>
         </div>
@@ -603,25 +603,25 @@ const App = () => {
 
       {/* 06. PRODUCCIÓN */}
       <Section id="produccion" number="06" onVisible={setNavDark}>
-        <div className="flex flex-col md:flex-row items-center gap-20">
-          <div className="flex-1 space-y-12 text-center md:text-left">
+        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
+          <div className="flex-1 space-y-8 md:space-y-12 text-center md:text-left">
             <Reveal>
-              <h2 className="font-space font-black text-5xl md:text-[10rem] tracking-tighter leading-[0.8] uppercase">
+              <h2 className="font-space font-black text-4xl md:text-[10rem] tracking-tighter leading-[0.8] uppercase">
                 {t.production.title[0]}<br/><span className="text-brand-gold">{t.production.title[1]}</span>
               </h2>
             </Reveal>
             <Reveal>
-              <p className="text-xl md:text-3xl font-light opacity-50 leading-tight max-w-md">{t.production.desc}</p>
+              <p className="text-lg md:text-3xl font-light opacity-50 leading-tight max-w-md mx-auto md:mx-0">{t.production.desc}</p>
             </Reveal>
             <Reveal>
-              <motion.button whileHover={{ scale: 1.05, x: 10 }} className="bg-brand-beige text-brand-dark font-space font-black text-[11px] tracking-[0.5em] px-14 py-6 rounded-full shadow-2xl uppercase">
+              <motion.button whileHover={{ scale: 1.05, x: 10 }} className="bg-brand-beige text-brand-dark font-space font-black text-[10px] md:text-[11px] tracking-[0.4em] md:tracking-[0.5em] px-10 py-5 md:px-14 md:py-6 rounded-full shadow-2xl uppercase">
                 {t.production.cta}
               </motion.button>
             </Reveal>
           </div>
-          <div className="flex-1 relative h-[50vh] md:h-[80vh] w-full overflow-hidden rounded-[50px] border border-white/5">
+          <div className="flex-1 relative h-[35vh] md:h-[80vh] w-full overflow-hidden rounded-[30px] md:rounded-[50px] border border-white/5">
              <motion.img 
-               style={{ y: useTransform(scrollYProgress, [0.8, 1], [0, -150]) }}
+               style={{ y: useTransform(scrollYProgress, [0.8, 1], [0, -100]) }}
                src="/brand/premium_industrial_grid.png" 
                className="w-full h-[150%] object-cover grayscale opacity-20 contrast-150"
              />
