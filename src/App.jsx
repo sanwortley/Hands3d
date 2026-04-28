@@ -238,54 +238,54 @@ const MaterialModal = ({ material, onClose, t }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8 bg-brand-dark/95 backdrop-blur-3xl"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-2 md:p-8 bg-brand-dark/98 backdrop-blur-3xl"
     >
       <motion.div 
-        initial={{ scale: 0.95, y: 20 }}
+        initial={{ scale: 0.95, y: 30 }}
         animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.95, y: 20 }}
-        className="relative w-full max-w-5xl bg-white/[0.03] border border-white/10 rounded-[50px] overflow-hidden flex flex-col md:row h-full max-h-[700px] shadow-2xl"
+        exit={{ scale: 0.95, y: 30 }}
+        className="relative w-full max-w-5xl bg-white/[0.03] border border-white/10 rounded-[40px] md:rounded-[50px] overflow-hidden flex flex-col h-full max-h-[90vh] md:max-h-[700px] shadow-2xl"
       >
         <button 
           onClick={onClose}
-          className="absolute top-6 right-6 z-50 bg-brand-beige text-brand-dark px-6 py-2 rounded-full font-space font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all shadow-xl"
+          className="absolute top-4 right-4 md:top-6 md:right-6 z-50 bg-brand-beige text-brand-dark px-5 py-2 md:px-6 md:py-2 rounded-full font-space font-black text-[8px] md:text-[9px] uppercase tracking-widest hover:scale-105 transition-all shadow-xl"
         >
           {t.modal.close}
         </button>
 
-        <div className="flex flex-col md:flex-row h-full w-full">
-          <div className="flex-1 h-[35vh] md:h-full relative overflow-hidden bg-black border-r border-white/5">
+        <div className="flex flex-col md:flex-row h-full w-full overflow-y-auto md:overflow-hidden">
+          <div className="w-full md:flex-1 h-[30vh] md:h-full relative overflow-hidden bg-black border-b md:border-b-0 md:border-r border-white/5 shrink-0">
             <img 
               src={material.img} 
               alt={material.t} 
               className="w-full h-full object-cover grayscale contrast-125 opacity-80" 
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-brand-dark/40" />
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-transparent via-transparent to-brand-dark/60" />
           </div>
 
-          <div className="flex-[1.2] p-8 md:p-16 flex flex-col justify-center space-y-10 overflow-y-auto">
-            <div className="space-y-4 pt-4">
-              <span className="text-brand-gold font-space font-black tracking-[0.6em] text-[8px] md:text-[9px] uppercase opacity-60">{material.s}</span>
-              <h2 className="font-space font-black text-4xl md:text-6xl tracking-tighter uppercase leading-none">{material.t}</h2>
+          <div className="w-full md:flex-[1.2] p-6 md:p-16 flex flex-col justify-center space-y-8 md:space-y-10">
+            <div className="space-y-3 md:space-y-4">
+              <span className="text-brand-gold font-space font-black tracking-[0.6em] text-[7px] md:text-[9px] uppercase opacity-60">{material.s}</span>
+              <h2 className="font-space font-black text-3xl md:text-6xl tracking-tighter uppercase leading-none">{material.t}</h2>
             </div>
             
-            <div className="space-y-6">
-              <h3 className="font-outfit text-brand-beige/30 font-bold uppercase tracking-[0.4em] text-[8px]">{t.modal.spec}</h3>
-              <p className="text-lg md:text-2xl font-light leading-relaxed text-brand-beige/80">
+            <div className="space-y-5 md:space-y-6">
+              <h3 className="font-outfit text-brand-beige/30 font-bold uppercase tracking-[0.4em] text-[7px] md:text-[8px]">{t.modal.spec}</h3>
+              <p className="text-base md:text-2xl font-light leading-relaxed text-brand-beige/80">
                 {material.ld}
               </p>
             </div>
 
-            <div className="pt-6">
+            <div className="pt-4 md:pt-6">
               <div className="h-px w-full bg-white/5" />
-              <div className="flex gap-10 mt-8">
+              <div className="flex gap-8 md:gap-10 mt-6 md:mt-8">
                 <div className="space-y-1">
-                  <span className="block text-[7px] font-black opacity-30 uppercase tracking-[0.3em]">Density</span>
-                  <span className="font-space font-bold text-lg md:text-xl">1.24 g/cm³</span>
+                  <span className="block text-[6px] md:text-[7px] font-black opacity-30 uppercase tracking-[0.3em]">Density</span>
+                  <span className="font-space font-bold text-base md:text-xl">1.24 g/cm³</span>
                 </div>
                 <div className="space-y-1">
-                  <span className="block text-[7px] font-black opacity-30 uppercase tracking-[0.3em]">Hardness</span>
-                  <span className="font-space font-bold text-lg md:text-xl">80 Shore D</span>
+                  <span className="block text-[6px] md:text-[7px] font-black opacity-30 uppercase tracking-[0.3em]">Hardness</span>
+                  <span className="font-space font-bold text-base md:text-xl">80 Shore D</span>
                 </div>
               </div>
             </div>
@@ -321,29 +321,29 @@ const Navbar = ({ lang, setLang, t }) => {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 left-0 w-full z-[100] px-6 py-4 md:px-16 md:py-8 flex justify-between items-center transition-all duration-500 ${isTop ? 'bg-transparent' : 'bg-brand-dark/80 backdrop-blur-xl border-b border-white/5 shadow-2xl'}`}
+      className={`fixed top-0 left-0 w-full z-[100] px-4 py-4 md:px-16 md:py-8 flex justify-between items-center transition-all duration-500 ${isTop ? 'bg-transparent' : 'bg-brand-dark/80 backdrop-blur-xl border-b border-white/5 shadow-2xl'}`}
     >
-      <div className="flex items-center gap-12">
-        <motion.div className="font-space font-black text-2xl md:text-3xl tracking-tight text-brand-beige">
+      <div className="flex items-center gap-4 md:gap-12">
+        <motion.div className="font-space font-black text-xl md:text-3xl tracking-tight text-brand-beige">
           hands<span className="opacity-50">3D</span>
         </motion.div>
         
-        {/* Language Switcher - Sliding Pill */}
-        <div className="relative flex items-center bg-white/5 p-1 rounded-full border border-white/10 cursor-pointer h-10 w-24">
+        {/* Language Switcher - Responsive Pill */}
+        <div className="relative flex items-center bg-white/5 p-1 rounded-full border border-white/10 cursor-pointer h-8 md:h-10 w-20 md:w-24 shrink-0">
           <motion.div 
-            className="absolute h-8 w-[44px] bg-brand-beige rounded-full shadow-lg"
-            animate={{ x: lang === 'es' ? 4 : 44 }}
+            className="absolute h-6 md:h-8 w-[36px] md:w-[44px] bg-brand-beige rounded-full shadow-lg"
+            animate={{ x: lang === 'es' ? 4 : (window.innerWidth < 768 ? 40 : 44) }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           />
           <button 
             onClick={() => setLang('es')}
-            className={`relative z-10 flex-1 text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${lang === 'es' ? 'text-brand-dark' : 'text-brand-beige/40 hover:text-brand-beige'}`}
+            className={`relative z-10 flex-1 text-[8px] md:text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${lang === 'es' ? 'text-brand-dark' : 'text-brand-beige/40 hover:text-brand-beige'}`}
           >
             ES
           </button>
           <button 
             onClick={() => setLang('en')}
-            className={`relative z-10 flex-1 text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${lang === 'en' ? 'text-brand-dark' : 'text-brand-beige/40 hover:text-brand-beige'}`}
+            className={`relative z-10 flex-1 text-[8px] md:text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${lang === 'en' ? 'text-brand-dark' : 'text-brand-beige/40 hover:text-brand-beige'}`}
           >
             EN
           </button>
@@ -363,7 +363,7 @@ const Navbar = ({ lang, setLang, t }) => {
         ))}
       </div>
 
-      <button className="font-outfit text-[9px] uppercase tracking-[0.5em] px-8 py-3 rounded-full bg-brand-beige text-brand-dark font-black hover:scale-105 transition-all shadow-[0_0_40px_rgba(235,211,172,0.15)]">
+      <button className="font-outfit text-[8px] md:text-[9px] uppercase tracking-[0.4em] md:tracking-[0.5em] px-4 py-2.5 md:px-8 md:py-3 rounded-full bg-brand-beige text-brand-dark font-black hover:scale-105 transition-all shadow-[0_0_40px_rgba(235,211,172,0.15)] whitespace-nowrap">
         {t.connect}
       </button>
     </motion.nav>
@@ -378,7 +378,7 @@ const Section = ({ children, id, number, onVisible }) => {
       ([entry]) => {
         if (entry.isIntersecting) onVisible(true);
       },
-      { threshold: 0.5 }
+      { threshold: 0.15 }
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
@@ -388,15 +388,15 @@ const Section = ({ children, id, number, onVisible }) => {
     <section 
       ref={ref}
       id={id}
-      className="snap-section relative flex flex-col items-center justify-center w-full bg-brand-dark py-20 md:py-32"
+      className="snap-section relative flex flex-col items-center justify-center w-full bg-brand-dark py-12 md:py-32 overflow-hidden"
     >
       {number && (
-        <div className="absolute top-12 left-6 md:left-16 font-space font-bold text-sm md:text-base tracking-widest opacity-10 text-brand-beige flex items-center gap-4">
-          <span className="w-8 h-px bg-brand-beige" />
+        <div className="absolute top-10 left-4 md:left-16 font-space font-bold text-xs md:text-base tracking-widest opacity-10 text-brand-beige flex items-center gap-2 md:gap-4">
+          <span className="w-4 md:w-8 h-px bg-brand-beige" />
           {number}
         </div>
       )}
-      <div className="w-full max-w-[1440px] mx-auto px-6 md:px-24">
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-24">
         {children}
       </div>
     </section>
@@ -634,7 +634,7 @@ const App = () => {
         <div className="flex flex-col items-center justify-between min-h-[70vh] text-center py-20">
           <div className="space-y-24 flex-grow flex flex-col justify-center">
             <Reveal>
-              <h2 className="font-space font-black text-8xl md:text-[15rem] tracking-tighter leading-none uppercase text-glow">
+              <h2 className="font-space font-black text-5xl md:text-[15rem] tracking-tighter leading-none uppercase text-glow">
                 {t.contact.title[0]}<span className="text-brand-gold opacity-50">{t.contact.title[1]}</span>
               </h2>
             </Reveal>
