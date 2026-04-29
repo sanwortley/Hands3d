@@ -238,7 +238,7 @@ const MaterialModal = ({ material, onClose, t }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center p-2 md:p-8 bg-brand-dark/98 backdrop-blur-3xl"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-2 md:p-8 bg-[#050B18]/98 backdrop-blur-3xl"
     >
       <motion.div 
         initial={{ scale: 0.95, y: 30 }}
@@ -260,18 +260,18 @@ const MaterialModal = ({ material, onClose, t }) => {
               alt={material.t} 
               className="w-full h-full object-cover grayscale contrast-125 opacity-80" 
             />
-            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-transparent via-transparent to-brand-dark/60" />
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-transparent via-transparent to-[#050B18]/80" />
           </div>
 
           <div className="w-full md:flex-[1.2] p-6 md:p-16 flex flex-col justify-center space-y-8 md:space-y-10">
             <div className="space-y-3 md:space-y-4">
               <span className="text-brand-gold font-space font-black tracking-[0.6em] text-[7px] md:text-[9px] uppercase opacity-60">{material.s}</span>
-              <h2 className="font-space font-black text-3xl md:text-6xl tracking-tighter uppercase leading-none">{material.t}</h2>
+              <h2 className="font-space font-black text-3xl md:text-6xl tracking-tighter uppercase leading-none text-white">{material.t}</h2>
             </div>
             
             <div className="space-y-5 md:space-y-6">
               <h3 className="font-outfit text-brand-beige/30 font-bold uppercase tracking-[0.4em] text-[7px] md:text-[8px]">{t.modal.spec}</h3>
-              <p className="text-base md:text-2xl font-light leading-relaxed text-brand-beige/80">
+              <p className="text-base md:text-2xl font-light leading-relaxed text-white/70">
                 {material.ld}
               </p>
             </div>
@@ -280,12 +280,12 @@ const MaterialModal = ({ material, onClose, t }) => {
               <div className="h-px w-full bg-white/5" />
               <div className="flex gap-8 md:gap-10 mt-6 md:mt-8">
                 <div className="space-y-1">
-                  <span className="block text-[6px] md:text-[7px] font-black opacity-30 uppercase tracking-[0.3em]">Density</span>
-                  <span className="font-space font-bold text-base md:text-xl">1.24 g/cm³</span>
+                  <span className="block text-[6px] md:text-[7px] font-black opacity-30 uppercase tracking-[0.3em] text-white">Density</span>
+                  <span className="font-space font-bold text-base md:text-xl text-brand-beige">1.24 g/cm³</span>
                 </div>
                 <div className="space-y-1">
-                  <span className="block text-[6px] md:text-[7px] font-black opacity-30 uppercase tracking-[0.3em]">Hardness</span>
-                  <span className="font-space font-bold text-base md:text-xl">80 Shore D</span>
+                  <span className="block text-[6px] md:text-[7px] font-black opacity-30 uppercase tracking-[0.3em] text-white">Hardness</span>
+                  <span className="font-space font-bold text-base md:text-xl text-brand-beige">80 Shore D</span>
                 </div>
               </div>
             </div>
@@ -428,24 +428,27 @@ const App = () => {
 
       {/* 01. HERO */}
       <Section id="hero" onVisible={setNavDark}>
+        <div className="absolute inset-0 bg-[#050B18] -z-20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1A3F] to-[#050B18] -z-10" />
+        
         <div className="relative w-full flex flex-col items-center justify-center min-h-[50vh] md:min-h-[60vh] text-center pt-10 md:pt-0">
           <Reveal>
             <div className="space-y-8 md:space-y-12">
               <div className="space-y-3 md:space-y-4">
                 <motion.h2 
                   initial={{ opacity: 0, letterSpacing: "1em" }}
-                  animate={{ opacity: 0.4, letterSpacing: "0.6em" }}
+                  animate={{ opacity: 0.6, letterSpacing: "0.6em" }}
                   transition={{ duration: 2 }}
                   className="text-brand-beige text-[7px] md:text-[10px] uppercase font-bold text-glow tracking-[0.4em] md:tracking-[0.6em]"
                 >
                   {t.hero.sub}
                 </motion.h2>
-                <h1 className="font-space font-black text-5xl md:text-[11rem] leading-none tracking-tighter text-brand-beige">
-                  {t.hero.title[0]}<span className="opacity-70">{t.hero.title[1]}</span>
+                <h1 className="font-space font-black text-5xl md:text-[11rem] leading-none tracking-tighter text-white">
+                  {t.hero.title[0]}<span className="text-brand-beige opacity-80">{t.hero.title[1]}</span>
                 </h1>
               </div>
               
-              <p className="text-sm md:text-2xl font-light opacity-50 max-w-sm md:max-w-2xl mx-auto leading-relaxed tracking-wide italic">
+              <p className="text-sm md:text-2xl font-light text-white/60 max-w-sm md:max-w-2xl mx-auto leading-relaxed tracking-wide italic">
                 {t.hero.desc}
               </p>
 
@@ -458,17 +461,17 @@ const App = () => {
                   {t.hero.cta}
                 </motion.button>
                 <div className="w-12 h-px bg-white/20 hidden md:block" />
-                <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] opacity-30 font-bold">{t.hero.studio}</span>
+                <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] text-brand-beige/40 font-bold">{t.hero.studio}</span>
               </div>
             </div>
           </Reveal>
 
-          <div className="absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
             <motion.img 
               animate={{ y: [0, -20, 0], rotate: [0, 1, 0] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              src="/brand/hero_3d_v2.png" 
-              className="w-full h-full object-contain grayscale opacity-[0.2] md:opacity-[0.1] scale-125 brightness-125"
+              src="/brand/hero_blue.png" 
+              className="w-full h-full object-contain opacity-[0.3] md:opacity-[0.2] scale-125 brightness-110"
             />
           </div>
         </div>
@@ -479,8 +482,8 @@ const App = () => {
         <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-32">
           <div className="w-full lg:flex-1 space-y-8 md:space-y-12 text-center lg:text-left">
             <Reveal>
-              <h2 className="font-space font-black text-4xl md:text-8xl tracking-tighter leading-none text-brand-beige uppercase">
-                {t.products.title[0]}<br/><span className="opacity-40">{t.products.title[1]}</span>
+              <h2 className="font-space font-black text-4xl md:text-8xl tracking-tighter leading-none text-white uppercase">
+                {t.products.title[0]}<br/><span className="text-brand-beige opacity-40">{t.products.title[1]}</span>
               </h2>
             </Reveal>
             
@@ -490,10 +493,10 @@ const App = () => {
                   <button 
                     key={i}
                     onClick={() => setSelectedModel(translations.en.products.items[i].path || (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl'))}
-                    className={`group flex flex-col items-start px-8 py-6 md:px-10 md:py-8 rounded-[25px] md:rounded-[30px] border transition-all duration-500 text-left ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/5 text-brand-beige border-white/5 hover:bg-white/10'}`}
+                    className={`group flex flex-col items-start px-8 py-6 md:px-10 md:py-8 rounded-[25px] md:rounded-[30px] border transition-all duration-500 text-left ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/5 text-white/80 border-white/5 hover:bg-white/10'}`}
                   >
                     <span className="font-space font-black tracking-widest uppercase text-[10px] md:text-xs mb-1">{m.name}</span>
-                    <span className="text-[8px] md:text-[10px] opacity-50 uppercase tracking-widest font-bold">{m.desc}</span>
+                    <span className="text-[8px] md:text-[10px] opacity-40 uppercase tracking-widest font-bold">{m.desc}</span>
                   </button>
                 ))}
               </div>
