@@ -314,14 +314,14 @@ const Navbar = ({ lang, setLang, t, isLight }) => {
   }, [scrollY]);
 
   const isContrastMode = isLight && !isTop;
-  const logoMainColor = isContrastMode ? 'text-[#050B18]' : 'text-white';
+  const logoMainColor = isContrastMode ? 'text-[#18181b]' : 'text-white';
   const logoSubColor = isContrastMode ? 'text-[#B8860B]' : 'text-brand-gold';
-  const navLinkColor = isContrastMode ? 'text-[#050B18]' : 'text-white/40';
+  const navLinkColor = isContrastMode ? 'text-[#27272a]' : 'text-white/40';
   const navLinkHoverColor = isContrastMode ? 'hover:text-black' : 'hover:text-white';
-  const pillBg = isContrastMode ? 'bg-[#050B18]/10 border-[#050B18]/20' : 'bg-black/40 border-white/10';
-  const pillActiveBg = isContrastMode ? 'bg-[#050B18]' : 'bg-brand-beige';
+  const pillBg = isContrastMode ? 'bg-[#18181b]/10 border-[#18181b]/20' : 'bg-black/40 border-white/10';
+  const pillActiveBg = isContrastMode ? 'bg-[#18181b]' : 'bg-brand-beige';
   const pillActiveText = isContrastMode ? 'text-white' : 'text-brand-dark';
-  const pillInactiveText = isContrastMode ? 'text-[#050B18]/40 hover:text-[#050B18]' : 'text-white/40 hover:text-white';
+  const pillInactiveText = isContrastMode ? 'text-[#18181b]/40 hover:text-[#18181b]' : 'text-white/40 hover:text-white';
 
   const navIds = ['archive', 'products', 'materials', 'production'];
 
@@ -333,7 +333,7 @@ const Navbar = ({ lang, setLang, t, isLight }) => {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 left-0 w-full z-[100] px-4 py-4 md:px-16 md:py-8 flex justify-between items-center transition-all duration-500 ${isTop ? 'bg-transparent' : (isLight ? 'bg-[#EBD3AC] border-b-2 border-[#050B18]/10 shadow-2xl' : 'bg-[#050B18]/90 backdrop-blur-2xl border-b border-white/5 shadow-2xl')}`}
+      className={`fixed top-0 left-0 w-full z-[100] px-4 py-4 md:px-16 md:py-8 flex justify-between items-center transition-all duration-500 ${isTop ? 'bg-transparent' : (isLight ? 'bg-[#EBD3AC] border-b-2 border-[#18181b]/10 shadow-2xl' : 'bg-[#050B18]/90 backdrop-blur-2xl border-b border-white/5 shadow-2xl')}`}
     >
       <div className="flex items-center gap-6 md:gap-16">
         <motion.div 
@@ -373,14 +373,14 @@ const Navbar = ({ lang, setLang, t, isLight }) => {
             className={`transition-colors relative group ${navLinkColor} ${navLinkHoverColor}`}
           >
             {item}
-            <span className={`absolute -bottom-2 left-0 w-0 h-px transition-all group-hover:w-full ${isContrastMode ? 'bg-[#050B18]' : 'bg-brand-beige'}`} />
+            <span className={`absolute -bottom-2 left-0 w-0 h-px transition-all group-hover:w-full ${isContrastMode ? 'bg-[#18181b]' : 'bg-brand-beige'}`} />
           </a>
         ))}
       </div>
 
       <button 
         onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-        className={`font-outfit text-[8px] md:text-[9px] uppercase tracking-[0.4em] md:tracking-[0.5em] px-6 py-3 md:px-10 md:py-4 rounded-full font-black hover:scale-105 transition-all shadow-xl whitespace-nowrap duration-500 ${isContrastMode ? 'bg-[#050B18] text-white' : 'bg-brand-beige text-brand-dark'}`}
+        className={`font-outfit text-[8px] md:text-[9px] uppercase tracking-[0.4em] md:tracking-[0.5em] px-6 py-3 md:px-10 md:py-4 rounded-full font-black hover:scale-105 transition-all shadow-xl whitespace-nowrap duration-500 ${isContrastMode ? 'bg-[#18181b] text-white' : 'bg-brand-beige text-brand-dark'}`}
       >
         {t.connect}
       </button>
