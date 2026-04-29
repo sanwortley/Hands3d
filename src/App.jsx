@@ -206,7 +206,7 @@ const translations = {
         },
         { 
           t: 'FLEX', 
-          s: 'Kinético', 
+          s: 'Kinetic', 
           d: 'Dureza variable para exploración elástica y ergonómica.',
           img: '/brand/flex.png',
           ld: 'Nuestro material FLEX permite la creación de piezas suaves al tacto, ergonómicas y que absorben impactos. Con control de densidad variable, podemos ajustar la elasticidad de cada pieza individualmente.'
@@ -296,7 +296,7 @@ const MaterialModal = ({ material, onClose, t }) => {
   );
 };
 
-const Navbar = ({ lang, setLang, t }) => {
+const Navbar = ({ lang, setLang, t, isLight }) => {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [isTop, setIsTop] = useState(true);
@@ -309,9 +309,21 @@ const Navbar = ({ lang, setLang, t }) => {
       } else {
         setHidden(false);
       }
-      setIsTop(latest < 50);
+      setIsTop(latest < 20);
     });
   }, [scrollY]);
+
+  const isContrastMode = isLight && !isTop;
+  const logoMainColor = isContrastMode ? 'text-[#050B18]' : 'text-white';
+  const logoSubColor = isContrastMode ? 'text-[#B8860B]' : 'text-brand-gold';
+  const navLinkColor = isContrastMode ? 'text-[#050B18]/70' : 'text-white/40';
+  const navLinkHoverColor = isContrastMode ? 'hover:text-[#050B18]' : 'hover:text-brand-beige';
+  const pillBg = isContrastMode ? 'bg-[#050B18]/10 border-[#050B18]/20' : 'bg-black/40 border-white/10';
+  const pillActiveBg = isContrastMode ? 'bg-[#050B18]' : 'bg-brand-beige';
+  const pillActiveText = isContrastMode ? 'text-white' : 'text-brand-dark';
+  const pillInactiveText = isContrastMode ? 'text-[#050B18]/40 hover:text-[#050B18]' : 'text-white/40 hover:text-white';
+
+  const navIds = ['archive', 'products', 'materials', 'production'];
 
   return (
     <motion.nav 
@@ -321,62 +333,70 @@ const Navbar = ({ lang, setLang, t }) => {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 left-0 w-full z-[100] px-4 py-4 md:px-16 md:py-8 flex justify-between items-center transition-all duration-500 ${isTop ? 'bg-transparent' : 'bg-brand-dark/80 backdrop-blur-xl border-b border-white/5 shadow-2xl'}`}
+      className={`fixed top-0 left-0 w-full z-[100] px-4 py-4 md:px-16 md:py-8 flex justify-between items-center transition-all duration-500 ${isTop ? 'bg-transparent' : (isLight ? 'bg-[#EBD3AC]/90 backdrop-blur-2xl border-b border-[#050B18]/10 shadow-xl' : 'bg-[#050B18]/85 backdrop-blur-2xl border-b border-white/5 shadow-2xl')}`}
     >
-      <div className="flex items-center gap-4 md:gap-12">
-        <motion.div className="font-space font-black text-xl md:text-3xl tracking-tight text-brand-beige">
-          hands<span className="opacity-50">3D</span>
+      <div className="flex items-center gap-6 md:gap-16">
+        <motion.div 
+          onClick={() => document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' })}
+          className={`font-space font-black text-2xl md:text-3xl tracking-tighter flex items-baseline transition-colors duration-500 cursor-pointer hover:opacity-80`}
+        >
+          <span className={logoMainColor}>hands</span>
+          <span className={`${logoSubColor} ml-0.5`}>3D</span>
         </motion.div>
         
-        {/* Language Switcher - Responsive Pill */}
-        <div className="relative flex items-center bg-white/5 p-1 rounded-full border border-white/10 cursor-pointer h-8 md:h-10 w-20 md:w-24 shrink-0">
+        <div className={`relative flex items-center p-1 rounded-full border cursor-pointer h-8 md:h-10 w-20 md:w-24 shrink-0 transition-all duration-500 ${pillBg}`}>
           <motion.div 
-            className="absolute h-6 md:h-8 w-[36px] md:w-[44px] bg-brand-beige rounded-full shadow-lg"
+            className={`absolute h-6 md:h-8 w-[36px] md:w-[44px] rounded-full shadow-lg transition-colors duration-500 ${pillActiveBg}`}
             animate={{ x: lang === 'es' ? 4 : (window.innerWidth < 768 ? 40 : 44) }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            transition={{ type: "spring", stiffness: 400, damping: 35 }}
           />
           <button 
             onClick={() => setLang('es')}
-            className={`relative z-10 flex-1 text-[8px] md:text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${lang === 'es' ? 'text-brand-dark' : 'text-brand-beige/40 hover:text-brand-beige'}`}
+            className={`relative z-10 flex-1 text-[8px] md:text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${lang === 'es' ? pillActiveText : pillInactiveText}`}
           >
             ES
           </button>
           <button 
             onClick={() => setLang('en')}
-            className={`relative z-10 flex-1 text-[8px] md:text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${lang === 'en' ? 'text-brand-dark' : 'text-brand-beige/40 hover:text-brand-beige'}`}
+            className={`relative z-10 flex-1 text-[8px] md:text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${lang === 'en' ? pillActiveText : pillInactiveText}`}
           >
             EN
           </button>
         </div>
       </div>
 
-      <div className="hidden lg:flex gap-12 font-outfit text-[9px] uppercase tracking-[0.5em] font-bold text-brand-beige/40">
+      <div className={`hidden lg:flex gap-16 xl:gap-24 font-outfit text-[9px] uppercase tracking-[0.5em] font-bold transition-colors duration-500 ${navLinkColor}`}>
         {t.nav.map((item, i) => (
           <a 
             key={item}
-            href={`#${translations.en.nav[i].toLowerCase()}`} 
-            className="hover:text-brand-beige transition-colors relative group"
+            href={`#${navIds[i]}`} 
+            className={`transition-colors relative group ${navLinkHoverColor}`}
           >
             {item}
-            <span className="absolute -bottom-2 left-0 w-0 h-px bg-brand-beige transition-all group-hover:w-full" />
+            <span className={`absolute -bottom-2 left-0 w-0 h-px transition-all group-hover:w-full ${isContrastMode ? 'bg-[#050B18]' : 'bg-brand-beige'}`} />
           </a>
         ))}
       </div>
 
-      <button className="font-outfit text-[8px] md:text-[9px] uppercase tracking-[0.4em] md:tracking-[0.5em] px-4 py-2.5 md:px-8 md:py-3 rounded-full bg-brand-beige text-brand-dark font-black hover:scale-105 transition-all shadow-[0_0_40px_rgba(235,211,172,0.15)] whitespace-nowrap">
+      <button 
+        onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+        className={`font-outfit text-[8px] md:text-[9px] uppercase tracking-[0.4em] md:tracking-[0.5em] px-5 py-3 md:px-10 md:py-4 rounded-full font-black hover:scale-105 transition-all shadow-xl whitespace-nowrap duration-500 ${isContrastMode ? 'bg-[#050B18] text-white' : 'bg-brand-beige text-brand-dark'}`}
+      >
         {t.connect}
       </button>
     </motion.nav>
   );
 };
 
-const Section = ({ children, id, number, onVisible }) => {
+const Section = ({ children, id, number, onVisible, className = "bg-brand-dark" }) => {
   const ref = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) onVisible(true);
+        if (entry.isIntersecting) {
+          onVisible();
+        }
       },
       { threshold: 0.15 }
     );
@@ -388,11 +408,11 @@ const Section = ({ children, id, number, onVisible }) => {
     <section 
       ref={ref}
       id={id}
-      className="snap-section relative flex flex-col items-center justify-center w-full bg-brand-dark py-12 md:py-32 overflow-hidden"
+      className={`snap-section relative flex flex-col items-center justify-center w-full py-12 md:py-32 overflow-hidden ${className}`}
     >
       {number && (
-        <div className="absolute top-10 left-4 md:left-16 font-space font-bold text-xs md:text-base tracking-widest opacity-10 text-brand-beige flex items-center gap-2 md:gap-4">
-          <span className="w-4 md:w-8 h-px bg-brand-beige" />
+        <div className="absolute top-10 left-4 md:left-16 font-space font-bold text-xs md:text-base tracking-widest opacity-10 flex items-center gap-2 md:gap-4">
+          <span className="w-4 md:w-8 h-px bg-current" />
           {number}
         </div>
       )}
@@ -409,12 +429,12 @@ const App = () => {
   const { scrollYProgress } = useScroll();
   const [selectedModel, setSelectedModel] = useState('/models/bandeja.stl');
   const [selectedMaterial, setSelectedMaterial] = useState(null);
-  const [navDark, setNavDark] = useState(true);
+  const [isLight, setIsLight] = useState(false);
 
   return (
-    <main className="snap-container font-outfit bg-brand-dark text-brand-beige selection:bg-brand-beige selection:text-brand-dark">
+    <main className="snap-container font-outfit bg-[#050505] text-brand-beige selection:bg-brand-beige selection:text-brand-dark">
       <div className="grain pointer-events-none" />
-      <Navbar lang={lang} setLang={setLang} t={t} />
+      <Navbar lang={lang} setLang={setLang} t={t} isLight={isLight} />
 
       <AnimatePresence>
         {selectedMaterial && (
@@ -426,14 +446,11 @@ const App = () => {
         )}
       </AnimatePresence>
 
-      {/* 01. HERO */}
-      <Section id="hero" onVisible={setNavDark}>
-        <div className="absolute inset-0 bg-[#050B18] -z-20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A1A3F] to-[#050B18] -z-10" />
-        
-        <div className="relative w-full flex flex-col items-center justify-center min-h-[50vh] md:min-h-[60vh] text-center pt-10 md:pt-0">
+      {/* 01. HOME (HERO) */}
+      <Section id="home" onVisible={() => setIsLight(false)} className="bg-[#0A1A3F] min-h-screen">
+        <div className="relative w-full flex flex-col items-center justify-center text-center pt-20 md:pt-0">
           <Reveal>
-            <div className="space-y-8 md:space-y-12">
+            <div className="space-y-8 md:space-y-12 relative z-20">
               <div className="space-y-3 md:space-y-4">
                 <motion.h2 
                   initial={{ opacity: 0, letterSpacing: "1em" }}
@@ -443,7 +460,7 @@ const App = () => {
                 >
                   {t.hero.sub}
                 </motion.h2>
-                <h1 className="font-space font-black text-5xl md:text-[11rem] leading-none tracking-tighter text-white">
+                <h1 className="font-space font-black text-6xl md:text-[11rem] leading-none tracking-tighter text-white">
                   {t.hero.title[0]}<span className="text-brand-beige opacity-80">{t.hero.title[1]}</span>
                 </h1>
               </div>
@@ -453,32 +470,25 @@ const App = () => {
               </p>
 
               <div className="pt-6 md:pt-10 flex flex-col md:flex-row gap-4 md:gap-6 justify-center items-center">
-                <motion.button 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-brand-beige text-brand-dark px-10 py-5 md:px-14 md:py-6 rounded-full font-space font-black text-[10px] md:text-[11px] tracking-[0.4em] md:tracking-[0.5em] uppercase shadow-2xl hover:bg-white transition-colors"
-                >
-                  {t.hero.cta}
-                </motion.button>
                 <div className="w-12 h-px bg-white/20 hidden md:block" />
                 <span className="text-[9px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] text-brand-beige/40 font-bold">{t.hero.studio}</span>
               </div>
             </div>
           </Reveal>
 
-          <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none flex items-center justify-center">
             <motion.img 
               animate={{ y: [0, -20, 0], rotate: [0, 1, 0] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              src="/brand/hero_blue.png" 
-              className="w-full h-full object-contain opacity-[0.3] md:opacity-[0.2] scale-125 brightness-110"
+              src="/brand/hero_hand.png" 
+              className="w-full max-w-7xl h-auto object-contain opacity-[0.6] md:opacity-[0.5] scale-110 brightness-110"
             />
           </div>
         </div>
       </Section>
 
-      {/* 02. PRODUCTOS */}
-      <Section id="productos" number="02" onVisible={setNavDark}>
+      {/* 02. PRODUCTS */}
+      <Section id="products" number="02" onVisible={() => setIsLight(false)} className="bg-[#050505]">
         <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-32">
           <div className="w-full lg:flex-1 space-y-8 md:space-y-12 text-center lg:text-left">
             <Reveal>
@@ -512,14 +522,14 @@ const App = () => {
       </Section>
 
       {/* 03. SHOWCASE */}
-      <Section id="showcase" number="03" onVisible={setNavDark}>
+      <Section id="showcase" number="03" onVisible={() => setIsLight(false)} className="bg-[#050505]">
         <div className="space-y-12 md:space-y-20">
           <Reveal>
             <div className="flex flex-col md:flex-row justify-between items-end gap-6 md:gap-8">
-              <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter uppercase leading-none">
+              <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter uppercase leading-none text-white">
                 {t.showcase.title}
               </h2>
-              <p className="text-[10px] md:text-xs opacity-40 font-bold tracking-[0.4em] md:tracking-[0.5em] uppercase text-left md:text-right max-w-[200px]">
+              <p className="text-[10px] md:text-xs opacity-40 font-bold tracking-[0.4em] md:tracking-[0.5em] uppercase text-left md:text-right max-w-[200px] text-brand-beige">
                 {t.showcase.desc}
               </p>
             </div>
@@ -542,8 +552,8 @@ const App = () => {
         </div>
       </Section>
 
-      {/* 04. ARCHIVO */}
-      <Section id="archivo" number="04" onVisible={setNavDark}>
+      {/* 04. ARCHIVE */}
+      <Section id="archive" number="04" onVisible={() => setIsLight(false)} className="bg-[#050505]">
         <div className="flex flex-col md:flex-row items-center gap-12 md:gap-40">
           <div className="w-full md:flex-1 order-2 md:order-1 flex justify-center">
             <Reveal>
@@ -552,17 +562,17 @@ const App = () => {
           </div>
           <div className="flex-1 space-y-8 md:space-y-12 order-1 md:order-2 text-center md:text-left">
             <Reveal>
-              <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter leading-none uppercase">
+              <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter leading-none uppercase text-white">
                 {t.archive.title[0]}<span className="text-brand-gold opacity-50">{t.archive.title[1]}</span>
               </h2>
             </Reveal>
             <Reveal>
-              <p className="text-lg md:text-4xl font-light italic opacity-50 leading-tight">{t.archive.desc}</p>
+              <p className="text-lg md:text-4xl font-light italic opacity-50 leading-tight text-brand-beige">{t.archive.desc}</p>
             </Reveal>
             <Reveal>
               <div className="flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start pt-4 md:pt-6">
                 {t.archive.tags.map(tag => (
-                  <span key={tag} className="px-5 py-2 md:px-8 md:py-3 border border-white/10 rounded-full text-[8px] md:text-[9px] font-bold tracking-[0.3em] md:tracking-[0.4em] opacity-40 uppercase">{tag}</span>
+                  <span key={tag} className="px-5 py-2 md:px-8 md:py-3 border border-white/10 rounded-full text-[8px] md:text-[9px] font-bold tracking-[0.3em] md:tracking-[0.4em] opacity-40 uppercase text-white">{tag}</span>
                 ))}
               </div>
             </Reveal>
@@ -570,12 +580,12 @@ const App = () => {
         </div>
       </Section>
 
-      {/* 05. MATERIALES */}
-      <Section id="materiales" number="05" onVisible={setNavDark}>
+      {/* 05. MATERIALS */}
+      <Section id="materials" number="05" onVisible={() => setIsLight(true)} className="bg-[#EBD3AC] min-h-screen">
         <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-20">
           <div className="flex-[1.5] space-y-12 md:space-y-16 w-full">
             <Reveal>
-              <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter uppercase leading-[0.8]">
+              <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter uppercase leading-[0.8] text-[#050B18]">
                 {t.materia.title[0]}<br/><span className="opacity-30">{t.materia.title[1]}</span>
               </h2>
             </Reveal>
@@ -586,11 +596,11 @@ const App = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setSelectedMaterial(m)}
-                    className="bg-white/[0.02] p-8 md:p-10 border border-white/5 rounded-[30px] md:rounded-[40px] hover:bg-white/[0.05] transition-all group cursor-pointer"
+                    className="bg-black/5 p-8 md:p-10 border border-black/10 rounded-[30px] md:rounded-[40px] hover:bg-black/10 transition-all group cursor-pointer"
                   >
-                    <span className="text-[7px] tracking-[0.5em] opacity-40 uppercase font-black mb-3 block text-brand-gold">{m.s}</span>
-                    <h3 className="font-space font-black text-xl md:text-4xl mb-3 tracking-tighter">{m.t}</h3>
-                    <p className="text-[10px] md:text-sm font-light opacity-40 leading-relaxed">{m.d}</p>
+                    <span className="text-[7px] tracking-[0.5em] opacity-60 uppercase font-black mb-3 block text-[#050B18]">{m.s}</span>
+                    <h3 className="font-space font-black text-xl md:text-4xl mb-3 tracking-tighter text-[#050B18]">{m.t}</h3>
+                    <p className="text-[10px] md:text-sm font-light opacity-60 leading-relaxed text-[#050B18]">{m.d}</p>
                   </motion.div>
                 </Reveal>
               ))}
@@ -598,28 +608,23 @@ const App = () => {
           </div>
           <div className="flex-1 flex justify-center lg:justify-end relative mt-12 lg:mt-0">
              <Reveal>
-               <img src="/brand/composite_3d_v2.png" className="h-[40vh] md:h-[80vh] w-auto object-contain grayscale opacity-40 md:opacity-50 contrast-125" />
+               <img src="/brand/materia_hand.png" className="h-[40vh] md:h-[80vh] w-auto object-contain grayscale brightness-90 contrast-125" />
              </Reveal>
           </div>
         </div>
       </Section>
 
-      {/* 06. PRODUCCIÓN */}
-      <Section id="produccion" number="06" onVisible={setNavDark}>
+      {/* 06. PRODUCTION */}
+      <Section id="production" number="06" onVisible={() => setIsLight(false)} className="bg-[#050505]">
         <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
           <div className="flex-1 space-y-8 md:space-y-12 text-center md:text-left">
             <Reveal>
-              <h2 className="font-space font-black text-4xl md:text-[10rem] tracking-tighter leading-[0.8] uppercase">
+              <h2 className="font-space font-black text-4xl md:text-[10rem] tracking-tighter leading-[0.8] uppercase text-white">
                 {t.production.title[0]}<br/><span className="text-brand-gold">{t.production.title[1]}</span>
               </h2>
             </Reveal>
             <Reveal>
-              <p className="text-lg md:text-3xl font-light opacity-50 leading-tight max-w-md mx-auto md:mx-0">{t.production.desc}</p>
-            </Reveal>
-            <Reveal>
-              <motion.button whileHover={{ scale: 1.05, x: 10 }} className="bg-brand-beige text-brand-dark font-space font-black text-[10px] md:text-[11px] tracking-[0.4em] md:tracking-[0.5em] px-10 py-5 md:px-14 md:py-6 rounded-full shadow-2xl uppercase">
-                {t.production.cta}
-              </motion.button>
+              <p className="text-lg md:text-3xl font-light opacity-50 leading-tight max-w-md mx-auto md:mx-0 text-brand-beige">{t.production.desc}</p>
             </Reveal>
           </div>
           <div className="flex-1 relative h-[35vh] md:h-[80vh] w-full overflow-hidden rounded-[30px] md:rounded-[50px] border border-white/5">
@@ -632,12 +637,12 @@ const App = () => {
         </div>
       </Section>
 
-      {/* 07. CONTACTO */}
-      <Section id="contacto" number="07" onVisible={setNavDark}>
+      {/* 07. CONTACT */}
+      <Section id="contact" number="07" onVisible={() => setIsLight(false)} className="bg-[#050505]">
         <div className="flex flex-col items-center justify-between min-h-[70vh] text-center py-20">
           <div className="space-y-24 flex-grow flex flex-col justify-center">
             <Reveal>
-              <h2 className="font-space font-black text-5xl md:text-[15rem] tracking-tighter leading-none uppercase text-glow">
+              <h2 className="font-space font-black text-5xl md:text-[15rem] tracking-tighter leading-none uppercase text-glow text-white">
                 {t.contact.title[0]}<span className="text-brand-gold opacity-50">{t.contact.title[1]}</span>
               </h2>
             </Reveal>
