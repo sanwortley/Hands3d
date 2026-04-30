@@ -53,13 +53,12 @@ const STLModel = ({ url, color = "#FFFFFF" }) => {
 
 const STLViewer = ({ modelUrl }) => {
   return (
-    <div className="w-full h-[40vh] md:h-[75vh] cursor-grab active:cursor-grabbing relative group">
+    <div className="w-full h-[60vh] md:h-[75vh] cursor-grab active:cursor-grabbing relative group">
       <div className="absolute inset-0 bg-brand-beige/5 rounded-[40px] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-      <div className="relative h-full w-full rounded-[40px] overflow-hidden border border-white/5 bg-[#080808]">
-        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'none' }}>
+      <div className="relative h-full w-full rounded-[40px] overflow-hidden border border-white/5 bg-[#080808] shadow-2xl">
+        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'none' }} camera={{ position: [0, 0, 180], fov: 40 }}>
           <Suspense fallback={null}>
-            <PerspectiveCamera makeDefault position={[0, 0, 150]} fov={45} />
-            <Stage environment="city" intensity={0.6} contactShadow={{ opacity: 0.2, blur: 3 }} center>
+            <Stage environment="city" intensity={0.6} contactShadow={{ opacity: 0.2, blur: 3 }} center adjustCamera={false}>
               <STLModel url={modelUrl} />
             </Stage>
             <OrbitControls 
@@ -617,9 +616,14 @@ const App = () => {
             </Reveal>
           </div>
           
-          <div className="flex-[1.4] w-full min-h-[300px] md:min-h-[600px] px-4 md:px-0">
+          <div className="flex-[1.4] w-full min-h-[60vh] md:min-h-[600px] px-4 md:px-0">
             <Reveal>
-              <STLViewer modelUrl={selectedModel} />
+              <div className="relative group/canvas">
+                <STLViewer modelUrl={selectedModel} />
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none md:hidden">
+                  <span className="text-[7px] font-black uppercase tracking-[0.4em] opacity-30 text-white animate-pulse">Drag to Rotate</span>
+                </div>
+              </div>
             </Reveal>
           </div>
         </div>
