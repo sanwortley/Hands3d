@@ -530,9 +530,17 @@ const App = () => {
   const [lang, setLang] = useState('es');
   const t = translations[lang];
   const { scrollYProgress } = useScroll();
-  const [selectedModel, setSelectedModel] = useState('/models/bandeja.stl');
+  const models = ['/models/bandeja.stl', '/models/cuerpo.stl'];
+  const [selectedModel, setSelectedModel] = useState(models[0]);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [isLight, setIsLight] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSelectedModel(prev => prev === models[0] ? models[1] : models[0]);
+    }, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <main className="snap-container font-outfit bg-[#050505] text-brand-beige selection:bg-brand-beige selection:text-brand-dark">
@@ -591,39 +599,25 @@ const App = () => {
       </Section>
 
       {/* 02. PRODUCTS */}
-      <Section id="products" number="02" onVisible={() => setIsLight(false)} className="pt-20 pb-0 px-0 bg-[#050505]">
+      <Section id="products" number="02" onVisible={() => setIsLight(false)} className="pt-16 pb-0 px-0 bg-[#050505]">
         <div className="relative w-full h-[85vh] flex flex-col items-center">
-          {/* Header & Controls Group */}
-          <div className="relative z-20 w-full text-center space-y-8 pt-4">
+          {/* Minimalist Header */}
+          <div className="relative z-20 w-full text-center pt-2">
             <Reveal>
-              <h2 className="font-space font-black text-2xl md:text-8xl tracking-tighter leading-none text-white uppercase px-4 md:px-0">
-                {t.products.title[0]}<br/><span className="text-brand-beige opacity-40">{t.products.title[1]}</span>
+              <h2 className="font-space font-black text-xl md:text-6xl tracking-tighter leading-none text-white uppercase px-4 opacity-50">
+                {t.products.title[0]} <span className="text-brand-beige">{t.products.title[1]}</span>
               </h2>
-            </Reveal>
-
-            {/* Simple Technical Selectors */}
-            <Reveal>
-              <div className="flex flex-row md:flex-col justify-center gap-4 px-4 max-w-full">
-                {t.products.items.map((m, i) => (
-                  <button 
-                    key={i}
-                    onClick={() => setSelectedModel(translations.en.products.items[i].path || (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl'))}
-                    className={`group px-6 py-3 md:px-10 md:py-8 rounded-full md:rounded-[30px] border transition-all duration-500 text-center md:text-left whitespace-nowrap text-[9px] md:text-xs font-space font-black tracking-widest uppercase ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/5 text-white/40 border-white/10 hover:bg-white/10'}`}
-                  >
-                    {m.name}
-                  </button>
-                ))}
-              </div>
             </Reveal>
           </div>
           
-          {/* Main 3D Viewer - Protagonist */}
-          <div className="w-full flex-grow relative z-10 mt-4">
+          {/* Immersive 3D Viewer - Full Protagonist */}
+          <div className="w-full flex-grow relative z-10">
             <Reveal>
               <div className="relative group/canvas h-full w-full">
                 <STLViewer modelUrl={selectedModel} />
-                <div className="absolute bottom-12 md:bottom-4 left-1/2 -translate-x-1/2 pointer-events-none md:hidden">
-                  <span className="text-[7px] font-black uppercase tracking-[0.4em] opacity-30 text-white animate-pulse">Drag to Rotate</span>
+                <div className="absolute bottom-12 md:bottom-4 left-1/2 -translate-x-1/2 pointer-events-none md:hidden text-center space-y-2">
+                  <span className="block text-[6px] font-black uppercase tracking-[0.4em] opacity-20 text-white">Auto-Cycle 30s</span>
+                  <span className="block text-[7px] font-black uppercase tracking-[0.4em] opacity-40 text-white animate-pulse">Drag to Rotate</span>
                 </div>
               </div>
             </Reveal>
