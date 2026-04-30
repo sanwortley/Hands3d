@@ -300,6 +300,7 @@ const Navbar = ({ lang, setLang, t, isLight }) => {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [isTop, setIsTop] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     return scrollY.onChange((latest) => {
@@ -326,65 +327,139 @@ const Navbar = ({ lang, setLang, t, isLight }) => {
   const navIds = ['archive', 'products', 'materials', 'production'];
 
   return (
-    <motion.nav 
-      variants={{
-        visible: { y: 0, opacity: 1 },
-        hidden: { y: -100, opacity: 0 }
-      }}
-      animate={hidden ? "hidden" : "visible"}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 left-0 w-full z-[100] px-4 py-4 md:px-16 md:py-8 flex justify-between items-center transition-all duration-500 ${isTop ? 'bg-transparent' : (isLight ? 'bg-[#EBD3AC] border-b-2 border-[#18181b]/10 shadow-2xl' : 'bg-[#050B18]/90 backdrop-blur-2xl border-b border-white/5 shadow-2xl')}`}
-    >
-      <div className="flex items-center gap-6 md:gap-16">
-        <motion.div 
-          onClick={() => document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' })}
-          className={`font-space font-black text-2xl md:text-3xl tracking-tighter flex items-baseline transition-colors duration-500 cursor-pointer hover:opacity-80`}
-        >
-          <span className={logoMainColor}>hands</span>
-          <span className={`${logoSubColor} ml-0.5`}>3D</span>
-        </motion.div>
-        
-        <div className={`relative flex items-center p-1 rounded-full border cursor-pointer h-8 md:h-10 w-20 md:w-24 shrink-0 transition-all duration-500 ${pillBg}`}>
+    <>
+      <motion.nav 
+        variants={{
+          visible: { y: 0, opacity: 1 },
+          hidden: { y: -100, opacity: 0 }
+        }}
+        animate={hidden && !isOpen ? "hidden" : "visible"}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed top-0 left-0 w-full z-[100] px-6 py-5 md:px-16 md:py-8 flex justify-between items-center transition-all duration-500 ${isTop ? 'bg-transparent' : (isLight ? 'bg-[#EBD3AC] border-b-2 border-[#18181b]/10 shadow-2xl' : 'bg-[#050B18]/90 backdrop-blur-2xl border-b border-white/5 shadow-2xl')}`}
+      >
+        <div className="flex items-center gap-6 md:gap-16">
           <motion.div 
-            className={`absolute h-6 md:h-8 w-[36px] md:w-[44px] rounded-full shadow-lg transition-colors duration-500 ${pillActiveBg}`}
-            animate={{ x: lang === 'es' ? 4 : (window.innerWidth < 768 ? 40 : 44) }}
-            transition={{ type: "spring", stiffness: 400, damping: 35 }}
-          />
-          <button 
-            onClick={() => setLang('es')}
-            className={`relative z-10 flex-1 text-[8px] md:text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${lang === 'es' ? pillActiveText : pillInactiveText}`}
+            onClick={() => {
+              setIsOpen(false);
+              document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className={`font-space font-black text-2xl md:text-3xl tracking-tighter flex items-baseline transition-colors duration-500 cursor-pointer hover:opacity-80`}
           >
-            ES
+            <span className={logoMainColor}>hands</span>
+            <span className={`${logoSubColor} ml-0.5`}>3D</span>
+          </motion.div>
+          
+          <div className={`hidden md:flex relative items-center p-1 rounded-full border cursor-pointer h-10 w-24 shrink-0 transition-all duration-500 ${pillBg}`}>
+            <motion.div 
+              className={`absolute h-8 w-[44px] rounded-full shadow-lg transition-colors duration-500 ${pillActiveBg}`}
+              animate={{ x: lang === 'es' ? 4 : 44 }}
+              transition={{ type: "spring", stiffness: 400, damping: 35 }}
+            />
+            <button 
+              onClick={() => setLang('es')}
+              className={`relative z-10 flex-1 text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${lang === 'es' ? pillActiveText : pillInactiveText}`}
+            >
+              ES
+            </button>
+            <button 
+              onClick={() => setLang('en')}
+              className={`relative z-10 flex-1 text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${lang === 'en' ? pillActiveText : pillInactiveText}`}
+            >
+              EN
+            </button>
+          </div>
+        </div>
+
+        {/* Desktop Links */}
+        <div className="hidden lg:flex gap-16 xl:gap-24 font-outfit text-[9px] uppercase tracking-[0.5em] font-black transition-colors duration-500">
+          {t.nav.map((item, i) => (
+            <a 
+              key={item}
+              href={`#${navIds[i]}`} 
+              className={`transition-colors relative group ${navLinkColor} ${navLinkHoverColor}`}
+            >
+              {item}
+              <span className={`absolute -bottom-2 left-0 w-0 h-px transition-all group-hover:w-full ${isContrastMode ? 'bg-[#18181b]' : 'bg-brand-beige'}`} />
+            </a>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            className={`hidden sm:block font-outfit text-[8px] md:text-[9px] uppercase tracking-[0.4em] md:tracking-[0.5em] px-6 py-3 md:px-10 md:py-4 rounded-full font-black hover:scale-105 transition-all shadow-xl whitespace-nowrap duration-500 ${isContrastMode ? 'bg-[#18181b] text-white' : 'bg-brand-beige text-brand-dark'}`}
+          >
+            {t.connect}
           </button>
+
+          {/* Mobile Menu Toggle */}
           <button 
-            onClick={() => setLang('en')}
-            className={`relative z-10 flex-1 text-[8px] md:text-[10px] font-black uppercase tracking-widest transition-colors duration-300 ${lang === 'en' ? pillActiveText : pillInactiveText}`}
+            onClick={() => setIsOpen(!isOpen)}
+            className={`lg:hidden p-3 rounded-full transition-colors duration-300 ${isContrastMode ? 'bg-[#18181b]/10 text-[#18181b]' : 'bg-white/10 text-white'}`}
           >
-            EN
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
-      </div>
+      </motion.nav>
 
-      <div className="hidden lg:flex gap-16 xl:gap-24 font-outfit text-[9px] uppercase tracking-[0.5em] font-black transition-colors duration-500">
-        {t.nav.map((item, i) => (
-          <a 
-            key={item}
-            href={`#${navIds[i]}`} 
-            className={`transition-colors relative group ${navLinkColor} ${navLinkHoverColor}`}
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 z-[90] bg-[#050B18]/98 backdrop-blur-3xl lg:hidden flex flex-col items-center justify-center pt-20"
           >
-            {item}
-            <span className={`absolute -bottom-2 left-0 w-0 h-px transition-all group-hover:w-full ${isContrastMode ? 'bg-[#18181b]' : 'bg-brand-beige'}`} />
-          </a>
-        ))}
-      </div>
+            <div className="flex flex-col items-center gap-12 text-center">
+              {t.nav.map((item, i) => (
+                <motion.a
+                  key={item}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  href={`#${navIds[i]}`}
+                  onClick={() => setIsOpen(false)}
+                  className="font-space font-black text-4xl md:text-5xl uppercase tracking-tighter text-white hover:text-brand-gold transition-colors"
+                >
+                  {item}
+                </motion.a>
+              ))}
+              
+              {/* Mobile Language Switcher */}
+              <div className="mt-12 flex items-center p-1 rounded-full border border-white/10 bg-white/5 h-12 w-32 shrink-0">
+                <motion.div 
+                  className="absolute h-10 w-14 rounded-full bg-brand-beige shadow-lg"
+                  animate={{ x: lang === 'es' ? 0 : 56 }}
+                />
+                <button 
+                  onClick={() => setLang('es')}
+                  className={`relative z-10 flex-1 text-xs font-black uppercase tracking-widest ${lang === 'es' ? 'text-brand-dark' : 'text-white/40'}`}
+                >
+                  ES
+                </button>
+                <button 
+                  onClick={() => setLang('en')}
+                  className={`relative z-10 flex-1 text-xs font-black uppercase tracking-widest ${lang === 'en' ? 'text-brand-dark' : 'text-white/40'}`}
+                >
+                  EN
+                </button>
+              </div>
 
-      <button 
-        onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-        className={`font-outfit text-[8px] md:text-[9px] uppercase tracking-[0.4em] md:tracking-[0.5em] px-6 py-3 md:px-10 md:py-4 rounded-full font-black hover:scale-105 transition-all shadow-xl whitespace-nowrap duration-500 ${isContrastMode ? 'bg-[#18181b] text-white' : 'bg-brand-beige text-brand-dark'}`}
-      >
-        {t.connect}
-      </button>
-    </motion.nav>
+              <button 
+                onClick={() => {
+                  setIsOpen(false);
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="mt-8 bg-brand-beige text-brand-dark px-12 py-6 rounded-full font-space font-black text-sm uppercase tracking-widest"
+              >
+                {t.connect}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
@@ -448,24 +523,24 @@ const App = () => {
 
       {/* 01. HOME (HERO) */}
       <Section id="home" onVisible={() => setIsLight(false)} className="bg-[#0A1A3F] min-h-screen">
-        <div className="relative w-full flex flex-col items-center justify-center text-center pt-20 md:pt-0">
+        <div className="relative w-full flex flex-col items-center justify-center text-center pt-24 md:pt-0">
           <Reveal>
             <div className="space-y-8 md:space-y-12 relative z-20">
-              <div className="space-y-3 md:space-y-4">
+              <div className="space-y-3 md:space-y-4 px-4">
                 <motion.h2 
                   initial={{ opacity: 0, letterSpacing: "1em" }}
                   animate={{ opacity: 0.6, letterSpacing: "0.6em" }}
                   transition={{ duration: 2 }}
-                  className="text-brand-beige text-[7px] md:text-[10px] uppercase font-bold text-glow tracking-[0.4em] md:tracking-[0.6em]"
+                  className="text-brand-beige text-[8px] md:text-[10px] uppercase font-bold text-glow tracking-[0.4em] md:tracking-[0.6em]"
                 >
                   {t.hero.sub}
                 </motion.h2>
-                <h1 className="font-space font-black text-6xl md:text-[11rem] leading-none tracking-tighter text-white">
-                  {t.hero.title[0]}<span className="text-brand-beige opacity-80">{t.hero.title[1]}</span>
+                <h1 className="font-space font-black text-5xl sm:text-6xl md:text-[11rem] leading-[0.9] tracking-tighter text-white">
+                  {t.hero.title[0]}<br className="sm:hidden" /><span className="text-brand-beige opacity-80">{t.hero.title[1]}</span>
                 </h1>
               </div>
               
-              <p className="text-sm md:text-2xl font-light text-white/60 max-w-sm md:max-w-2xl mx-auto leading-relaxed tracking-wide italic">
+              <p className="text-xs md:text-2xl font-light text-white/60 max-w-[280px] md:max-w-2xl mx-auto leading-relaxed tracking-wide italic">
                 {t.hero.desc}
               </p>
 
@@ -481,7 +556,7 @@ const App = () => {
               animate={{ y: [0, -20, 0], rotate: [0, 1, 0] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               src="/brand/hero_hand.png" 
-              className="w-full max-w-7xl h-auto object-contain opacity-[0.6] md:opacity-[0.5] scale-110 brightness-110"
+              className="w-full max-w-5xl md:max-w-7xl h-auto object-contain opacity-[0.5] md:opacity-[0.5] scale-125 md:scale-110 brightness-110 translate-y-20 md:translate-y-0"
             />
           </div>
         </div>
@@ -489,31 +564,31 @@ const App = () => {
 
       {/* 02. PRODUCTS */}
       <Section id="products" number="02" onVisible={() => setIsLight(false)} className="bg-[#050505]">
-        <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-32">
-          <div className="w-full lg:flex-1 space-y-8 md:space-y-12 text-center lg:text-left">
+        <div className="flex flex-col lg:flex-row items-center gap-16 md:gap-32">
+          <div className="w-full lg:flex-1 space-y-10 md:space-y-12 text-center lg:text-left">
             <Reveal>
-              <h2 className="font-space font-black text-4xl md:text-8xl tracking-tighter leading-none text-white uppercase">
+              <h2 className="font-space font-black text-4xl md:text-8xl tracking-tighter leading-none text-white uppercase px-4 md:px-0">
                 {t.products.title[0]}<br/><span className="text-brand-beige opacity-40">{t.products.title[1]}</span>
               </h2>
             </Reveal>
             
             <Reveal>
-              <div className="flex flex-col gap-3 md:gap-4 mt-8 md:mt-12 relative z-50">
+              <div className="flex flex-col gap-4 mt-8 md:mt-12 relative z-50 px-4 md:px-0 max-w-sm mx-auto lg:mx-0">
                 {t.products.items.map((m, i) => (
                   <button 
                     key={i}
                     onClick={() => setSelectedModel(translations.en.products.items[i].path || (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl'))}
-                    className={`group flex flex-col items-start px-8 py-6 md:px-10 md:py-8 rounded-[25px] md:rounded-[30px] border transition-all duration-500 text-left ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/5 text-white/80 border-white/5 hover:bg-white/10'}`}
+                    className={`group flex flex-col items-start px-8 py-5 md:px-10 md:py-8 rounded-[25px] md:rounded-[30px] border transition-all duration-500 text-left w-full ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/5 text-white/80 border-white/5 hover:bg-white/10'}`}
                   >
-                    <span className="font-space font-black tracking-widest uppercase text-[10px] md:text-xs mb-1">{m.name}</span>
-                    <span className="text-[8px] md:text-[10px] opacity-40 uppercase tracking-widest font-bold">{m.desc}</span>
+                    <span className="font-space font-black tracking-widest uppercase text-[9px] md:text-xs mb-1">{m.name}</span>
+                    <span className="text-[7px] md:text-[10px] opacity-40 uppercase tracking-widest font-bold">{m.desc}</span>
                   </button>
                 ))}
               </div>
             </Reveal>
           </div>
           
-          <div className="flex-[1.4] w-full min-h-[350px] md:min-h-[600px]">
+          <div className="flex-[1.4] w-full min-h-[300px] md:min-h-[600px] px-4 md:px-0">
             <Reveal>
               <STLViewer modelUrl={selectedModel} />
             </Reveal>
@@ -582,25 +657,25 @@ const App = () => {
 
       {/* 05. MATERIALS */}
       <Section id="materials" number="05" onVisible={() => setIsLight(true)} className="bg-[#EBD3AC] min-h-screen">
-        <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-20">
-          <div className="flex-[1.5] space-y-12 md:space-y-16 w-full">
+        <div className="flex flex-col lg:flex-row items-center gap-16 md:gap-20 px-4 md:px-0">
+          <div className="flex-[1.5] space-y-12 md:space-y-16 w-full text-center lg:text-left">
             <Reveal>
-              <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter uppercase leading-[0.8] text-[#050B18]">
+              <h2 className="font-space font-black text-5xl md:text-9xl tracking-tighter uppercase leading-[0.8] text-[#18181b]">
                 {t.materia.title[0]}<br/><span className="opacity-30">{t.materia.title[1]}</span>
               </h2>
             </Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-2xl mx-auto lg:mx-0">
               {t.materia.items.map((m, i) => (
                 <Reveal key={i}>
                   <motion.div 
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setSelectedMaterial(m)}
-                    className="bg-black/5 p-8 md:p-10 border border-black/10 rounded-[30px] md:rounded-[40px] hover:bg-black/10 transition-all group cursor-pointer"
+                    className="bg-black/5 p-7 md:p-10 border border-black/10 rounded-[30px] md:rounded-[40px] hover:bg-black/10 transition-all group cursor-pointer text-left"
                   >
-                    <span className="text-[7px] tracking-[0.5em] opacity-60 uppercase font-black mb-3 block text-[#050B18]">{m.s}</span>
-                    <h3 className="font-space font-black text-xl md:text-4xl mb-3 tracking-tighter text-[#050B18]">{m.t}</h3>
-                    <p className="text-[10px] md:text-sm font-light opacity-60 leading-relaxed text-[#050B18]">{m.d}</p>
+                    <span className="text-[7px] tracking-[0.5em] opacity-60 uppercase font-black mb-3 block text-[#18181b]">{m.s}</span>
+                    <h3 className="font-space font-black text-xl md:text-4xl mb-3 tracking-tighter text-[#18181b]">{m.t}</h3>
+                    <p className="text-[10px] md:text-sm font-light opacity-60 leading-relaxed text-[#18181b]">{m.d}</p>
                   </motion.div>
                 </Reveal>
               ))}
@@ -608,7 +683,7 @@ const App = () => {
           </div>
           <div className="flex-1 flex justify-center lg:justify-end relative mt-12 lg:mt-0">
              <Reveal>
-               <img src="/brand/materia_hand.png" className="h-[40vh] md:h-[80vh] w-auto object-contain grayscale brightness-90 contrast-125" />
+               <img src="/brand/materia_hand.png" className="h-[35vh] md:h-[80vh] w-auto object-contain grayscale brightness-90 contrast-125" />
              </Reveal>
           </div>
         </div>
@@ -639,10 +714,10 @@ const App = () => {
 
       {/* 07. CONTACT */}
       <Section id="contact" number="07" onVisible={() => setIsLight(false)} className="bg-[#050505]">
-        <div className="flex flex-col items-center justify-between min-h-[70vh] text-center py-20">
-          <div className="space-y-24 flex-grow flex flex-col justify-center">
+        <div className="flex flex-col items-center justify-between min-h-[70vh] text-center py-20 px-4">
+          <div className="space-y-16 md:space-y-24 flex-grow flex flex-col justify-center">
             <Reveal>
-              <h2 className="font-space font-black text-5xl md:text-[15rem] tracking-tighter leading-none uppercase text-glow text-white">
+              <h2 className="font-space font-black text-6xl md:text-[15rem] tracking-tighter leading-none uppercase text-glow text-white">
                 {t.contact.title[0]}<span className="text-brand-gold opacity-50">{t.contact.title[1]}</span>
               </h2>
             </Reveal>
@@ -652,15 +727,17 @@ const App = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05, rotate: -2 }} 
-                className="inline-flex items-center gap-10 bg-brand-beige text-brand-dark px-14 py-8 md:px-24 md:py-12 font-space font-black text-2xl md:text-5xl uppercase shadow-2xl rounded-[40px] mx-auto"
+                className="inline-flex items-center gap-6 md:gap-10 bg-brand-beige text-brand-dark px-10 py-6 md:px-24 md:py-12 font-space font-black text-xl md:text-5xl uppercase shadow-2xl rounded-[30px] md:rounded-[40px] mx-auto"
               >
-                <MessageCircle size={80} strokeWidth={3} />
+                <MessageCircle className="w-8 h-8 md:w-20 md:h-20" strokeWidth={3} />
                 {t.contact.cta}
               </motion.a>
             </Reveal>
           </div>
           <Reveal>
-            <footer className="mt-32 font-outfit text-[9px] tracking-[1.2em] opacity-20 uppercase font-black text-brand-gold leading-loose">{t.contact.footer}</footer>
+            <footer className="mt-20 md:mt-32 font-outfit text-[8px] md:text-[9px] tracking-[0.8em] md:tracking-[1.2em] opacity-20 uppercase font-black text-brand-gold leading-loose px-4">
+              {t.contact.footer}
+            </footer>
           </Reveal>
         </div>
       </Section>
