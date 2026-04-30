@@ -55,14 +55,14 @@ const STLViewer = ({ modelUrl }) => {
   return (
     <div className="w-full h-full cursor-grab active:cursor-grabbing relative group">
       <div className="relative h-full w-full overflow-hidden bg-[#050505]">
-        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'none' }} camera={{ position: [0, 0, 200], fov: 45 }}>
+        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'pan-y' }} camera={{ position: [0, 0, 200], fov: 45 }}>
           <Suspense fallback={null}>
             <Stage environment="city" intensity={0.6} contactShadow={{ opacity: 0.2, blur: 3 }} center adjustCamera={false}>
               <STLModel url={modelUrl} />
             </Stage>
             <OrbitControls 
               enablePan={false} 
-              enableZoom={true} 
+              enableZoom={false} 
               minPolarAngle={0} 
               maxPolarAngle={Math.PI}
               enableDamping={true}
