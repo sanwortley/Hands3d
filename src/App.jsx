@@ -53,9 +53,8 @@ const STLModel = ({ url, color = "#FFFFFF" }) => {
 
 const STLViewer = ({ modelUrl }) => {
   return (
-    <div className="w-full h-[60vh] md:h-[75vh] cursor-grab active:cursor-grabbing relative group">
-      <div className="absolute inset-0 bg-brand-beige/5 rounded-[40px] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-      <div className="relative h-full w-full rounded-[40px] overflow-hidden border border-white/5 bg-[#080808] shadow-2xl">
+    <div className="w-full h-full cursor-grab active:cursor-grabbing relative group">
+      <div className="relative h-full w-full overflow-hidden bg-[#050505]">
         <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'none' }} camera={{ position: [0, 0, 180], fov: 40 }}>
           <Suspense fallback={null}>
             <Stage environment="city" intensity={0.6} contactShadow={{ opacity: 0.2, blur: 3 }} center adjustCamera={false}>
@@ -598,25 +597,28 @@ const App = () => {
         </div>
       </Section>
 
-      {/* 02. PRODUCTS */}
-      <Section id="products" number="02" onVisible={() => setIsLight(false)} className="pt-16 pb-0 px-0 bg-[#050505]">
-        <div className="relative w-full h-[85vh] flex flex-col items-center">
-          {/* Minimalist Header */}
-          <div className="relative z-20 w-full text-center pt-2">
+      {/* 02. PRODUCTS - EDGE TO EDGE IMMERSIVE */}
+      <Section id="products" number="02" onVisible={() => setIsLight(false)} className="p-0 bg-[#050505]">
+        <div className="relative w-full h-screen">
+          {/* Floating Minimalist Signature */}
+          <div className="absolute top-24 left-6 z-20 pointer-events-none">
             <Reveal>
-              <h2 className="font-space font-black text-xl md:text-6xl tracking-tighter leading-none text-white uppercase px-4 opacity-50">
+              <h2 className="font-space font-black text-lg md:text-3xl tracking-tighter uppercase opacity-30 text-white">
                 {t.products.title[0]} <span className="text-brand-beige">{t.products.title[1]}</span>
               </h2>
             </Reveal>
           </div>
           
-          {/* Immersive 3D Viewer - Full Protagonist */}
-          <div className="w-full flex-grow relative z-10">
+          {/* Infinite 3D Stage */}
+          <div className="absolute inset-0 z-10">
             <Reveal>
               <div className="relative group/canvas h-full w-full">
                 <STLViewer modelUrl={selectedModel} />
-                <div className="absolute bottom-12 md:bottom-4 left-1/2 -translate-x-1/2 pointer-events-none md:hidden text-center space-y-2">
-                  <span className="block text-[6px] font-black uppercase tracking-[0.4em] opacity-20 text-white">Auto-Cycle 30s</span>
+                <div className="absolute bottom-12 left-6 pointer-events-none md:hidden text-left space-y-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
+                    <span className="text-[6px] font-black uppercase tracking-[0.4em] opacity-30 text-white">Industrial Cycle active</span>
+                  </div>
                   <span className="block text-[7px] font-black uppercase tracking-[0.4em] opacity-40 text-white animate-pulse">Drag to Rotate</span>
                 </div>
               </div>
