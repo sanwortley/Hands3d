@@ -614,18 +614,17 @@ const App = () => {
             </Reveal>
           </div>
 
-          {/* Floating Buttons Bar */}
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-[90%] z-30 flex justify-center lg:relative lg:bottom-0 lg:left-0 lg:translate-x-0 lg:w-auto lg:flex-1 lg:justify-start lg:pb-0">
+          {/* Minimalist Floating Buttons */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-full z-30 flex justify-center lg:relative lg:bottom-0 lg:left-0 lg:translate-x-0 lg:w-auto lg:flex-1 lg:justify-start">
             <Reveal>
-              <div className="flex flex-row md:flex-col gap-3 md:gap-4 p-2 md:p-0 rounded-full md:rounded-none bg-[#050B18]/60 backdrop-blur-2xl border border-white/5 md:bg-transparent md:backdrop-blur-none md:border-none shadow-2xl md:shadow-none max-w-full overflow-x-auto no-scrollbar">
+              <div className="flex flex-row md:flex-col gap-4 px-4 max-w-full">
                 {t.products.items.map((m, i) => (
                   <button 
                     key={i}
                     onClick={() => setSelectedModel(translations.en.products.items[i].path || (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl'))}
-                    className={`group flex flex-col items-center md:items-start px-6 py-4 md:px-10 md:py-8 rounded-full md:rounded-[30px] border transition-all duration-500 text-center md:text-left whitespace-nowrap ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/10 text-white/80 border-white/10 hover:bg-white/20'}`}
+                    className={`group flex items-center justify-center px-8 py-4 md:px-10 md:py-8 rounded-full md:rounded-[30px] border transition-all duration-500 text-center md:text-left whitespace-nowrap text-[9px] md:text-xs font-space font-black tracking-widest uppercase ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-2xl scale-105' : 'bg-white/5 text-white/60 border-white/10 hover:bg-white/10'}`}
                   >
-                    <span className="font-space font-black tracking-widest uppercase text-[8px] md:text-xs">{m.name}</span>
-                    <span className="hidden md:block text-[6px] md:text-[10px] opacity-40 uppercase tracking-widest font-bold mt-1">{m.desc}</span>
+                    {m.name}
                   </button>
                 ))}
               </div>
