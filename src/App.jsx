@@ -51,17 +51,16 @@ const STLModel = ({ url, color = "#FFFFFF" }) => {
   );
 };
 
-const STLViewer = ({ modelUrl, isInteractive = true }) => {
+const STLViewer = ({ modelUrl }) => {
   return (
     <div className="w-full h-full cursor-grab active:cursor-grabbing relative group">
       <div className="relative h-full w-full overflow-hidden bg-[#050505]">
-        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: isInteractive ? 'none' : 'pan-y' }} camera={{ position: [0, 0, 200], fov: 45 }}>
+        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'pan-y' }} camera={{ position: [0, 0, 200], fov: 45 }}>
           <Suspense fallback={null}>
             <Stage environment="city" intensity={0.6} contactShadow={{ opacity: 0.2, blur: 3 }} center adjustCamera={false}>
               <STLModel url={modelUrl} />
             </Stage>
             <OrbitControls 
-              enabled={isInteractive}
               enablePan={false} 
               enableZoom={false} 
               minPolarAngle={0} 
@@ -534,7 +533,6 @@ const App = () => {
   const [selectedModel, setSelectedModel] = useState(models[0]);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [isLight, setIsLight] = useState(false);
-  const [isInteracting, setIsInteracting] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -599,10 +597,10 @@ const App = () => {
         </div>
       </Section>
 
-      {/* 02. PRODUCTS - DIRECT FULLSCREEN SECTION */}
+      {/* 02. PRODUCTS - DIRECT FULLSCREEN SECTION WITH SAFE MARGINS */}
       <section 
         id="products" 
-        className="snap-section relative w-full h-screen bg-[#050505] overflow-hidden"
+        className="snap-section relative w-full h-screen bg-[#050505] overflow-hidden flex flex-col items-center justify-center"
       >
         {/* Floating Minimalist Signature */}
         <div className="absolute top-24 left-6 z-20 pointer-events-none">
@@ -613,35 +611,16 @@ const App = () => {
           </Reveal>
         </div>
         
-        {/* Absolute 3D Stage - The entire screen is now the interaction box */}
-        <div className="absolute inset-0 z-10 w-full h-full">
-          <STLViewer modelUrl={selectedModel} isInteractive={isInteracting} />
+        {/* Absolute 3D Stage - Centered with safe margins around it */}
+        <div className="w-[85%] h-[75vh] md:w-full md:h-full relative z-10">
+          <STLViewer modelUrl={selectedModel} />
           
-          {/* Interaction Overlay - SOLVES SCROLL LOCK */}
-          {!isInteracting && (
-            <div 
-              onClick={() => setIsInteracting(true)}
-              className="absolute inset-0 z-30 flex items-center justify-center bg-transparent md:hidden group cursor-pointer"
-            >
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-black/40 backdrop-blur-md border border-white/10 px-8 py-4 rounded-full flex items-center gap-4 transition-all group-hover:bg-black/60"
-              >
-                <div className="w-2 h-2 rounded-full bg-brand-gold animate-pulse" />
-                <span className="text-[9px] font-space font-black uppercase tracking-[0.3em] text-white">Tap to Rotate</span>
-              </motion.div>
-            </div>
-          )}
-
-          <div className="absolute bottom-12 left-6 z-20 pointer-events-none md:hidden text-left space-y-2">
+          <div className="absolute bottom-6 left-6 z-20 pointer-events-none md:hidden text-left space-y-2">
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
               <span className="text-[6px] font-black uppercase tracking-[0.4em] opacity-30 text-white">Industrial Cycle active</span>
             </div>
-            {isInteracting && (
-              <span className="block text-[7px] font-black uppercase tracking-[0.4em] opacity-40 text-white animate-pulse">Controls Active</span>
-            )}
+            <span className="block text-[7px] font-black uppercase tracking-[0.4em] opacity-40 text-white animate-pulse">Drag to Rotate</span>
           </div>
         </div>
       </section>
