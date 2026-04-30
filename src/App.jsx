@@ -684,7 +684,7 @@ const App = () => {
       </Section>
 
       {/* 05. MATERIALS */}
-      <Section id="materials" number="05" onVisible={() => setIsLight(true)} className="bg-[#EBD3AC] min-h-screen">
+      <Section id="materials" number="05" onVisible={() => setIsLight(true)} className="bg-[#EBD3AC] min-h-screen pt-44 pb-16 md:py-32">
         <div className="flex flex-col lg:flex-row items-center gap-16 md:gap-20 px-4 md:px-0">
           <div className="flex-[1.5] space-y-12 md:space-y-16 w-full text-center lg:text-left">
             <Reveal>
