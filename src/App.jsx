@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
@@ -55,7 +56,7 @@ const STLViewer = ({ modelUrl }) => {
     <div className="w-full h-[40vh] md:h-[75vh] cursor-grab active:cursor-grabbing relative group">
       <div className="absolute inset-0 bg-brand-beige/5 rounded-[40px] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
       <div className="relative h-full w-full rounded-[40px] overflow-hidden border border-white/5 bg-[#080808]">
-        <Canvas shadows dpr={[1, 2]} style={{ touchAction: 'none' }}>
+        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'none' }}>
           <Suspense fallback={null}>
             <PerspectiveCamera makeDefault position={[0, 0, 150]} fov={45} />
             <Stage environment="city" intensity={0.6} contactShadow={{ opacity: 0.2, blur: 3 }} center>
