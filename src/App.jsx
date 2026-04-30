@@ -13,8 +13,8 @@ const Reveal = ({ children, width = "100%" }) => {
     <div ref={ref} style={{ position: "relative", width, overflow: "hidden" }}>
       <motion.div
         variants={{
-          hidden: { opacity: 0, y: 75 },
-          visible: { opacity: 1, y: 0 },
+          hidden: { opacity: 0, y: 30, skewY: 2, filter: "blur(10px)" },
+          visible: { opacity: 1, y: 0, skewY: 0, filter: "blur(0px)" },
         }}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
@@ -465,6 +465,12 @@ const Navbar = ({ lang, setLang, t, isLight }) => {
 
 const Section = ({ children, id, number, onVisible, className = "bg-brand-dark" }) => {
   const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+
+  const skew = useTransform(scrollYProgress, [0, 0.5, 1], [2, 0, -2]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -483,17 +489,23 @@ const Section = ({ children, id, number, onVisible, className = "bg-brand-dark" 
     <section 
       ref={ref}
       id={id}
-      className={`snap-section relative flex flex-col items-center justify-center w-full py-12 md:py-32 overflow-hidden ${className}`}
+      className={`snap-section relative flex flex-col items-center justify-center w-full pt-32 pb-16 md:py-32 overflow-hidden ${className}`}
     >
       {number && (
-        <div className="absolute top-10 left-4 md:left-16 font-space font-bold text-xs md:text-base tracking-widest opacity-10 flex items-center gap-2 md:gap-4">
-          <span className="w-4 md:w-8 h-px bg-current" />
+        <motion.div 
+          style={{ y: useTransform(scrollYProgress, [0, 1], [-20, 20]) }}
+          className="absolute top-12 left-6 md:left-16 font-space font-bold text-[10px] md:text-base tracking-[0.4em] opacity-10 flex items-center gap-3 md:gap-4 pointer-events-none"
+        >
+          <span className="w-6 md:w-8 h-px bg-current" />
           {number}
-        </div>
+        </motion.div>
       )}
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-24">
+      <motion.div 
+        style={{ skewX: skew, y: useTransform(scrollYProgress, [0, 1], [30, -30]) }}
+        className="w-full max-w-[1440px] mx-auto px-6 md:px-24 relative z-10"
+      >
         {children}
-      </div>
+      </motion.div>
     </section>
   );
 };
@@ -535,7 +547,7 @@ const App = () => {
                 >
                   {t.hero.sub}
                 </motion.h2>
-                <h1 className="font-space font-black text-5xl sm:text-6xl md:text-[11rem] leading-[0.9] tracking-tighter text-white">
+                <h1 className="font-space font-black text-5xl sm:text-6xl md:text-[11rem] leading-[0.9] tracking-tighter text-white mb-8 md:mb-12">
                   {t.hero.title[0]}<br className="sm:hidden" /><span className="text-brand-beige opacity-80">{t.hero.title[1]}</span>
                 </h1>
               </div>
@@ -567,7 +579,7 @@ const App = () => {
         <div className="flex flex-col lg:flex-row items-center gap-16 md:gap-32">
           <div className="w-full lg:flex-1 space-y-10 md:space-y-12 text-center lg:text-left">
             <Reveal>
-              <h2 className="font-space font-black text-4xl md:text-8xl tracking-tighter leading-none text-white uppercase px-4 md:px-0">
+              <h2 className="font-space font-black text-4xl md:text-8xl tracking-tighter leading-none text-white uppercase px-4 md:px-0 mb-8 md:mb-12">
                 {t.products.title[0]}<br/><span className="text-brand-beige opacity-40">{t.products.title[1]}</span>
               </h2>
             </Reveal>
@@ -600,7 +612,7 @@ const App = () => {
       <Section id="showcase" number="03" onVisible={() => setIsLight(false)} className="bg-[#050505]">
         <div className="space-y-12 md:space-y-20">
           <Reveal>
-            <div className="flex flex-col md:flex-row justify-between items-end gap-6 md:gap-8">
+            <div className="flex flex-col md:flex-row justify-between items-end gap-6 md:gap-8 mb-8 md:mb-16">
               <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter uppercase leading-none text-white">
                 {t.showcase.title}
               </h2>
@@ -637,7 +649,7 @@ const App = () => {
           </div>
           <div className="flex-1 space-y-8 md:space-y-12 order-1 md:order-2 text-center md:text-left">
             <Reveal>
-              <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter leading-none uppercase text-white">
+              <h2 className="font-space font-black text-4xl md:text-9xl tracking-tighter leading-none uppercase text-white mb-8 md:mb-12">
                 {t.archive.title[0]}<span className="text-brand-gold opacity-50">{t.archive.title[1]}</span>
               </h2>
             </Reveal>
@@ -660,7 +672,7 @@ const App = () => {
         <div className="flex flex-col lg:flex-row items-center gap-16 md:gap-20 px-4 md:px-0">
           <div className="flex-[1.5] space-y-12 md:space-y-16 w-full text-center lg:text-left">
             <Reveal>
-              <h2 className="font-space font-black text-5xl md:text-9xl tracking-tighter uppercase leading-[0.8] text-[#18181b]">
+              <h2 className="font-space font-black text-5xl md:text-9xl tracking-tighter uppercase leading-[0.8] text-[#18181b] mb-12 md:mb-20">
                 {t.materia.title[0]}<br/><span className="opacity-30">{t.materia.title[1]}</span>
               </h2>
             </Reveal>
