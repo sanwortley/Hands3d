@@ -55,9 +55,9 @@ const STLViewer = ({ modelUrl }) => {
   return (
     <div className="w-full h-full cursor-grab active:cursor-grabbing relative group">
       <div className="relative h-full w-full overflow-hidden bg-[#050505]">
-        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'none' }} camera={{ position: [0, 0, 180], fov: 40 }}>
+        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'none' }} camera={{ position: [0, 0, 140], fov: 25 }}>
           <Suspense fallback={null}>
-            <Stage environment="city" intensity={0.6} contactShadow={{ opacity: 0.2, blur: 3 }} center adjustCamera={false}>
+            <Stage environment="city" intensity={0.6} contactShadow={{ opacity: 0.2, blur: 3 }} center adjustCamera={1.2}>
               <STLModel url={modelUrl} />
             </Stage>
             <OrbitControls 
