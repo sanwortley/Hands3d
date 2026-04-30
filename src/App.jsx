@@ -592,33 +592,33 @@ const App = () => {
 
       {/* 02. PRODUCTS */}
       <Section id="products" number="02" onVisible={() => setIsLight(false)} className="bg-[#050505]">
-        <div className="flex flex-col lg:flex-row items-center gap-16 md:gap-32">
-          <div className="w-full lg:flex-1 space-y-10 md:space-y-12 text-center lg:text-left">
+        <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-32">
+          <div className="w-full lg:flex-1 space-y-6 md:space-y-12 text-center lg:text-left">
             <Reveal>
-              <h2 className="font-space font-black text-4xl md:text-8xl tracking-tighter leading-none text-white uppercase px-4 md:px-0 mb-8 md:mb-12">
+              <h2 className="font-space font-black text-3xl md:text-8xl tracking-tighter leading-none text-white uppercase px-4 md:px-0 mb-6 md:mb-12">
                 {t.products.title[0]}<br/><span className="text-brand-beige opacity-40">{t.products.title[1]}</span>
               </h2>
             </Reveal>
             
             <Reveal>
-              <div className="flex flex-col gap-4 mt-8 md:mt-12 relative z-50 px-4 md:px-0 max-w-sm mx-auto lg:mx-0">
+              <div className="flex flex-col gap-3 md:gap-4 mt-6 md:mt-12 relative z-50 px-4 md:px-0 max-w-[280px] md:max-w-sm mx-auto lg:mx-0">
                 {t.products.items.map((m, i) => (
                   <button 
                     key={i}
                     onClick={() => setSelectedModel(translations.en.products.items[i].path || (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl'))}
-                    className={`group flex flex-col items-start px-8 py-5 md:px-10 md:py-8 rounded-[25px] md:rounded-[30px] border transition-all duration-500 text-left w-full ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/5 text-white/80 border-white/5 hover:bg-white/10'}`}
+                    className={`group flex flex-col items-start px-6 py-4 md:px-10 md:py-8 rounded-[20px] md:rounded-[30px] border transition-all duration-500 text-left w-full ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/5 text-white/80 border-white/5 hover:bg-white/10'}`}
                   >
-                    <span className="font-space font-black tracking-widest uppercase text-[9px] md:text-xs mb-1">{m.name}</span>
-                    <span className="text-[7px] md:text-[10px] opacity-40 uppercase tracking-widest font-bold">{m.desc}</span>
+                    <span className="font-space font-black tracking-widest uppercase text-[8px] md:text-xs mb-1">{m.name}</span>
+                    <span className="text-[6px] md:text-[10px] opacity-40 uppercase tracking-widest font-bold">{m.desc}</span>
                   </button>
                 ))}
               </div>
             </Reveal>
           </div>
           
-          <div className="flex-[1.4] w-full min-h-[60vh] md:min-h-[600px] px-4 md:px-0">
+          <div className="flex-[1.4] w-full h-[40vh] md:h-[600px] px-4 md:px-0">
             <Reveal>
-              <div className="relative group/canvas">
+              <div className="relative group/canvas h-full">
                 <STLViewer modelUrl={selectedModel} />
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none md:hidden">
                   <span className="text-[7px] font-black uppercase tracking-[0.4em] opacity-30 text-white animate-pulse">Drag to Rotate</span>
