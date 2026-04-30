@@ -597,35 +597,32 @@ const App = () => {
         </div>
       </Section>
 
-      {/* 02. PRODUCTS - EDGE TO EDGE IMMERSIVE */}
-      <Section id="products" number="02" onVisible={() => setIsLight(false)} className="p-0 bg-[#050505]">
-        <div className="relative w-full h-screen">
-          {/* Floating Minimalist Signature */}
-          <div className="absolute top-24 left-6 z-20 pointer-events-none">
-            <Reveal>
-              <h2 className="font-space font-black text-lg md:text-3xl tracking-tighter uppercase opacity-30 text-white">
-                {t.products.title[0]} <span className="text-brand-beige">{t.products.title[1]}</span>
-              </h2>
-            </Reveal>
-          </div>
-          
-          {/* Infinite 3D Stage */}
-          <div className="absolute inset-0 z-10">
-            <Reveal>
-              <div className="relative group/canvas h-full w-full">
-                <STLViewer modelUrl={selectedModel} />
-                <div className="absolute bottom-12 left-6 pointer-events-none md:hidden text-left space-y-2">
-                  <div className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
-                    <span className="text-[6px] font-black uppercase tracking-[0.4em] opacity-30 text-white">Industrial Cycle active</span>
-                  </div>
-                  <span className="block text-[7px] font-black uppercase tracking-[0.4em] opacity-40 text-white animate-pulse">Drag to Rotate</span>
-                </div>
-              </div>
-            </Reveal>
+      {/* 02. PRODUCTS - DIRECT FULLSCREEN SECTION */}
+      <section 
+        id="products" 
+        className="snap-section relative w-full h-screen bg-[#050505] overflow-hidden"
+      >
+        {/* Floating Minimalist Signature */}
+        <div className="absolute top-24 left-6 z-20 pointer-events-none">
+          <Reveal>
+            <h2 className="font-space font-black text-lg md:text-3xl tracking-tighter uppercase opacity-30 text-white">
+              {t.products.title[0]} <span className="text-brand-beige">{t.products.title[1]}</span>
+            </h2>
+          </Reveal>
+        </div>
+        
+        {/* Absolute 3D Stage - The entire screen is now the interaction box */}
+        <div className="absolute inset-0 z-10 w-full h-full">
+          <STLViewer modelUrl={selectedModel} />
+          <div className="absolute bottom-12 left-6 z-20 pointer-events-none md:hidden text-left space-y-2">
+            <div className="flex items-center gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
+              <span className="text-[6px] font-black uppercase tracking-[0.4em] opacity-30 text-white">Industrial Cycle active</span>
+            </div>
+            <span className="block text-[7px] font-black uppercase tracking-[0.4em] opacity-40 text-white animate-pulse">Drag to Rotate</span>
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* 03. SHOWCASE */}
       <Section id="showcase" number="03" onVisible={() => setIsLight(false)} className="bg-[#050505]">
