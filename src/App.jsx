@@ -45,7 +45,7 @@ const STLModel = ({ url, color = "#FFFFFF" }) => {
   });
 
   return (
-    <mesh ref={meshRef} castShadow receiveShadow scale={1}>
+    <mesh ref={meshRef} castShadow receiveShadow scale={typeof window !== 'undefined' && window.innerWidth > 768 ? 2 : 1}>
       <primitive object={geom} attach="geometry" />
       <meshStandardMaterial 
         color={color} 
