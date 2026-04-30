@@ -715,11 +715,6 @@ const App = () => {
               ))}
             </div>
           </div>
-          <div className="flex-1 flex justify-center lg:justify-end relative mt-12 lg:mt-0">
-             <Reveal>
-               <img src="/brand/materia_hand.png" className="h-[35vh] md:h-[80vh] w-auto object-contain grayscale brightness-90 contrast-125" />
-             </Reveal>
-          </div>
         </div>
       </Section>
 
