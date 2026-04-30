@@ -620,9 +620,11 @@ const App = () => {
           </Reveal>
         </div>
         
-        {/* Absolute 3D Stage - Centered with safe margins around it */}
-        <div className="w-[85%] h-[75vh] md:w-full md:h-full relative z-10">
-          <STLViewer modelUrl={selectedModel} />
+        {/* Absolute 3D Stage - Full screen on PC, card with margins on mobile */}
+        <div className="w-[85%] h-[75vh] md:w-full md:h-full md:absolute md:inset-0 z-10 flex items-center justify-center">
+          <div className="w-full h-full">
+            <STLViewer modelUrl={selectedModel} />
+          </div>
           
           <div className="absolute bottom-6 left-6 z-20 pointer-events-none md:hidden text-left space-y-2">
             <div className="flex items-center gap-3">
