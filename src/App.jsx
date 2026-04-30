@@ -592,37 +592,42 @@ const App = () => {
 
       {/* 02. PRODUCTS */}
       <Section id="products" number="02" onVisible={() => setIsLight(false)} className="bg-[#050505]">
-        <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-32">
-          <div className="w-full lg:flex-1 space-y-6 md:space-y-12 text-center lg:text-left">
+        <div className="relative w-full h-[80vh] flex flex-col items-center justify-center">
+          {/* Floating Header */}
+          <div className="absolute top-0 left-0 w-full z-20 text-center lg:relative lg:text-left lg:w-auto lg:flex-1">
             <Reveal>
-              <h2 className="font-space font-black text-3xl md:text-8xl tracking-tighter leading-none text-white uppercase px-4 md:px-0 mb-6 md:mb-12">
+              <h2 className="font-space font-black text-3xl md:text-8xl tracking-tighter leading-none text-white uppercase px-4 md:px-0">
                 {t.products.title[0]}<br/><span className="text-brand-beige opacity-40">{t.products.title[1]}</span>
               </h2>
             </Reveal>
-            
+          </div>
+          
+          {/* Main 3D Viewer */}
+          <div className="w-full h-full lg:flex-[1.4] relative z-10">
             <Reveal>
-              <div className="flex flex-col gap-3 md:gap-4 mt-6 md:mt-12 relative z-50 px-4 md:px-0 max-w-[280px] md:max-w-sm mx-auto lg:mx-0">
+              <div className="relative group/canvas h-full w-full">
+                <STLViewer modelUrl={selectedModel} />
+                <div className="absolute bottom-32 md:bottom-4 left-1/2 -translate-x-1/2 pointer-events-none md:hidden">
+                  <span className="text-[7px] font-black uppercase tracking-[0.4em] opacity-30 text-white animate-pulse">Drag to Rotate</span>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Floating Buttons */}
+          <div className="absolute bottom-0 left-0 w-full z-20 flex justify-center pb-8 lg:relative lg:pb-0 lg:w-auto lg:flex-1 lg:justify-start">
+            <Reveal>
+              <div className="flex flex-row md:flex-col gap-3 md:gap-4 px-4 max-w-full overflow-x-auto no-scrollbar">
                 {t.products.items.map((m, i) => (
                   <button 
                     key={i}
                     onClick={() => setSelectedModel(translations.en.products.items[i].path || (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl'))}
-                    className={`group flex flex-col items-start px-6 py-4 md:px-10 md:py-8 rounded-[20px] md:rounded-[30px] border transition-all duration-500 text-left w-full ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/5 text-white/80 border-white/5 hover:bg-white/10'}`}
+                    className={`group flex flex-col items-center md:items-start px-6 py-3 md:px-10 md:py-8 rounded-full md:rounded-[30px] border transition-all duration-500 text-center md:text-left whitespace-nowrap ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/5 text-white/80 border-white/5 hover:bg-white/10'}`}
                   >
-                    <span className="font-space font-black tracking-widest uppercase text-[8px] md:text-xs mb-1">{m.name}</span>
-                    <span className="text-[6px] md:text-[10px] opacity-40 uppercase tracking-widest font-bold">{m.desc}</span>
+                    <span className="font-space font-black tracking-widest uppercase text-[7px] md:text-xs">{m.name}</span>
+                    <span className="hidden md:block text-[6px] md:text-[10px] opacity-40 uppercase tracking-widest font-bold mt-1">{m.desc}</span>
                   </button>
                 ))}
-              </div>
-            </Reveal>
-          </div>
-          
-          <div className="flex-[1.4] w-full h-[40vh] md:h-[600px] px-4 md:px-0">
-            <Reveal>
-              <div className="relative group/canvas h-full">
-                <STLViewer modelUrl={selectedModel} />
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none md:hidden">
-                  <span className="text-[7px] font-black uppercase tracking-[0.4em] opacity-30 text-white animate-pulse">Drag to Rotate</span>
-                </div>
               </div>
             </Reveal>
           </div>
