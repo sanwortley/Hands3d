@@ -31,6 +31,7 @@ const Reveal = ({ children, width = "100%" }) => {
 const STLModel = ({ url, color = "#FFFFFF" }) => {
   const geom = useLoader(STLLoader, url);
   const meshRef = useRef();
+  const isDesktop = typeof window !== 'undefined' && window.innerWidth > 768;
 
   // Ensure the geometry is centered relative to its origin
   useEffect(() => {
@@ -45,7 +46,7 @@ const STLModel = ({ url, color = "#FFFFFF" }) => {
   });
 
   return (
-    <mesh ref={meshRef} castShadow receiveShadow scale={typeof window !== 'undefined' && window.innerWidth > 768 ? 2 : 1}>
+    <mesh ref={meshRef} castShadow receiveShadow scale={isDesktop ? 4 : 1}>
       <primitive object={geom} attach="geometry" />
       <meshStandardMaterial 
         color={color} 
@@ -58,10 +59,12 @@ const STLModel = ({ url, color = "#FFFFFF" }) => {
 };
 
 const STLViewer = ({ modelUrl }) => {
+  const isDesktop = typeof window !== 'undefined' && window.innerWidth > 768;
+
   return (
     <div className="w-full h-full cursor-grab active:cursor-grabbing relative group">
       <div className="relative h-full w-full overflow-hidden bg-[#050505]">
-        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'pan-y' }} camera={{ position: [0, 0, 180], fov: 35 }}>
+        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'pan-y' }} camera={{ position: isDesktop ? [0, 0, 120] : [0, 0, 180], fov: isDesktop ? 20 : 35 }}>
           <Suspense fallback={null}>
             <Stage environment="city" intensity={0.6} contactShadow={{ opacity: 0.2, blur: 3 }} center adjustCamera={true}>
               <STLModel url={modelUrl} />
