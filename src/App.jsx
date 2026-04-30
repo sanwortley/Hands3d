@@ -64,11 +64,11 @@ const STLViewer = ({ modelUrl }) => {
             <OrbitControls 
               enablePan={false} 
               enableZoom={true} 
-              minPolarAngle={Math.PI / 4} 
-              maxPolarAngle={Math.PI / 1.5}
+              minPolarAngle={0} 
+              maxPolarAngle={Math.PI}
               enableDamping={true}
-              dampingFactor={0.05}
-              rotateSpeed={0.8}
+              dampingFactor={0.1}
+              rotateSpeed={1.5}
             />
           </Suspense>
         </Canvas>
