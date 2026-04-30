@@ -46,7 +46,7 @@ const STLModel = ({ url, color = "#FFFFFF" }) => {
   });
 
   return (
-    <mesh ref={meshRef} castShadow receiveShadow scale={isDesktop ? 4 : 1}>
+    <mesh ref={meshRef} castShadow receiveShadow scale={isDesktop ? 10 : 1}>
       <primitive object={geom} attach="geometry" />
       <meshStandardMaterial 
         color={color} 
@@ -64,9 +64,9 @@ const STLViewer = ({ modelUrl }) => {
   return (
     <div className="w-full h-full cursor-grab active:cursor-grabbing relative group">
       <div className="relative h-full w-full overflow-hidden bg-[#050505]">
-        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'pan-y' }} camera={{ position: isDesktop ? [0, 0, 120] : [0, 0, 180], fov: isDesktop ? 20 : 35 }}>
+        <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 2]} style={{ touchAction: 'pan-y' }} camera={{ position: isDesktop ? [0, 0, 60] : [0, 0, 180], fov: isDesktop ? 45 : 35 }}>
           <Suspense fallback={null}>
-            <Stage environment="city" intensity={0.6} contactShadow={{ opacity: 0.2, blur: 3 }} center adjustCamera={true}>
+            <Stage environment="city" intensity={0.6} contactShadow={{ opacity: 0.2, blur: 3 }} center adjustCamera={!isDesktop}>
               <STLModel url={modelUrl} />
             </Stage>
             <OrbitControls 
