@@ -505,7 +505,7 @@ const Section = ({ children, id, number, onVisible, className = "bg-brand-dark" 
     <section 
       ref={ref}
       id={id}
-      className={`snap-section relative flex flex-col items-center justify-center w-full pt-32 pb-16 md:py-32 overflow-hidden ${className}`}
+      className={`snap-section relative flex flex-col items-center justify-center w-full overflow-hidden ${className || 'pt-32 pb-16 md:py-32'}`}
     >
       {number && (
         <motion.div 
@@ -518,7 +518,7 @@ const Section = ({ children, id, number, onVisible, className = "bg-brand-dark" 
       )}
       <motion.div 
         style={{ skewX: skew, y: useTransform(scrollYProgress, [0, 1], [30, -30]) }}
-        className="w-full max-w-[1440px] mx-auto px-6 md:px-24 relative z-10"
+        className={`w-full max-w-[1440px] mx-auto relative z-10 ${className?.includes('px-') ? '' : 'px-6 md:px-24'}`}
       >
         {children}
       </motion.div>
@@ -591,12 +591,12 @@ const App = () => {
       </Section>
 
       {/* 02. PRODUCTS */}
-      <Section id="products" number="02" onVisible={() => setIsLight(false)} className="bg-[#050505]">
-        <div className="relative w-full h-[80vh] flex flex-col items-center justify-center">
+      <Section id="products" number="02" onVisible={() => setIsLight(false)} className="pt-20 pb-0 px-0 bg-[#050505]">
+        <div className="relative w-full h-[85vh] flex flex-col items-center justify-center">
           {/* Floating Header */}
-          <div className="absolute top-0 left-0 w-full z-20 text-center lg:relative lg:text-left lg:w-auto lg:flex-1">
+          <div className="absolute top-0 left-0 w-full z-20 text-center lg:relative lg:text-left lg:w-auto lg:flex-1 pt-4">
             <Reveal>
-              <h2 className="font-space font-black text-3xl md:text-8xl tracking-tighter leading-none text-white uppercase px-4 md:px-0">
+              <h2 className="font-space font-black text-2xl md:text-8xl tracking-tighter leading-none text-white uppercase px-4 md:px-0">
                 {t.products.title[0]}<br/><span className="text-brand-beige opacity-40">{t.products.title[1]}</span>
               </h2>
             </Reveal>
@@ -607,24 +607,24 @@ const App = () => {
             <Reveal>
               <div className="relative group/canvas h-full w-full">
                 <STLViewer modelUrl={selectedModel} />
-                <div className="absolute bottom-32 md:bottom-4 left-1/2 -translate-x-1/2 pointer-events-none md:hidden">
+                <div className="absolute bottom-40 md:bottom-4 left-1/2 -translate-x-1/2 pointer-events-none md:hidden">
                   <span className="text-[7px] font-black uppercase tracking-[0.4em] opacity-30 text-white animate-pulse">Drag to Rotate</span>
                 </div>
               </div>
             </Reveal>
           </div>
 
-          {/* Floating Buttons */}
-          <div className="absolute bottom-0 left-0 w-full z-20 flex justify-center pb-8 lg:relative lg:pb-0 lg:w-auto lg:flex-1 lg:justify-start">
+          {/* Floating Buttons Bar */}
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-[90%] z-30 flex justify-center lg:relative lg:bottom-0 lg:left-0 lg:translate-x-0 lg:w-auto lg:flex-1 lg:justify-start lg:pb-0">
             <Reveal>
-              <div className="flex flex-row md:flex-col gap-3 md:gap-4 px-4 max-w-full overflow-x-auto no-scrollbar">
+              <div className="flex flex-row md:flex-col gap-3 md:gap-4 p-2 md:p-0 rounded-full md:rounded-none bg-[#050B18]/60 backdrop-blur-2xl border border-white/5 md:bg-transparent md:backdrop-blur-none md:border-none shadow-2xl md:shadow-none max-w-full overflow-x-auto no-scrollbar">
                 {t.products.items.map((m, i) => (
                   <button 
                     key={i}
                     onClick={() => setSelectedModel(translations.en.products.items[i].path || (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl'))}
-                    className={`group flex flex-col items-center md:items-start px-6 py-3 md:px-10 md:py-8 rounded-full md:rounded-[30px] border transition-all duration-500 text-center md:text-left whitespace-nowrap ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/5 text-white/80 border-white/5 hover:bg-white/10'}`}
+                    className={`group flex flex-col items-center md:items-start px-6 py-4 md:px-10 md:py-8 rounded-full md:rounded-[30px] border transition-all duration-500 text-center md:text-left whitespace-nowrap ${selectedModel === (i === 0 ? '/models/bandeja.stl' : '/models/cuerpo.stl') ? 'bg-brand-beige text-brand-dark border-brand-beige shadow-xl' : 'bg-white/10 text-white/80 border-white/10 hover:bg-white/20'}`}
                   >
-                    <span className="font-space font-black tracking-widest uppercase text-[7px] md:text-xs">{m.name}</span>
+                    <span className="font-space font-black tracking-widest uppercase text-[8px] md:text-xs">{m.name}</span>
                     <span className="hidden md:block text-[6px] md:text-[10px] opacity-40 uppercase tracking-widest font-bold mt-1">{m.desc}</span>
                   </button>
                 ))}
