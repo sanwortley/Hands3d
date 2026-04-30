@@ -63,8 +63,8 @@ const STLViewer = ({ modelUrl }) => {
             <OrbitControls 
               enablePan={false} 
               enableZoom={false} 
-              minPolarAngle={0} 
-              maxPolarAngle={Math.PI}
+              minPolarAngle={Math.PI / 2} 
+              maxPolarAngle={Math.PI / 2}
               enableDamping={true}
               dampingFactor={0.1}
               rotateSpeed={1.5}
