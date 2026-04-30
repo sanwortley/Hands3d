@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+// Build Trigger: 2026-04-30 11:51
 import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
