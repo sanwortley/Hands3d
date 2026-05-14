@@ -24,7 +24,7 @@ const CircularArchive = ({ t, setSelectedMaterial }) => {
     <div ref={containerRef} className="relative h-[250vh] bg-white text-[#1a1a1a]">
       <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
         {/* The Circular Arc Container */}
-        <div className="absolute left-0 h-full w-[20%] md:w-[25%] flex items-center z-20 pointer-events-none">
+        <div className="absolute left-0 h-full w-[20%] md:w-[25%] hidden md:flex items-center z-20 pointer-events-none">
           <motion.div 
             style={{ rotate }}
             className="absolute -left-[50vw] md:-left-[20vw] w-[100vw] md:w-[50vw] aspect-square rounded-full border border-black/[0.03] flex items-center justify-end"
