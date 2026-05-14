@@ -2,8 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
 @theme {
-  --font-space: "Outfit", sans-serif;
-  --font-outfit: "Inter", sans-serif;
+  --font-space: "Space Grotesk", sans-serif;
+  --font-outfit: "Outfit", sans-serif;
   --color-brand-beige: #EBD3AC;
   --color-brand-dark: #050B18;
   --color-brand-gold: #C5A059;
@@ -25,9 +25,10 @@ html, body {
   width: 100vw;
   overflow-y: scroll;
   overflow-x: hidden;
-  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
+  perspective: 2000px;
+  transform-style: preserve-3d;
 }
 
 .snap-section {
