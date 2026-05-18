@@ -344,24 +344,9 @@ const MaterialModal = ({ material, onClose, t }) => {
   );
 };
 
-const Navbar = ({ lang, setLang, t, isLight, showNavbar }) => {
-  const { scrollY } = useScroll();
-  const [hidden, setHidden] = useState(false);
-  const [isTop, setIsTop] = useState(true);
+const Navbar = ({ lang, setLang, t, isLight, isHidden, isTop }) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    return scrollY.on("change", (latest) => {
-      setIsTop(latest < 10);
-      const previous = scrollY.getPrevious();
-      if (latest > previous && latest > 150) {
-        setHidden(true);
-      } else {
-        setHidden(false);
-      }
-    });
-  }, [scrollY]);
-
+  
   const isContrastMode = isLight;
   const logoMainColor = isContrastMode ? 'text-[#1a1a1a]' : 'text-white';
   const logoSubColor = isContrastMode ? 'text-[#3e5f8a]' : 'text-[#EBD3AC]';
@@ -377,9 +362,9 @@ const Navbar = ({ lang, setLang, t, isLight, showNavbar }) => {
   return (
     <>
       <motion.nav 
-        initial={{ y: -100 }}
-        animate={{ y: showNavbar ? 0 : -120 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ y: -150 }}
+        animate={{ y: isHidden ? -150 : 0 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 w-full z-[100] px-6 py-4 md:px-16 md:py-8 flex justify-between items-center transition-all duration-500 border-none outline-none ${isTop ? 'bg-transparent' : (isLight ? 'bg-white/95 backdrop-blur-2xl border-b border-black/5 shadow-xl' : 'bg-[#3e5f8a]/95 backdrop-blur-2xl border-b border-white/5 shadow-xl')}`}
       >
         <div className="flex items-center gap-6 md:gap-16">
@@ -545,7 +530,7 @@ const Section = ({ children, id, number, onVisible, className = "bg-brand-dark",
       {number && (
         <motion.div 
           style={{ y: useTransform(scrollYProgress, [0, 1], [-20, 20]) }}
-          className="absolute top-12 left-6 md:left-16 font-space font-bold text-[10px] md:text-base tracking-[0.4em] opacity-30 flex items-center gap-3 md:gap-4 pointer-events-none"
+          className={`absolute top-12 left-6 md:left-16 font-space font-bold text-[10px] md:text-base tracking-[0.4em] opacity-40 flex items-center gap-3 md:gap-4 pointer-events-none ${className?.includes('bg-white') ? 'text-[#1a1a1a]' : 'text-[#EBD3AC]'}`}
         >
           <span className="w-6 md:w-8 h-px bg-current" />
           {number}
@@ -578,6 +563,9 @@ const App = () => {
   const [selectedModel, setSelectedModel] = useState('/models/bandeja.stl');
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const modelsScrollRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
   
   // Use state for container to ensure hooks update when it mounts
   const [containerNode, setContainerNode] = useState(null);
@@ -604,22 +592,39 @@ const App = () => {
   const [activeCatIndex, setActiveCatIndex] = useState(0);
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
+  const [isTop, setIsTop] = useState(true);
+  const [isHidden, setIsHidden] = useState(true); // Inicialmente oculto en la portada
+
   useEffect(() => {
-    if (!containerNode) return;
-    
-    const handleScroll = () => {
-      // Usamos scrollTop para mayor compatibilidad con el contenedor main
-      const currentScroll = containerNode.scrollTop;
-      if (currentScroll > 30) setShowNavbar(true);
-      else setShowNavbar(false);
+    // Usamos el hook de scroll de framer-motion que es 100% confiable en todos los dispositivos
+    return scrollY.on("change", (latest) => {
+      setIsTop(latest < 10);
+      
+      // Ocultar en la primera pantalla, mostrar en el resto (usamos 50% del alto de pantalla como umbral)
+      if (latest < window.innerHeight * 0.5) {
+        setIsHidden(true);
+      } else {
+        setIsHidden(false);
+      }
+    });
+  }, [scrollY]);
+
+  const checkModelsScroll = () => {
+    if (modelsScrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = modelsScrollRef.current;
+      setCanScrollLeft(scrollLeft > 5);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 5);
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(checkModelsScroll, 100);
+    window.addEventListener('resize', checkModelsScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkModelsScroll);
     };
-    
-    containerNode.addEventListener('scroll', handleScroll);
-    // Disparar una vez por si ya hay scroll al cargar
-    handleScroll();
-    
-    return () => containerNode.removeEventListener('scroll', handleScroll);
-  }, [containerNode]);
+  }, []);
 
   const categories = [
     {
@@ -724,8 +729,8 @@ const App = () => {
         className="snap-container relative w-full h-screen overflow-y-scroll overflow-x-hidden bg-brand-dark scroll-smooth selection:bg-brand-beige selection:text-brand-dark"
       >
         <div className="grain pointer-events-none" />
-        <Navbar lang={lang} setLang={setLang} t={t} isLight={isLight} showNavbar={showNavbar} />
-
+        {/* Navbar eliminada por estética minimalista a petición del usuario */}
+        {/* <Navbar lang={lang} setLang={setLang} t={t} isLight={isLight} isHidden={isHidden} isTop={isTop} /> */}
 
       {/* 01. HOME (HERO) - MINIMALIST REVERSION */}
       {/* 01. HOME (HERO) - MINIMALIST EDITORIAL REVERSION */}
@@ -826,8 +831,13 @@ const App = () => {
                 </button>
               </div>
 
-              <div className="flex md:justify-center gap-2 md:gap-3 overflow-x-auto no-scrollbar pb-2 md:pb-4 -mx-2 px-2">
-                {models.map((m) => (
+              <div className="relative group">
+                <div 
+                  ref={modelsScrollRef}
+                  onScroll={checkModelsScroll}
+                  className="flex md:justify-center gap-2 md:gap-3 overflow-x-auto no-scrollbar pb-2 md:pb-4 -mx-2 px-2 [mask-image:linear-gradient(to_right,transparent_0%,black_5%,black_85%,transparent_100%)] md:[mask-image:none]"
+                >
+                  {models.map((m) => (
                   <button
                     key={m.url}
                     onClick={() => setSelectedModel(m.url)}
@@ -849,6 +859,48 @@ const App = () => {
                     </span>
                   </button>
                 ))}
+                </div>
+                {/* Scroll left button for mobile */}
+                <button 
+                  onClick={() => {
+                    if (modelsScrollRef.current) {
+                      modelsScrollRef.current.scrollBy({ left: -(window.innerWidth * 0.5), behavior: 'smooth' });
+                    }
+                  }}
+                  className={`absolute left-0 top-[40%] -translate-y-1/2 md:hidden flex items-center justify-center text-[#3e5f8a] bg-white/80 backdrop-blur-md rounded-full w-8 h-8 shadow-md active:scale-95 transition-all duration-300 z-10 ${canScrollLeft ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-50 pointer-events-none'}`}
+                >
+                  <motion.svg 
+                    animate={{ x: [2, -2, 2] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    className="w-5 h-5" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M15 19l-7-7 7-7" />
+                  </motion.svg>
+                </button>
+
+                {/* Scroll right button for mobile */}
+                <button 
+                  onClick={() => {
+                    if (modelsScrollRef.current) {
+                      modelsScrollRef.current.scrollBy({ left: window.innerWidth * 0.5, behavior: 'smooth' });
+                    }
+                  }}
+                  className={`absolute right-0 top-[40%] -translate-y-1/2 md:hidden flex items-center justify-center text-[#3e5f8a] bg-white/80 backdrop-blur-md rounded-full w-8 h-8 shadow-md active:scale-95 transition-all duration-300 z-10 ${canScrollRight ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-50 pointer-events-none'}`}
+                >
+                  <motion.svg 
+                    animate={{ x: [-2, 2, -2] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    className="w-5 h-5" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M9 5l7 7-7 7" />
+                  </motion.svg>
+                </button>
               </div>
           </div>
         </div>
@@ -972,7 +1024,7 @@ const App = () => {
               </h2>
             </Reveal>
             <Reveal>
-              <p className="text-lg md:text-3xl font-light opacity-50 leading-tight max-w-md mx-auto md:mx-0 text-brand-beige">{t.production.desc}</p>
+              <p className="text-lg md:text-3xl font-light opacity-60 leading-tight max-w-md mx-auto md:mx-0 text-[#1a1a1a]">{t.production.desc}</p>
             </Reveal>
           </div>
           <div className="flex-1 relative h-[35vh] md:h-[80vh] w-full overflow-hidden rounded-[30px] md:rounded-[50px] border border-white/5">
