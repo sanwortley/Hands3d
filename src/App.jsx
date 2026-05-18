@@ -547,7 +547,7 @@ const Section = ({ children, id, number, onVisible, className = "bg-brand-dark",
           skewX: skew, 
           y: useTransform(scrollYProgress, [0, 1], [30, -30]) 
         })}
-        className={`relative z-10 ${fullWidth ? 'w-full h-screen' : `w-full max-w-[1440px] mx-auto ${className?.includes('px-') ? '' : 'px-6 md:px-24'}`}`}
+        className={`relative z-10 ${fullWidth ? 'w-full h-dvh' : `w-full max-w-[1440px] mx-auto ${className?.includes('px-') ? '' : 'px-6 md:px-24'}`}`}
       >
         {children}
       </motion.div>
@@ -726,7 +726,7 @@ const App = () => {
 
       <main 
         ref={setRefs}
-        className="snap-container relative w-full h-screen overflow-y-scroll overflow-x-hidden bg-brand-dark scroll-smooth selection:bg-brand-beige selection:text-brand-dark"
+        className="snap-container relative w-full h-dvh overflow-y-scroll overflow-x-hidden bg-brand-dark scroll-smooth selection:bg-brand-beige selection:text-brand-dark"
       >
         <div className="grain pointer-events-none" />
         {/* Navbar eliminada por estética minimalista a petición del usuario */}
@@ -741,7 +741,7 @@ const App = () => {
         className="!p-0 !bg-[#3e5f8a]" 
         fullWidth={true}
       >
-        <div className="flex flex-col h-screen w-full font-inter overflow-hidden">
+        <div className="flex flex-col h-dvh w-full font-inter overflow-hidden">
           {/* Top Section - Blue #3e5f8a Background */}
           <div className="h-[55%] w-full bg-[#3e5f8a] relative px-6 md:px-16 py-10 flex flex-col justify-between">
             {/* Empty space for a cleaner look */}
@@ -814,7 +814,7 @@ const App = () => {
           </div>
         </div>  
           {/* Horizontal Model Selector */}
-          <div className="absolute bottom-8 md:bottom-12 left-0 w-full z-30 px-6 md:px-12">
+          <div className="absolute bottom-12 md:bottom-12 left-0 w-full z-30 px-6 md:px-12 pb-4 md:pb-0">
             <div className="max-w-[1440px] mx-auto flex flex-col gap-4 md:gap-6">
               <div className="flex items-center gap-4 md:gap-6">
                 <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.5em] text-[#3e5f8a]/80">Catálogo de Piezas</span>
