@@ -58,15 +58,16 @@ const STLModel = ({ url, color = "#FFFFFF" }) => {
 };
 
 const STLViewer = ({ modelUrl }) => {
-  const [isMouseDown, setIsMouseDown] = useState(false);
+  const controlsRef = useRef();
+
   return (
     <div 
-      className="w-full h-full cursor-grab active:cursor-grabbing relative group"
-      onPointerDown={() => setIsMouseDown(true)}
-      onPointerUp={() => setIsMouseDown(false)}
-      onPointerLeave={() => setIsMouseDown(false)}
+      className="w-full h-full cursor-grab active:cursor-grabbing relative group touch-none"
+      onPointerDown={() => { if (controlsRef.current) controlsRef.current.enableZoom = true; }}
+      onPointerUp={() => { if (controlsRef.current) controlsRef.current.enableZoom = false; }}
+      onPointerLeave={() => { if (controlsRef.current) controlsRef.current.enableZoom = false; }}
     >
-      <div className="relative h-full w-full overflow-hidden bg-white">
+      <div className="relative h-full w-full overflow-hidden bg-white touch-none">
         <Canvas 
           shadows 
           dpr={[1, 2]} 
@@ -88,8 +89,9 @@ const STLViewer = ({ modelUrl }) => {
               <STLModel url={modelUrl} />
             </Stage>
             <OrbitControls 
+              ref={controlsRef}
               enablePan={false} 
-              enableZoom={isMouseDown} 
+              enableZoom={false} 
               enableRotate={true}
               makeDefault
               minPolarAngle={0} 
