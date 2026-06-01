@@ -19,7 +19,7 @@ const HeroSection: React.FC = () => {
     <div className="w-full h-full flex flex-col relative overflow-hidden">
       {/* 1. Upper Half: Blue Editorial Slate Background with Texture (63% / 68% Height) */}
       <div 
-        className="h-[63%] lg:h-[68%] w-full bg-[#3E5F8A] relative flex flex-col justify-end pb-6 md:pb-10 bg-cover bg-center bg-no-repeat"
+        className="h-[60dvh] lg:h-[68dvh] w-full bg-[#3E5F8A] relative flex flex-col justify-end pb-6 md:pb-10 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/brand/slate_blue_texture.webp')" }}
       >
         
@@ -27,7 +27,7 @@ const HeroSection: React.FC = () => {
         <NavbarOverlay isHero={true} />
 
         {/* Gray hand illustrations centered horizontally at the bottom of the blue container */}
-        <div className="w-full max-w-5xl mx-auto px-6 h-[70%] flex items-end justify-center gap-6 sm:gap-12 md:gap-24 relative z-20 translate-y-[42px]">
+        <div className="w-full max-w-5xl mx-auto px-6 h-[80%] lg:h-[70%] flex items-end justify-center gap-6 sm:gap-12 md:gap-24 relative z-20 translate-y-[42px]">
           {hands.map((hand, idx) => (
             <motion.div
               key={idx}
@@ -39,7 +39,7 @@ const HeroSection: React.FC = () => {
                 y: -10,
                 filter: "brightness(1.08) contrast(1.03)"
               }}
-              className="h-[85%] sm:h-[95%] md:h-full w-[25%] flex items-end justify-center cursor-pointer select-none group"
+              className="h-[100%] sm:h-[105%] md:h-full w-[28%] sm:w-[26%] lg:w-[25%] flex items-end justify-center cursor-pointer select-none group"
             >
               {/* High-resolution transparent gray hand illustration */}
               <img 
@@ -54,10 +54,10 @@ const HeroSection: React.FC = () => {
 
       {/* 2. Lower Half: Warm Beige Branding & Copy Background with Texture (37% / 32% Height) */}
       <div 
-        className="h-[37%] lg:h-[32%] w-full bg-[#FAF5EF] relative flex flex-col justify-between pt-5 pb-3 px-6 md:p-8 xl:p-12 bg-cover bg-center bg-no-repeat"
+        className="h-[40dvh] lg:h-[32dvh] w-full bg-[#FAF5EF] relative flex flex-col justify-between pt-4 pb-2.5 px-6 md:p-8 xl:p-12 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/brand/warm_beige_texture.webp')" }}
       >
-        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 items-center flex-1">
+        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-2 lg:gap-6 items-center flex-1">
           
           {/* Colossal Brand Typography (Left Side) - span 6 */}
           <div className="lg:col-span-6 flex flex-col justify-center">
