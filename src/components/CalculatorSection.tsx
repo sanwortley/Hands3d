@@ -126,31 +126,14 @@ const CalculatorSection: React.FC = () => {
 
   // Recalculate outputs
   useEffect(() => {
-    // Total print time in hours
     const totalTimeHours = printHours + (printMinutes / 60);
-
-    // 1. Material cost
     const mat = (filamentWeight / 1000) * filamentPrice;
-
-    // 2. Power cost
     const elec = (powerConsumption / 1000) * totalTimeHours * kwhPrice;
-
-    // 3. Machine wear cost
     const wear = (sparePartsCost / machineLifespan) * totalTimeHours;
-
-    // 4. Error margin cost
     const err = (mat + elec + wear) * (errorRate / 100);
-
-    // 5. Total manufacturing cost (sin insumos)
     const subtotal = mat + elec + wear + err;
-
-    // 6. Extra supplies marked up (+30%)
     const insMarked = extraSupplies * 1.3;
-
-    // 7. Total to collect
     const collect = (subtotal * profitMargin) + insMarked;
-
-    // 8. MercadoLibre Price (accounts for standard 16.67% fee)
     const ml = collect / (1 - 0.1667);
 
     setMaterialCost(mat);
@@ -217,41 +200,41 @@ const CalculatorSection: React.FC = () => {
 
   return (
     <div 
-      className="w-full min-h-screen flex flex-col relative overflow-y-auto no-scrollbar bg-[#111111] text-white py-16 md:py-24 bg-cover bg-center bg-no-repeat"
+      className="w-full h-full flex flex-col relative overflow-hidden bg-[#111111] text-white pt-16 pb-3 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/brand/matte_black_texture.webp')" }}
     >
       <NavbarOverlay isHero={false} />
 
-      {/* Main Container */}
-      <div className="w-full max-w-7xl mx-auto px-4 md:px-8 flex-1 flex flex-col justify-center relative z-20 mt-4 md:mt-0">
+      {/* Main Container constrained to prevent double scrolling */}
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-6 flex-1 flex flex-col justify-between relative z-20 h-[calc(100vh-80px)] max-h-[820px]">
         
-        {/* Symmetric Responsive Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch w-full my-auto">
+        {/* Symmetrical Grid overlay */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4 items-stretch w-full flex-grow my-auto">
           
           {/* ========================================================================= */}
-          {/* COLUMN 1: CONFIG & INPUT PANEL (5/12 columns)                             */}
+          {/* COLUMN 1: CONFIG & INPUT PANEL (5/12 columns) - VERY COMPACT              */}
           {/* ========================================================================= */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="lg:col-span-5 bg-black/45 border border-white/5 rounded-[2rem] p-5 md:p-6 flex flex-col justify-between shadow-xl backdrop-blur-md"
+            className="lg:col-span-5 bg-black/45 border border-white/5 rounded-3xl p-3.5 md:p-4 flex flex-col justify-between shadow-xl backdrop-blur-md"
           >
-            <div>
-              {/* Profile Manager Header */}
-              <div className="border-b border-white/5 pb-4 mb-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex flex-col h-full justify-between">
+              
+              {/* Profile Manager */}
+              <div className="border-b border-white/5 pb-2.5 mb-2.5">
+                <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="font-unbounded text-xs font-black tracking-widest text-[#B58E45] uppercase">
+                    <h3 className="font-unbounded text-[10px] font-black tracking-widest text-[#B58E45] uppercase">
                       {lang === 'es' ? 'Perfil de impresión' : 'Print Profile'}
                     </h3>
                     
-                    {/* Profile Dropdown */}
                     <select
                       value={selectedProfileName}
                       onChange={(e) => setSelectedProfileName(e.target.value)}
-                      className="mt-1 bg-black/80 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-[#FAF5EF] focus:outline-none focus:border-[#B58E45] font-outfit font-medium cursor-pointer"
+                      className="mt-0.5 bg-black/80 border border-white/10 rounded-lg px-2.5 py-1 text-[11px] text-[#FAF5EF] focus:outline-none focus:border-[#B58E45] font-outfit font-medium cursor-pointer"
                     >
                       {profiles.map(p => (
                         <option key={p.name} value={p.name} className="bg-[#111111] text-white">
@@ -262,11 +245,11 @@ const CalculatorSection: React.FC = () => {
                   </div>
 
                   <div>
-                    <span className="block text-[8px] font-bold text-white/30 uppercase tracking-widest sm:text-right">
+                    <span className="block text-[8px] font-bold text-white/30 uppercase tracking-widest text-right">
                       {lang === 'es' ? 'Moneda local' : 'Local Currency'}
                     </span>
                     <select
-                      className="mt-1 bg-black/80 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-[#FAF5EF] focus:outline-none font-outfit font-medium"
+                      className="mt-0.5 bg-black/80 border border-white/10 rounded-lg px-2.5 py-1 text-[11px] text-[#FAF5EF] focus:outline-none font-outfit font-medium"
                       disabled
                     >
                       <option>Pesos argentinos (ARS)</option>
@@ -274,167 +257,166 @@ const CalculatorSection: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Profile Saving Dialog Toggle */}
                 {!isSaving ? (
                   <button
                     onClick={() => setIsSaving(true)}
-                    className="mt-3.5 w-full bg-[#E03B30] hover:bg-[#C83027] text-white font-unbounded text-[9px] sm:text-xs font-black py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg select-none cursor-pointer"
+                    className="mt-2 w-full bg-[#E03B30] hover:bg-[#C83027] text-white font-unbounded text-[9px] font-black py-1.5 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-300 shadow-md hover:shadow-lg select-none cursor-pointer border-none"
                   >
-                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                       <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
                     </svg>
                     {lang === 'es' ? 'GUARDAR NUEVO PERFIL' : 'SAVE NEW PROFILE'}
                   </button>
                 ) : (
-                  <form onSubmit={handleSaveProfile} className="mt-3.5 flex gap-2">
+                  <form onSubmit={handleSaveProfile} className="mt-2 flex gap-1.5">
                     <input
                       type="text"
-                      placeholder={lang === 'es' ? 'Nombre del perfil...' : 'Profile name...'}
+                      placeholder={lang === 'es' ? 'Nombre...' : 'Name...'}
                       value={newProfileName}
                       onChange={(e) => setNewProfileName(e.target.value)}
-                      className="flex-1 bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#B58E45] font-outfit"
+                      className="flex-1 bg-black/60 border border-white/10 rounded-lg px-2 py-1 text-[11px] text-white focus:outline-none focus:border-[#B58E45] font-outfit"
                       required
                     />
                     <button
                       type="submit"
-                      className="bg-green-600 hover:bg-green-700 text-white font-outfit text-xs font-bold px-3 rounded-xl transition-colors cursor-pointer"
+                      className="bg-green-600 hover:bg-green-700 text-white font-outfit text-[11px] font-bold px-2.5 rounded-lg cursor-pointer border-none"
                     >
                       {lang === 'es' ? 'Guardar' : 'Save'}
                     </button>
                     <button
                       type="button"
                       onClick={() => setIsSaving(false)}
-                      className="bg-white/10 hover:bg-white/20 text-white font-outfit text-xs font-bold px-3 rounded-xl transition-colors cursor-pointer"
+                      className="bg-white/10 hover:bg-white/20 text-white font-outfit text-[11px] font-bold px-2 rounded-lg cursor-pointer border-none"
                     >
-                      {lang === 'es' ? 'X' : 'X'}
+                      X
                     </button>
                   </form>
                 )}
               </div>
 
               {/* 1. Gastos Fijos Panel */}
-              <div className="mb-4">
-                <h4 className="font-unbounded text-[10px] font-black tracking-widest text-[#FAF5EF]/90 uppercase mb-3 flex items-center gap-1.5 border-l-2 border-[#B58E45] pl-2">
+              <div className="mb-2.5">
+                <h4 className="font-unbounded text-[9px] font-black tracking-widest text-[#FAF5EF]/90 uppercase mb-2 flex items-center gap-1 border-l border-[#B58E45] pl-1.5 select-none">
                   {lang === 'es' ? 'Gastos fijos' : 'Fixed Overhead'}
                 </h4>
-                <div className="grid grid-cols-2 gap-3.5">
+                <div className="grid grid-cols-2 gap-x-3 gap-y-2">
                   <div>
-                    <label className="block text-[8px] font-bold text-white/40 uppercase mb-1">
+                    <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
                       {lang === 'es' ? 'Filamento ($/kg)' : 'Filament ($/kg)'}
                     </label>
                     <input
                       type="number"
                       value={filamentPrice}
                       onChange={(e) => setFilamentPrice(Number(e.target.value))}
-                      className="w-full bg-black/60 border border-white/5 rounded-xl px-3 py-1.5 text-xs text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
+                      className="w-full bg-black/60 border border-white/5 rounded-lg px-2 py-1 text-[11px] text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] font-bold text-white/40 uppercase mb-1">
-                      {lang === 'es' ? 'Precio del kWh ($)' : 'Electricity cost/kWh'}
+                    <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
+                      {lang === 'es' ? 'Precio del kWh ($)' : 'Electricity /kWh'}
                     </label>
                     <input
                       type="number"
                       value={kwhPrice}
                       onChange={(e) => setKwhPrice(Number(e.target.value))}
-                      className="w-full bg-black/60 border border-white/5 rounded-xl px-3 py-1.5 text-xs text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
+                      className="w-full bg-black/60 border border-white/5 rounded-lg px-2 py-1 text-[11px] text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] font-bold text-white/40 uppercase mb-1">
+                    <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
                       {lang === 'es' ? 'Consumo impresora (W)' : 'Power consumption (W)'}
                     </label>
                     <input
                       type="number"
                       value={powerConsumption}
                       onChange={(e) => setPowerConsumption(Number(e.target.value))}
-                      className="w-full bg-black/60 border border-white/5 rounded-xl px-3 py-1.5 text-xs text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
+                      className="w-full bg-black/60 border border-white/5 rounded-lg px-2 py-1 text-[11px] text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] font-bold text-white/40 uppercase mb-1">
+                    <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
                       {lang === 'es' ? 'Vida útil (horas)' : 'Lifespan (hours)'}
                     </label>
                     <input
                       type="number"
                       value={machineLifespan}
                       onChange={(e) => setMachineLifespan(Number(e.target.value))}
-                      className="w-full bg-black/60 border border-white/5 rounded-xl px-3 py-1.5 text-xs text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
+                      className="w-full bg-black/60 border border-white/5 rounded-lg px-2 py-1 text-[11px] text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] font-bold text-white/40 uppercase mb-1">
+                    <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
                       {lang === 'es' ? 'Costo repuestos ($)' : 'Spare parts budget ($)'}
                     </label>
                     <input
                       type="number"
                       value={sparePartsCost}
                       onChange={(e) => setSparePartsCost(Number(e.target.value))}
-                      className="w-full bg-black/60 border border-white/5 rounded-xl px-3 py-1.5 text-xs text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
+                      className="w-full bg-black/60 border border-white/5 rounded-lg px-2 py-1 text-[11px] text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] font-bold text-white/40 uppercase mb-1">
+                    <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
                       {lang === 'es' ? 'Margen de error (%)' : 'Error tolerance (%)'}
                     </label>
                     <input
                       type="number"
                       value={errorRate}
                       onChange={(e) => setErrorRate(Number(e.target.value))}
-                      className="w-full bg-black/60 border border-white/5 rounded-xl px-3 py-1.5 text-xs text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
+                      className="w-full bg-black/60 border border-white/5 rounded-lg px-2 py-1 text-[11px] text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
                     />
                   </div>
                 </div>
               </div>
 
               {/* 2. Pieza Panel */}
-              <div className="mb-4">
-                <h4 className="font-unbounded text-[10px] font-black tracking-widest text-[#FAF5EF]/90 uppercase mb-3 flex items-center gap-1.5 border-l-2 border-[#B58E45] pl-2">
+              <div className="mb-2.5">
+                <h4 className="font-unbounded text-[9px] font-black tracking-widest text-[#FAF5EF]/90 uppercase mb-2 flex items-center gap-1 border-l border-[#B58E45] pl-1.5 select-none">
                   {lang === 'es' ? 'Pieza' : '3D Printed Piece'}
                 </h4>
-                <div className="grid grid-cols-2 gap-3.5">
+                <div className="grid grid-cols-2 gap-x-3 gap-y-2">
                   <div>
-                    <label className="block text-[8px] font-bold text-white/40 uppercase mb-1">
-                      {lang === 'es' ? 'Horas de impresión' : 'Print time hours'}
+                    <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
+                      {lang === 'es' ? 'Horas de impresión' : 'Print hours'}
                     </label>
                     <input
                       type="number"
                       value={printHours}
                       onChange={(e) => setPrintHours(Number(e.target.value))}
-                      className="w-full bg-black/60 border border-white/5 rounded-xl px-3 py-1.5 text-xs text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
+                      className="w-full bg-black/60 border border-white/5 rounded-lg px-2 py-1 text-[11px] text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] font-bold text-white/40 uppercase mb-1">
-                      {lang === 'es' ? 'Minutos adicionales' : 'Additional minutes'}
+                    <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
+                      {lang === 'es' ? 'Minutos adicionales' : 'Extra minutes'}
                     </label>
                     <input
                       type="number"
                       value={printMinutes}
                       onChange={(e) => setPrintMinutes(Number(e.target.value))}
-                      className="w-full bg-black/60 border border-white/5 rounded-xl px-3 py-1.5 text-xs text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
+                      className="w-full bg-black/60 border border-white/5 rounded-lg px-2 py-1 text-[11px] text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] font-bold text-white/40 uppercase mb-1">
+                    <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
                       {lang === 'es' ? 'Gramos de filamento' : 'Grams of material'}
                     </label>
                     <input
                       type="number"
                       value={filamentWeight}
                       onChange={(e) => setFilamentWeight(Number(e.target.value))}
-                      className="w-full bg-black/60 border border-white/5 rounded-xl px-3 py-1.5 text-xs text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
+                      className="w-full bg-black/60 border border-white/5 rounded-lg px-2 py-1 text-[11px] text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] font-bold text-white/40 uppercase mb-1">
+                    <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
                       {lang === 'es' ? 'Insumos extra ($)' : 'Extra supplies ($)'}
                     </label>
                     <input
                       type="number"
                       value={extraSupplies}
                       onChange={(e) => setExtraSupplies(Number(e.target.value))}
-                      className="w-full bg-black/60 border border-white/5 rounded-xl px-3 py-1.5 text-xs text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
+                      className="w-full bg-black/60 border border-white/5 rounded-lg px-2 py-1 text-[11px] text-[#FAF5EF] font-mono focus:outline-none focus:border-[#B58E45]"
                     />
                   </div>
                 </div>
@@ -442,14 +424,16 @@ const CalculatorSection: React.FC = () => {
 
               {/* 3. Ganancia Panel */}
               <div>
-                <h4 className="font-unbounded text-[10px] font-black tracking-widest text-[#FAF5EF]/90 uppercase mb-3 flex items-center gap-1.5 border-l-2 border-[#B58E45] pl-2">
+                <h4 className="font-unbounded text-[9px] font-black tracking-widest text-[#FAF5EF]/90 uppercase mb-2 flex items-center gap-1 border-l border-[#B58E45] pl-1.5 select-none">
                   {lang === 'es' ? 'Ganancia' : 'Profit Setup'}
                 </h4>
-                <div>
-                  <label className="flex justify-between text-[8px] font-bold text-white/40 uppercase mb-1">
-                    <span>{lang === 'es' ? 'Margen de ganancia (multiplicador)' : 'Profit multiplier'}</span>
-                    <span className="text-[#B58E45] font-bold">{profitMargin}x</span>
-                  </label>
+                <div className="flex flex-col gap-1">
+                  <div className="flex justify-between items-baseline select-none">
+                    <span className="text-[7.5px] font-bold text-white/35 uppercase">
+                      {lang === 'es' ? 'Margen de ganancia (multiplicador)' : 'Profit multiplier'}
+                    </span>
+                    <span className="text-[#B58E45] text-xs font-black font-mono">{profitMargin}x</span>
+                  </div>
                   <input
                     type="range"
                     min="1.0"
@@ -461,14 +445,15 @@ const CalculatorSection: React.FC = () => {
                   />
                 </div>
               </div>
+
             </div>
 
-            {/* Symmetrical Footnote References matching image */}
-            <div className="mt-5 border-t border-white/5 pt-3.5 select-none">
-              <span className="block text-[8px] font-bold text-[#B58E45] tracking-widest uppercase mb-1.5">
+            {/* Symmetrical Footnote References */}
+            <div className="mt-2.5 border-t border-white/5 pt-2 select-none">
+              <span className="block text-[8px] font-bold text-[#B58E45] tracking-widest uppercase mb-1">
                 {lang === 'es' ? 'Referencias Sugeridas:' : 'Suggested Multipliers:'}
               </span>
-              <div className="flex gap-4 text-[9px] font-space text-white/40">
+              <div className="flex gap-4 text-[9px] font-space text-white/35">
                 <span>{lang === 'es' ? 'Mayorista' : 'Wholesale'} <strong className="text-white/60">→ 3</strong></span>
                 <span>{lang === 'es' ? 'Minorista' : 'Retail'} <strong className="text-white/60">→ 4</strong></span>
                 <span>{lang === 'es' ? 'Llaveros' : 'Keychains'} <strong className="text-white/60">→ 5</strong></span>
@@ -478,123 +463,123 @@ const CalculatorSection: React.FC = () => {
           </motion.div>
 
           {/* ========================================================================= */}
-          {/* COLUMN 2: REAL-TIME RESULTS PANEL (3/12 columns)                          */}
+          {/* COLUMN 2: REAL-TIME RESULTS PANEL (3/12 columns) - VERY COMPACT            */}
           {/* ========================================================================= */}
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="lg:col-span-3 bg-black/45 border border-white/5 rounded-[2rem] p-5 md:p-6 flex flex-col justify-between shadow-xl backdrop-blur-md"
+            className="lg:col-span-3 bg-black/45 border border-white/5 rounded-3xl p-3.5 md:p-4 flex flex-col justify-between shadow-xl backdrop-blur-md"
           >
             <div>
-              {/* Header with results icon */}
-              <div className="flex items-center gap-2 border-b border-white/5 pb-4 mb-4 select-none">
-                <svg className="w-5 h-5 fill-current text-[#E03B30]" viewBox="0 0 24 24">
+              {/* Header */}
+              <div className="flex items-center gap-1.5 border-b border-white/5 pb-2.5 mb-2.5 select-none">
+                <svg className="w-4 h-4 fill-current text-[#E03B30]" viewBox="0 0 24 24">
                   <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2zm0 8H7v-2h10v2z"/>
                 </svg>
-                <h3 className="font-unbounded text-xs font-black tracking-widest text-[#FAF5EF] uppercase">
+                <h3 className="font-unbounded text-[10px] font-black tracking-widest text-[#FAF5EF] uppercase">
                   {lang === 'es' ? 'Resultados' : 'Results'}
                 </h3>
               </div>
 
               {/* Detailed cost rows */}
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-0.5">
                 
-                <div className="flex justify-between items-center py-2 border-b border-white/[0.04]">
+                <div className="flex justify-between items-center py-1 border-b border-white/[0.04]">
                   <div>
-                    <span className="block text-[8px] font-bold text-white/50 uppercase">
+                    <span className="block text-[7.5px] font-bold text-white/45 uppercase leading-tight">
                       {lang === 'es' ? 'Precio material' : 'Material cost'}
                     </span>
-                    <span className="block text-[7px] text-white/30">
+                    <span className="block text-[6.5px] text-white/25 leading-tight">
                       {lang === 'es' ? 'Plástico consumido' : 'Net plastic weight'}
                     </span>
                   </div>
-                  <span className="font-mono text-[11px] font-bold text-white/95">{formatCurrency(materialCost)}</span>
+                  <span className="font-mono text-[11px] font-bold text-white/90">{formatCurrency(materialCost)}</span>
                 </div>
 
-                <div className="flex justify-between items-center py-2 border-b border-white/[0.04]">
+                <div className="flex justify-between items-center py-1 border-b border-white/[0.04]">
                   <div>
-                    <span className="block text-[8px] font-bold text-white/50 uppercase">
+                    <span className="block text-[7.5px] font-bold text-white/45 uppercase leading-tight">
                       {lang === 'es' ? 'Precio luz' : 'Electricity used'}
                     </span>
-                    <span className="block text-[7px] text-white/30">
-                      {lang === 'es' ? 'Potencia consumida' : 'Printer kilowatt-hours'}
+                    <span className="block text-[6.5px] text-white/25 leading-tight">
+                      {lang === 'es' ? 'Potencia consumida' : 'Printer power'}
                     </span>
                   </div>
-                  <span className="font-mono text-[11px] font-bold text-white/95">{formatCurrency(electricityCost)}</span>
+                  <span className="font-mono text-[11px] font-bold text-white/90">{formatCurrency(electricityCost)}</span>
                 </div>
 
-                <div className="flex justify-between items-center py-2 border-b border-white/[0.04]">
+                <div className="flex justify-between items-center py-1 border-b border-white/[0.04]">
                   <div>
-                    <span className="block text-[8px] font-bold text-white/50 uppercase">
-                      {lang === 'es' ? 'Desgaste máquina' : 'Printer wear & tear'}
+                    <span className="block text-[7.5px] font-bold text-white/45 uppercase leading-tight">
+                      {lang === 'es' ? 'Desgaste máquina' : 'Printer wear'}
                     </span>
-                    <span className="block text-[7px] text-white/30">
-                      {lang === 'es' ? 'Amortización de repuestos' : 'Nozzle + fan degradation'}
+                    <span className="block text-[6.5px] text-white/25 leading-tight">
+                      {lang === 'es' ? 'Amortización' : 'Nozzle + fan wear'}
                     </span>
                   </div>
-                  <span className="font-mono text-[11px] font-bold text-white/95">{formatCurrency(wearCost)}</span>
+                  <span className="font-mono text-[11px] font-bold text-white/90">{formatCurrency(wearCost)}</span>
                 </div>
 
-                <div className="flex justify-between items-center py-2 border-b border-white/[0.04]">
+                <div className="flex justify-between items-center py-1 border-b border-white/[0.04]">
                   <div>
-                    <span className="block text-[8px] font-bold text-white/50 uppercase">
+                    <span className="block text-[7.5px] font-bold text-white/45 uppercase leading-tight">
                       {lang === 'es' ? 'Margen de error' : 'Error contingency'}
                     </span>
-                    <span className="block text-[7px] text-white/30">
-                      {lang === 'es' ? 'Fallas imprevistas' : 'Failed prints overhead'}
+                    <span className="block text-[6.5px] text-white/25 leading-tight">
+                      {lang === 'es' ? 'Fallas imprevistas' : 'Failed prints'}
                     </span>
                   </div>
-                  <span className="font-mono text-[11px] font-bold text-white/95">{formatCurrency(errorCost)}</span>
+                  <span className="font-mono text-[11px] font-bold text-white/90">{formatCurrency(errorCost)}</span>
                 </div>
 
-                <div className="flex justify-between items-center py-2.5 border-b border-white/[0.04]">
+                <div className="flex justify-between items-center py-1.5 border-b border-white/[0.04]">
                   <div>
-                    <span className="block text-[8px] font-black text-white/70 uppercase">
+                    <span className="block text-[8px] font-black text-white/60 uppercase leading-tight">
                       {lang === 'es' ? 'Costo total (sin insumos)' : 'Net cost (excl. supplies)'}
                     </span>
-                    <span className="block text-[7px] text-white/30">
-                      {lang === 'es' ? 'Costo de fabricación neto' : 'Sum net manufacture cost'}
+                    <span className="block text-[6.5px] text-white/25 leading-tight">
+                      {lang === 'es' ? 'Costo de fabricación neto' : 'Manufacturing cost'}
                     </span>
                   </div>
-                  <span className="font-mono text-xs font-black text-white/95">{formatCurrency(subtotalCost)}</span>
+                  <span className="font-mono text-[11.5px] font-black text-white/90">{formatCurrency(subtotalCost)}</span>
                 </div>
 
-                <div className="flex justify-between items-center py-2 border-b border-white/[0.04]">
+                <div className="flex justify-between items-center py-1 border-b border-white/[0.04]">
                   <div>
-                    <span className="block text-[8px] font-bold text-white/50 uppercase">
+                    <span className="block text-[7.5px] font-bold text-white/45 uppercase leading-tight">
                       {lang === 'es' ? 'Insumos (+30%)' : 'Supplies (+30%)'}
                     </span>
-                    <span className="block text-[7px] text-white/30">
-                      {lang === 'es' ? 'Agregados + embalaje' : 'Assembly and custom box'}
+                    <span className="block text-[6.5px] text-white/25 leading-tight">
+                      {lang === 'es' ? 'Agregados + embalaje' : 'Packaging and assembly'}
                     </span>
                   </div>
-                  <span className="font-mono text-[11px] font-bold text-white/95">{formatCurrency(insumosMarkedUp)}</span>
+                  <span className="font-mono text-[11px] font-bold text-white/90">{formatCurrency(insumosMarkedUp)}</span>
                 </div>
 
               </div>
             </div>
 
-            {/* Colossal highlight boxes for totals */}
-            <div className="mt-4 flex flex-col gap-3 select-none">
+            {/* Colossal highlight boxes */}
+            <div className="mt-3 flex flex-col gap-2 select-none">
               
-              {/* Highlight Red Box: TOTAL A COBRAR */}
-              <div className="bg-[#E03B30]/10 border border-[#E03B30]/20 rounded-2xl p-3 flex flex-col">
-                <span className="text-[8px] uppercase tracking-wider text-[#E03B30] font-black leading-none mb-1">
+              {/* TOTAL A COBRAR */}
+              <div className="bg-[#E03B30]/10 border border-[#E03B30]/20 rounded-xl p-2.5 flex flex-col">
+                <span className="text-[7.5px] uppercase tracking-wider text-[#E03B30] font-black leading-none mb-0.5">
                   {lang === 'es' ? 'TOTAL A COBRAR' : 'TOTAL TO COLLECT'}
                 </span>
-                <span className="font-mono text-xl md:text-2xl font-black text-[#FAF5EF]">
+                <span className="font-mono text-lg md:text-xl font-black text-[#FAF5EF] leading-tight">
                   {formatCurrency(totalToCollect)}
                 </span>
               </div>
 
-              {/* Highlight Gold Box: PRECIO MERCADOLIBRE */}
-              <div className="bg-[#B58E45]/15 border border-[#B58E45]/35 rounded-2xl p-3 flex flex-col">
-                <span className="text-[8px] uppercase tracking-wider text-[#B58E45] font-black leading-none mb-1">
-                  {lang === 'es' ? 'PRECIO MERCADOLIBRE' : 'MERCADOLIBRE SELLING PRICE'}
+              {/* PRECIO MERCADOLIBRE */}
+              <div className="bg-[#B58E45]/15 border border-[#B58E45]/35 rounded-xl p-2.5 flex flex-col">
+                <span className="text-[7.5px] uppercase tracking-wider text-[#B58E45] font-black leading-none mb-0.5">
+                  {lang === 'es' ? 'PRECIO MERCADOLIBRE' : 'MERCADOLIBRE PRICE'}
                 </span>
-                <span className="font-mono text-xl md:text-2xl font-black text-[#B58E45]">
+                <span className="font-mono text-lg md:text-xl font-black text-[#B58E45] leading-tight">
                   {formatCurrency(mercadoLibrePrice)}
                 </span>
               </div>
@@ -603,14 +588,14 @@ const CalculatorSection: React.FC = () => {
           </motion.div>
 
           {/* ========================================================================= */}
-          {/* COLUMN 3: RECRUITMENT ME SUMO FORM (4/12 columns)                           */}
+          {/* COLUMN 3: RECRUITMENT ME SUMO FORM (4/12 columns) - VERY COMPACT          */}
           {/* ========================================================================= */}
           <motion.div 
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="lg:col-span-4 bg-black/45 border border-white/5 rounded-[2rem] p-5 md:p-6 flex flex-col justify-between shadow-xl backdrop-blur-md relative overflow-hidden"
+            className="lg:col-span-4 bg-black/45 border border-white/5 rounded-3xl p-3.5 md:p-4 flex flex-col justify-between shadow-xl backdrop-blur-md relative overflow-hidden"
           >
             <AnimatePresence mode="wait">
               {!formSubmitted ? (
@@ -621,88 +606,88 @@ const CalculatorSection: React.FC = () => {
                   exit={{ opacity: 0 }}
                   className="flex flex-col h-full justify-between"
                 >
-                  <div>
-                    {/* Header text */}
-                    <p className="font-outfit text-[10px] leading-relaxed opacity-60 select-text mb-4 text-left">
+                  <div className="flex flex-col h-full justify-between">
+                    {/* Concise single sentence description saves enormous visual space */}
+                    <p className="font-outfit text-[10px] leading-relaxed opacity-55 select-text mb-2.5 text-left">
                       {lang === 'es' 
-                        ? 'Hands3D es un estudio de fabricación digital a medida. Dedicado a crear experiencias físicas excepcionales que unen creatividad e innovación. Hands3D es un estudio de fabricación digital a medida. Dedicado a crear experiencias físicas excepcionales que unen creatividad e innovación.'
-                        : 'Hands3D is a custom digital manufacturing studio. Dedicated to creating exceptional physical experiences that unite creativity and innovation. Hands3D is a custom digital manufacturing studio. Dedicated to creating exceptional physical experiences.'}
+                        ? 'Hands3D es un estudio de fabricación digital a medida, dedicado a crear experiencias físicas excepcionales que unen creatividad e innovación.'
+                        : 'Hands3D is a custom digital manufacturing studio, dedicated to creating exceptional physical experiences that unite creativity and innovation.'}
                     </p>
 
-                    {/* Recruitment form fields */}
-                    <form onSubmit={handleFormSubmit} className="flex flex-col gap-3">
+                    {/* Form fields */}
+                    <form onSubmit={handleFormSubmit} className="flex flex-col gap-1.5">
                       <div>
-                        <label className="block text-[8px] font-bold text-white/40 uppercase mb-1 select-none">
+                        <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
                           {lang === 'es' ? 'Nombre y apellido' : 'Full Name'}
                         </label>
                         <input
                           type="text"
                           value={applicantName}
                           onChange={(e) => setApplicantName(e.target.value)}
-                          className="w-full bg-black/60 border border-white/30 rounded-2xl px-4 py-2 text-xs focus:outline-none focus:border-[#B58E45] transition-colors font-outfit text-white"
+                          className="w-full bg-black/60 border border-white/35 rounded-xl px-3 py-1 text-[11px] focus:outline-none focus:border-[#B58E45] transition-colors font-outfit text-white"
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-[8px] font-bold text-white/40 uppercase mb-1 select-none">
+                        <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
                           {lang === 'es' ? 'Mail' : 'Email Address'}
                         </label>
                         <input
                           type="email"
                           value={applicantMail}
                           onChange={(e) => setApplicantMail(e.target.value)}
-                          className="w-full bg-black/60 border border-white/30 rounded-2xl px-4 py-2 text-xs focus:outline-none focus:border-[#B58E45] transition-colors font-outfit text-white"
+                          className="w-full bg-black/60 border border-white/35 rounded-xl px-3 py-1 text-[11px] focus:outline-none focus:border-[#B58E45] transition-colors font-outfit text-white"
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-[8px] font-bold text-white/40 uppercase mb-1 select-none">
+                        <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
                           {lang === 'es' ? 'Numero celular' : 'Phone Number'}
                         </label>
                         <input
                           type="tel"
                           value={applicantPhone}
                           onChange={(e) => setApplicantPhone(e.target.value)}
-                          className="w-full bg-black/60 border border-white/30 rounded-2xl px-4 py-2 text-xs focus:outline-none focus:border-[#B58E45] transition-colors font-outfit text-white"
+                          className="w-full bg-black/60 border border-white/35 rounded-xl px-3 py-1 text-[11px] focus:outline-none focus:border-[#B58E45] transition-colors font-outfit text-white"
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-[8px] font-bold text-white/40 uppercase mb-1 select-none">
-                          {lang === 'es' ? 'Que impresora tenes?' : 'What 3D printer do you own?'}
+                        <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
+                          {lang === 'es' ? 'Que impresora tenes?' : '3D printer model'}
                         </label>
                         <input
                           type="text"
                           value={applicantPrinter}
                           onChange={(e) => setApplicantPrinter(e.target.value)}
-                          className="w-full bg-black/60 border border-white/30 rounded-2xl px-4 py-2 text-xs focus:outline-none focus:border-[#B58E45] transition-colors font-outfit text-white"
+                          className="w-full bg-black/60 border border-white/35 rounded-xl px-3 py-1 text-[11px] focus:outline-none focus:border-[#B58E45] transition-colors font-outfit text-white"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-[8px] font-bold text-white/40 uppercase mb-1 select-none">
-                          {lang === 'es' ? 'Que disponibilidad horario y de trabajo tenes?' : 'What is your hours and work availability?'}
+                        <label className="block text-[7px] font-bold text-white/35 uppercase mb-0.5 select-none">
+                          {lang === 'es' ? 'Disponibilidad horaria' : 'Work availability'}
                         </label>
                         <input
                           type="text"
                           value={applicantAvailability}
                           onChange={(e) => setApplicantAvailability(e.target.value)}
-                          className="w-full bg-black/60 border border-white/30 rounded-2xl px-4 py-2 text-xs focus:outline-none focus:border-[#B58E45] transition-colors font-outfit text-white"
+                          className="w-full bg-black/60 border border-white/35 rounded-xl px-3 py-1 text-[11px] focus:outline-none focus:border-[#B58E45] transition-colors font-outfit text-white"
                         />
                       </div>
 
-                      {/* Header block with ME SUMO submit */}
-                      <div className="mt-2.5">
-                        <span className="block text-[10px] font-unbounded font-black tracking-widest text-[#FAF5EF]/85 uppercase text-left mb-1.5 select-none">
+                      {/* ME SUMO submit */}
+                      <div className="mt-2">
+                        <span className="block text-[9px] font-unbounded font-black tracking-widest text-[#FAF5EF]/80 uppercase text-left mb-1 select-none">
                           {lang === 'es' ? 'ME SUMO!!' : 'JOIN US!!'}
                         </span>
                         
                         <button
                           type="submit"
-                          className="w-full bg-[#FAF5EF] hover:bg-[#EBE5DE] text-[#111111] font-unbounded font-black py-3 rounded-full text-center transition-all duration-300 tracking-widest text-xs select-none cursor-pointer border-none"
+                          className="w-full bg-[#FAF5EF] hover:bg-[#EBE5DE] text-[#111111] font-unbounded font-black py-2 rounded-full text-center transition-all duration-300 tracking-widest text-[10px] select-none cursor-pointer border-none shadow-sm hover:shadow-md"
                         >
                           {lang === 'es' ? 'ENVIAR' : 'SEND'}
                         </button>
@@ -716,22 +701,22 @@ const CalculatorSection: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
-                  className="flex flex-col items-center justify-center text-center h-full py-10"
+                  className="flex flex-col items-center justify-center text-center h-full py-6"
                 >
-                  <div className="w-16 h-16 rounded-full bg-[#FAF5EF]/10 border border-[#FAF5EF]/20 flex items-center justify-center mb-4 select-none">
-                    <svg className="w-8 h-8 text-[#B58E45]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 rounded-full bg-[#FAF5EF]/10 border border-[#FAF5EF]/20 flex items-center justify-center mb-3 select-none">
+                    <svg className="w-6 h-6 text-[#B58E45]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
                     </svg>
                   </div>
                   
-                  <h4 className="font-unbounded text-sm font-black tracking-widest text-[#FAF5EF] uppercase mb-2 select-none">
-                    {lang === 'es' ? '¡SOLICITUD ENVIADA!' : 'APPLICATION SENT!'}
+                  <h4 className="font-unbounded text-xs font-black tracking-widest text-[#FAF5EF] uppercase mb-1.5 select-none">
+                    {lang === 'es' ? '¡ENVIADA!' : 'SENT!'}
                   </h4>
                   
-                  <p className="font-outfit text-xs text-white/50 max-w-[200px] leading-relaxed mb-6 select-text">
+                  <p className="font-outfit text-[11px] text-white/50 max-w-[180px] leading-relaxed mb-4 select-text">
                     {lang === 'es' 
-                      ? 'Muchas gracias por postularte. Nos pondremos en contacto con vos a la brevedad.'
-                      : 'Thank you for joining. We will reach out to you shortly.'}
+                      ? 'Postulación enviada. Te contactaremos a la brevedad.'
+                      : 'Application sent. We will reach out shortly.'}
                   </p>
 
                   <button
@@ -743,7 +728,7 @@ const CalculatorSection: React.FC = () => {
                       setApplicantPrinter('');
                       setApplicantAvailability('');
                     }}
-                    className="bg-white/10 hover:bg-white/20 text-[#FAF5EF] font-unbounded font-black py-2.5 px-6 rounded-full transition-all duration-300 tracking-wider text-[9px] cursor-pointer"
+                    className="bg-white/10 hover:bg-white/20 text-[#FAF5EF] font-unbounded font-black py-1.5 px-4 rounded-full transition-all duration-300 tracking-wider text-[8px] cursor-pointer border-none"
                   >
                     {lang === 'es' ? 'VOLVER A ENVIAR' : 'SUBMIT ANOTHER'}
                   </button>
@@ -752,11 +737,11 @@ const CalculatorSection: React.FC = () => {
             </AnimatePresence>
 
             {/* Emerging Hand draw badge floating at the bottom right */}
-            <div className="absolute bottom-[-16px] right-[-12px] w-14 h-14 pointer-events-none select-none z-30 opacity-70">
+            <div className="absolute bottom-[-14px] right-[-10px] w-12 h-12 pointer-events-none select-none z-30 opacity-60">
               <motion.img 
                 src="/brand/premium_pointing_hand.png" 
                 alt="Pointing Hand"
-                animate={{ y: [0, -4, 0] }}
+                animate={{ y: [0, -3, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 className="w-full h-full object-contain transform rotate-[-45deg]"
               />
@@ -764,6 +749,15 @@ const CalculatorSection: React.FC = () => {
 
           </motion.div>
 
+        </div>
+
+        {/* Unified Bottom Footer Row */}
+        <div className="w-full flex justify-between items-center text-[9px] font-space text-white/20 tracking-widest pt-2 border-t border-white/5 select-none mt-2">
+          <span>{lang === 'es' ? '©HANDS 3D 2026' : '© HANDS 3D 2026'}</span>
+          <span className="font-bold text-[#B58E45] uppercase hidden md:inline">
+            {lang === 'es' ? 'TE DAMOS UNA MANO CON TU IDEA' : 'WE GIVE YOU A HAND WITH YOUR IDEA'}
+          </span>
+          <span>{lang === 'es' ? 'ÁREA EMPRENDEDOR 3D' : '3D ENTREPRENEUR AREA'}</span>
         </div>
 
       </div>
