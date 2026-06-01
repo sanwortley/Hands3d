@@ -85,10 +85,9 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
           </svg>
         </button>
 
-        {/* Minimalist Next Arrow Floating on Right Edge */}
         <button 
           onClick={handleNext}
-          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center cursor-pointer text-[#3e5f8a]/40 hover:text-[#3e5f8a] active:scale-90 transition-all hover:scale-110 focus:outline-none z-30 pointer-events-auto"
+          className="absolute right-14 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center cursor-pointer text-[#3e5f8a]/40 hover:text-[#3e5f8a] active:scale-90 transition-all hover:scale-110 focus:outline-none z-30 pointer-events-auto"
           title={lang === 'es' ? 'Siguiente modelo' : 'Next model'}
         >
           <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.2" viewBox="0 0 24 24">

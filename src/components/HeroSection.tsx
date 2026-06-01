@@ -91,8 +91,8 @@ const HeroSection: React.FC = () => {
             </motion.p>
           </div>
 
-          {/* Smiley Badge Icon (Right Side) - span 2 */}
-          <div className="lg:col-span-2 flex justify-center lg:justify-end items-center">
+          {/* Smiley Badge Icon (Right Side) - span 2 - hidden on mobile */}
+          <div className="hidden lg:flex lg:col-span-2 justify-center lg:justify-end items-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -111,8 +111,8 @@ const HeroSection: React.FC = () => {
 
         </div>
 
-        {/* Symmetrical Copyright Footer Row (Bleed Outlines) */}
-        <div className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-[9px] sm:text-[10px] font-space text-[#767676] tracking-widest pt-2.5 border-t border-[#111111]/5 gap-2 select-text mt-auto">
+        {/* Symmetrical Copyright Footer Row (Bleed Outlines) - hidden on mobile */}
+        <div className="w-full max-w-7xl mx-auto hidden lg:flex flex-col sm:flex-row justify-between items-center text-[9px] sm:text-[10px] font-space text-[#767676] tracking-widest pt-2.5 border-t border-[#111111]/5 gap-2 select-text mt-auto">
           <span>{lang === 'es' ? '©HANDS 3D 2026' : '© HANDS 3D 2026'}</span>
           <div className="flex gap-4">
             <span>{t.hero.footer.email}</span>
