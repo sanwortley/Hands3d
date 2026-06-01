@@ -11,7 +11,6 @@ import CircularArchive from './components/CircularArchive';
 import ProductionSection from './components/ProductionSection';
 import BudgetSection from './components/BudgetSection';
 import WorldCupSection from './components/WorldCupSection';
-import EntrepreneurSection from './components/EntrepreneurSection';
 import CalculatorSection from './components/CalculatorSection';
 import MaterialModal from './components/MaterialModal';
 
@@ -111,7 +110,6 @@ export const App: React.FC = () => {
       'production', 
       'budget', 
       'worldcup', 
-      'entrepreneur', 
       'calculator'
     ];
     
@@ -176,10 +174,6 @@ export const App: React.FC = () => {
           <WorldCupSection />
         </section>
 
-        {/* Slide 10: Área Emprendedor 3D intro */}
-        <section id="entrepreneur" className="snap-section">
-          <EntrepreneurSection />
-        </section>
 
         {/* Slide 11: Calculadora de Costos Emprendedor */}
         <section id="calculator" className="snap-section">

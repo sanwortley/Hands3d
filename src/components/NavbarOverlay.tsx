@@ -31,7 +31,7 @@ const NavbarOverlay: React.FC<NavbarOverlayProps> = ({ isHero = false, theme = i
     { label: lang === 'es' ? 'Presupuesto' : 'Budget', target: 'production' },
     { label: lang === 'es' ? 'contactos' : 'contacts', target: 'budget' },
     { label: lang === 'es' ? 'MUNDIAL 2026' : 'WORLD CUP 2026', target: 'worldcup' },
-    { label: lang === 'es' ? 'AREA EMPRENDEDOR 3D' : '3D ENTREPRENEUR AREA', target: 'entrepreneur' },
+    { label: lang === 'es' ? 'AREA EMPRENDEDOR 3D' : '3D ENTREPRENEUR AREA', target: 'calculator' },
   ];
 
   // Use the exact same 7 mixed-case nav items on all pages/slides
