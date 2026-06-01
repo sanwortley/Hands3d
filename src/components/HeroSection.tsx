@@ -27,7 +27,7 @@ const HeroSection: React.FC = () => {
         <NavbarOverlay isHero={true} />
 
         {/* Gray hand illustrations centered horizontally at the bottom of the blue container */}
-        <div className="w-full max-w-5xl mx-auto px-6 h-[80%] lg:h-[70%] flex items-end justify-center gap-6 sm:gap-12 md:gap-24 relative z-20 translate-y-[42px]">
+        <div className="w-full max-w-5xl mx-auto px-2 lg:px-6 h-[85%] lg:h-[70%] flex items-end justify-center gap-2.5 sm:gap-12 md:gap-24 relative z-20 translate-y-[42px]">
           {hands.map((hand, idx) => (
             <motion.div
               key={idx}
@@ -39,7 +39,7 @@ const HeroSection: React.FC = () => {
                 y: -10,
                 filter: "brightness(1.08) contrast(1.03)"
               }}
-              className="h-[100%] sm:h-[105%] md:h-full w-[28%] sm:w-[26%] lg:w-[25%] flex items-end justify-center cursor-pointer select-none group"
+              className="h-[100%] sm:h-[105%] md:h-full w-[31%] sm:w-[26%] lg:w-[25%] flex items-end justify-center cursor-pointer select-none group"
             >
               {/* High-resolution transparent gray hand illustration */}
               <img 
