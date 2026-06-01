@@ -1,20 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Unbounded:wght@300;400;500;700;900&display=swap');
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
 @theme {
   --font-space: "Space Grotesk", sans-serif;
+  --font-unbounded: "Unbounded", sans-serif;
   --font-outfit: "Outfit", sans-serif;
-  --color-brand-beige: #EBD3AC;
-  --color-brand-dark: #050B18;
-  --color-brand-gold: #C5A059;
+  --color-brand-beige: #FAF5EF;
+  --color-brand-dark: #111111;
+  --color-brand-gold: #B58E45;
 }
 
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #050B18;
-  color: #EBD3AC;
+  background-color: #ffffff;
+  color: #111111;
   font-family: var(--font-outfit);
   -webkit-font-smoothing: antialiased;
 }
