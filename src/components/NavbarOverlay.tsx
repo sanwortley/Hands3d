@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../lib/store';
 
 interface NavbarOverlayProps {
@@ -18,8 +19,10 @@ const ConfettiSolidItem: React.FC<{ color: 'white' | 'gold' }> = ({ color }) => 
 
 const NavbarOverlay: React.FC<NavbarOverlayProps> = ({ isHero = false, theme = isHero ? 'transparent' : 'blue' }) => {
   const { lang, setLang } = useAppStore();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleNav = (id: string) => {
+    setIsOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -122,22 +125,66 @@ const NavbarOverlay: React.FC<NavbarOverlayProps> = ({ isHero = false, theme = i
       </nav>
 
       {/* Mobile menu trigger button - simple and clean */}
-      <div className="lg:hidden flex items-center gap-4">
+      <div className="lg:hidden flex items-center gap-4 relative z-50">
         <button 
           onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
-          className="bg-[#FAF5EF]/10 text-white rounded-full px-2 py-0.5 cursor-pointer text-[10px] font-semibold focus:outline-none"
+          className="bg-[#FAF5EF]/10 hover:bg-[#FAF5EF]/20 text-white rounded-full px-2 py-0.5 cursor-pointer text-[10px] font-semibold focus:outline-none border border-[#FAF5EF]/15 transition-all"
         >
-          {lang === 'es' ? 'EN' : 'ES'}
+          {lang === 'es' ? 'ES' : 'EN'}
         </button>
         <button 
-          onClick={() => handleNav('about')}
-          className="text-white hover:text-white/80 active:scale-95 focus:outline-none"
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-8 h-8 flex items-center justify-center text-white hover:text-[#B58E45] transition-colors focus:outline-none active:scale-95"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-          </svg>
+          <div className="flex flex-col gap-1.5">
+            <motion.span animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 6.5 : 0 }} className="w-5 h-0.5 bg-current rounded-full" />
+            <motion.span animate={{ opacity: isOpen ? 0 : 1 }} className="w-5 h-0.5 bg-current rounded-full" />
+            <motion.span animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -6.5 : 0 }} className="w-5 h-0.5 bg-current rounded-full" />
+          </div>
         </button>
       </div>
+
+      {/* Mobile Menu Drawer Overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: '-100%' }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: '-100%' }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-[45] bg-[#111111]/98 backdrop-blur-md flex flex-col items-center justify-center p-10 text-white select-none"
+          >
+            <div className="flex flex-col items-center space-y-6 w-full max-w-sm font-space text-lg font-bold">
+              {activeItems.map((item) => {
+                const isWorldCup = item.target === 'worldcup';
+                const isCalculator = item.target === 'calculator';
+                
+                if (isCalculator) {
+                  return (
+                    <button 
+                      key={item.label}
+                      onClick={() => handleNav(item.target)}
+                      className="w-full py-3.5 bg-[#B58E45] text-white rounded-full text-xs font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all cursor-pointer text-center focus:outline-none mt-2"
+                    >
+                      {item.label}
+                    </button>
+                  );
+                }
+                
+                return (
+                  <button 
+                    key={item.label}
+                    onClick={() => handleNav(item.target)}
+                    className={`text-base font-bold uppercase tracking-wider transition-colors focus:outline-none ${isWorldCup ? 'text-[#B58E45] hover:text-white' : 'text-white/85 hover:text-[#B58E45]'}`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
