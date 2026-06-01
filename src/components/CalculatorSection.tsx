@@ -203,7 +203,7 @@ const CalculatorSection: React.FC = () => {
       className="w-full h-full flex flex-col relative overflow-hidden bg-[#111111] text-white pt-16 pb-3 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/brand/matte_black_texture.webp')" }}
     >
-      <NavbarOverlay isHero={false} />
+      <NavbarOverlay theme="black" />
 
       {/* Main Container constrained to prevent double scrolling */}
       <div className="w-full max-w-7xl mx-auto px-4 md:px-6 flex-1 flex flex-col justify-between relative z-20 h-[calc(100vh-80px)] max-h-[820px]">

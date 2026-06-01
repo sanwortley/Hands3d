@@ -3,6 +3,7 @@ import { useAppStore } from '../lib/store';
 
 interface NavbarOverlayProps {
   isHero?: boolean;
+  theme?: 'blue' | 'black' | 'transparent';
 }
 
 // Confetti Solid Paper SVG Component
@@ -15,7 +16,7 @@ const ConfettiSolidItem: React.FC<{ color: 'white' | 'gold' }> = ({ color }) => 
   );
 };
 
-const NavbarOverlay: React.FC<NavbarOverlayProps> = ({ isHero = false }) => {
+const NavbarOverlay: React.FC<NavbarOverlayProps> = ({ isHero = false, theme = isHero ? 'transparent' : 'blue' }) => {
   const { lang, setLang } = useAppStore();
 
   const handleNav = (id: string) => {
@@ -36,12 +37,23 @@ const NavbarOverlay: React.FC<NavbarOverlayProps> = ({ isHero = false }) => {
   // Use the exact same 7 mixed-case nav items on all pages/slides
   const activeItems = heroItems;
 
+  let headerBgClass = '';
+  let headerStyle = {};
+
+  if (theme === 'transparent') {
+    headerBgClass = 'bg-transparent border-b-0 shadow-none';
+  } else if (theme === 'black') {
+    headerBgClass = 'bg-[#111111] border-b border-white/5 shadow-md';
+    headerStyle = { backgroundImage: "url('/brand/matte_black_texture.webp')" };
+  } else {
+    headerBgClass = 'bg-[#3E5F8A] border-b border-[#FAF5EF]/10 shadow-md';
+    headerStyle = { backgroundImage: "url('/brand/slate_blue_texture.webp')" };
+  }
+
   return (
     <header 
-      className={`absolute top-0 left-0 w-full h-[60px] md:h-[75px] z-50 flex items-center justify-between px-6 md:px-12 select-none bg-cover bg-center transition-all duration-300 ${
-        isHero ? 'bg-transparent border-b-0 shadow-none' : 'bg-[#3E5F8A] border-b border-[#FAF5EF]/10 shadow-md'
-      }`}
-      style={!isHero ? { backgroundImage: "url('/brand/slate_blue_texture.webp')" } : {}}
+      className={`absolute top-0 left-0 w-full h-[60px] md:h-[75px] z-50 flex items-center justify-between px-6 md:px-12 select-none bg-cover bg-center transition-all duration-300 ${headerBgClass}`}
+      style={headerStyle}
     >
       {/* Brand Logo */}
       <button 

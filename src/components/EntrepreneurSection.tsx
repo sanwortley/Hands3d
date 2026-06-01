@@ -19,7 +19,7 @@ const EntrepreneurSection: React.FC = () => {
           alt="Hands3D Entrepreneur Area" 
           className="w-full h-full object-contain pointer-events-none select-none z-10"
         />
-        <NavbarOverlay />
+        <NavbarOverlay theme="black" />
       </motion.div>
     </div>
   );
