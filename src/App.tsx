@@ -148,6 +148,7 @@ export const App: React.FC = () => {
             setSelectedModel={setSelectedModel}
             isFichaOpen={isFichaOpen}
             setIsFichaOpen={setIsFichaOpen}
+            isActive={activeSection === 'products'}
             handleScrollTo={(id) => {
               document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
             }}
@@ -156,7 +157,11 @@ export const App: React.FC = () => {
 
         {/* Slide 05: Materials Catalog Grid */}
         <section id="materials" className="snap-section">
-          <CircularArchive t={t} setSelectedMaterial={setSelectedMaterial} />
+          <CircularArchive 
+            t={t} 
+            setSelectedMaterial={setSelectedMaterial} 
+            isActive={activeSection === 'materials'} 
+          />
         </section>
 
         {/* Slide 07: Presupuesto B2B scale */}

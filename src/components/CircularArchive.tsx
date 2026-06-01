@@ -17,9 +17,10 @@ interface MaterialSpec {
 interface CircularArchiveProps {
   t: any;
   setSelectedMaterial: (mat: any) => void;
+  isActive?: boolean;
 }
 
-const CircularArchive: React.FC<CircularArchiveProps> = ({ t }) => {
+const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }) => {
   const { lang } = useAppStore();
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -55,7 +56,7 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t }) => {
 
       {/* Borderless 3D STL Canvas filling the viewport stage */}
       <div className="absolute inset-0 w-full h-full z-10">
-        <STLViewer modelUrl={currentModel.url} />
+        {isActive && <STLViewer modelUrl={currentModel.url} />}
       </div>
 
       {/* Interactive Controls Overlay */}
