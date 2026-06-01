@@ -200,16 +200,16 @@ const CalculatorSection: React.FC = () => {
 
   return (
     <div 
-      className="w-full h-full flex flex-col relative overflow-hidden bg-[#111111] text-white pt-16 pb-3 bg-cover bg-center bg-no-repeat"
+      className="w-full h-full flex flex-col relative overflow-y-auto lg:overflow-hidden bg-[#111111] text-white pt-16 pb-3 bg-cover bg-center bg-no-repeat no-scrollbar"
       style={{ backgroundImage: "url('/brand/matte_black_texture.webp')" }}
     >
       <NavbarOverlay theme="black" />
 
       {/* Main Container constrained to prevent double scrolling */}
-      <div className="w-full max-w-7xl mx-auto px-4 md:px-6 flex-1 flex flex-col justify-between relative z-20 h-[calc(100vh-80px)] max-h-[820px]">
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-6 flex-1 flex flex-col justify-between relative z-20 h-auto lg:h-[calc(100vh-80px)] lg:max-h-[820px]">
         
         {/* Symmetrical Grid overlay */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4 items-stretch w-full flex-grow my-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-4 items-stretch w-full flex-grow my-auto py-4 lg:py-0 pb-8 lg:pb-0">
           
           {/* ========================================================================= */}
           {/* COLUMN 1: CONFIG & INPUT PANEL (5/12 columns) - VERY COMPACT              */}

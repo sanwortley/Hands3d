@@ -54,7 +54,7 @@ const HeroSection: React.FC = () => {
 
       {/* 2. Lower Half: Warm Beige Branding & Copy Background with Texture (37% / 32% Height) */}
       <div 
-        className="h-[37%] lg:h-[32%] w-full bg-[#FAF5EF] relative flex flex-col justify-between p-6 md:p-8 xl:p-12 bg-cover bg-center bg-no-repeat"
+        className="h-[37%] lg:h-[32%] w-full bg-[#FAF5EF] relative flex flex-col justify-between pt-5 pb-3 px-6 md:p-8 xl:p-12 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/brand/warm_beige_texture.webp')" }}
       >
         <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 items-center flex-1">
@@ -113,7 +113,7 @@ const HeroSection: React.FC = () => {
         </div>
 
         {/* Symmetrical Copyright Footer Row (Bleed Outlines) */}
-        <div className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-[9px] sm:text-[10px] font-space text-[#767676] tracking-widest pt-4 border-t border-[#111111]/5 gap-2 select-text">
+        <div className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-[9px] sm:text-[10px] font-space text-[#767676] tracking-widest pt-2.5 border-t border-[#111111]/5 gap-2 select-text mt-auto">
           <span>{lang === 'es' ? '©HANDS 3D 2026' : '© HANDS 3D 2026'}</span>
           <div className="flex gap-4">
             <span>{t.hero.footer.email}</span>
