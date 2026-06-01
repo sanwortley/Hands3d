@@ -41,11 +41,10 @@ const HeroSection: React.FC = () => {
               }}
               className="h-[100%] sm:h-[105%] md:h-full w-[31%] sm:w-[26%] lg:w-[25%] flex items-end justify-center cursor-pointer select-none group"
             >
-              {/* High-resolution transparent gray hand illustration */}
               <img 
                 src={hand.src} 
                 alt={hand.alt} 
-                className="h-full w-full object-contain filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.18)] transition-all duration-300"
+                className="h-full w-full object-contain filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.18)] transition-all duration-300 scale-[1.4] md:scale-100"
               />
             </motion.div>
           ))}
