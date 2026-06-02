@@ -313,19 +313,19 @@ const WorldCupSection: React.FC = () => {
           </div>
 
           {/* Middle Row (Symmetrical 3 products on the horizontal stripe) */}
-          <div className="absolute top-[48%] -translate-y-1/2 left-1/2 -translate-x-1/2 w-full max-w-sm px-1.5 z-20 grid grid-cols-3 justify-items-center items-center">
+          <div className="absolute top-[48%] -translate-y-1/2 left-1/2 -translate-x-1/2 w-full max-w-sm px-1.5 z-20 grid grid-cols-3 justify-items-center items-end">
             
             {/* Column 1: Llaveros */}
             <div className="flex shrink-0">
               <motion.div 
-                className="flex flex-col items-center justify-between w-[90px] xs:w-[110px] h-[165px] xs:h-[195px] text-center"
+                className="flex flex-col items-center justify-between w-[108px] xs:w-[132px] h-[228px] xs:h-[270px] text-center"
                 whileHover={{ scale: 1.03 }}
               >
-                <div className="h-[126px] xs:h-[154px] flex items-end justify-center w-full">
+                <div className="h-[180px] xs:h-[218px] flex items-end justify-center w-full">
                   <img 
                     src="/brand/wc_keychain.png" 
                     alt="Llaveros" 
-                    className="h-full w-auto object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.45)] pointer-events-none select-none"
+                    className="h-full max-h-[80px] xs:max-h-[95px] w-auto object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.45)] pointer-events-none select-none"
                   />
                 </div>
                 <span 
@@ -340,10 +340,10 @@ const WorldCupSection: React.FC = () => {
             {/* Column 2: Copa 3D (Raised and resized to match Vaso perfectly) */}
             <div className="flex shrink-0">
               <motion.div 
-                className="flex flex-col items-center justify-between w-[90px] xs:w-[110px] h-[190px] xs:h-[225px] text-center"
+                className="flex flex-col items-center justify-between w-[108px] xs:w-[132px] h-[228px] xs:h-[270px] text-center"
                 whileHover={{ scale: 1.03 }}
               >
-                <div className="h-[150px] xs:h-[182px] flex items-end justify-center w-full">
+                <div className="h-[180px] xs:h-[218px] flex items-end justify-center w-full">
                   <img 
                     src="/brand/wc_trophy.png" 
                     alt="Copa 3D" 
@@ -362,10 +362,10 @@ const WorldCupSection: React.FC = () => {
             {/* Column 3: Vaso */}
             <div className="flex shrink-0">
               <motion.div 
-                className="flex flex-col items-center justify-between w-[90px] xs:w-[110px] h-[190px] xs:h-[225px] text-center"
+                className="flex flex-col items-center justify-between w-[108px] xs:w-[132px] h-[228px] xs:h-[270px] text-center"
                 whileHover={{ scale: 1.03 }}
               >
-                <div className="h-[150px] xs:h-[182px] flex items-end justify-center w-full">
+                <div className="h-[180px] xs:h-[218px] flex items-end justify-center w-full">
                   <img 
                     src="/brand/wc_cup.png" 
                     alt="Vaso Copa" 

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../lib/store';
-import STLViewer from './STLViewer';
-
 
 interface MaterialSpec {
   t: string;
@@ -26,17 +24,7 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const materials = t.materia.items;
-
-  // The 3D STL models representing each material respectively
-  const materialModels = [
-    { url: '/models/001-BASE + VASO-PORTALAPICES X2.stl' }, // PLA PRO
-    { url: '/models/cuerpo.stl' },                          // ABS HT
-    { url: '/models/bandeja.stl' },                         // PETG PRO
-    { url: '/models/vengala pieza.stl' }                    // FLEX
-  ];
-
   const currentMaterial = materials[selectedIdx];
-  const currentModel = materialModels[selectedIdx] || materialModels[0];
 
   const handlePrev = () => {
     setSelectedIdx((prevIdx) => (prevIdx - 1 + materials.length) % materials.length);
@@ -51,19 +39,37 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }
       className="w-full h-[100dvh] flex flex-col relative overflow-hidden bg-[#FAF5EF] bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/brand/warm_beige_texture.webp')" }}
     >
-      {/* Borderless 3D STL Canvas filling the viewport stage */}
-      <div className="absolute inset-0 w-full h-full z-10">
-        {isActive && <STLViewer modelUrl={currentModel.url} />}
+      {/* Active Material Image in the center of the viewport stage */}
+      <div className="absolute inset-0 w-full h-full z-10 flex items-center justify-center pointer-events-none p-6 md:p-12">
+        <div className="w-full max-w-5xl h-full flex items-center justify-center pt-24 pb-48 md:pt-28 md:pb-36">
+          <AnimatePresence mode="wait">
+            {isActive && (
+              <motion.div
+                key={selectedIdx}
+                initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -15 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full h-full flex items-center justify-center max-h-[42dvh] md:max-h-[52dvh]"
+              >
+                <img
+                  src={currentMaterial.img}
+                  alt={currentMaterial.t}
+                  className="max-w-full max-h-full object-contain filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.22)] rounded-[2.5rem] border border-[#3e5f8a]/10 backdrop-blur-[2px] bg-white/5 p-2.5 pointer-events-auto"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
-
 
       {/* Interactive Controls Overlay */}
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 flex-1 flex flex-col justify-between pt-24 pb-4 md:pt-28 md:pb-6 relative z-20 pointer-events-none">
         
-        {/* Top Right: Visor 3D Subtitle */}
+        {/* Top Right: Materials Gallery Subtitle */}
         <div className="w-full flex justify-end select-none pointer-events-auto">
           <span className="font-space text-[10px] md:text-[11px] text-[#767676] tracking-widest uppercase font-bold">
-            {lang === 'es' ? 'Materiales 3D' : '3D Materials'}
+            {lang === 'es' ? 'Galería de Materiales' : 'Materials Gallery'}
           </span>
         </div>
 
