@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../lib/store';
 
@@ -22,9 +22,14 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }
   const { lang } = useAppStore();
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [zoom, setZoom] = useState(1);
 
   const materials = t.materia.items;
   const currentMaterial = materials[selectedIdx];
+
+  useEffect(() => {
+    setZoom(1);
+  }, [selectedIdx]);
 
   const handlePrev = () => {
     setSelectedIdx((prevIdx) => (prevIdx - 1 + materials.length) % materials.length);
@@ -52,16 +57,56 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full h-full flex items-center justify-center max-h-[42dvh] md:max-h-[52dvh]"
               >
-                <img
+                <motion.img
+                  drag={zoom > 1}
+                  dragConstraints={{ left: -250, right: 250, top: -250, bottom: 250 }}
+                  dragElastic={0.15}
+                  whileTap={{ cursor: 'grabbing' }}
+                  onDoubleClick={() => setZoom(prev => prev === 1 ? 2 : 1)}
                   src={currentMaterial.img}
                   alt={currentMaterial.t}
-                  className="max-w-full max-h-full object-contain filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.22)] rounded-[2.5rem] border border-[#3e5f8a]/10 backdrop-blur-[2px] bg-white/5 p-2.5 pointer-events-auto"
+                  animate={{ 
+                    scale: zoom,
+                    x: zoom === 1 ? 0 : undefined,
+                    y: zoom === 1 ? 0 : undefined
+                  }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  className="max-w-full max-h-full object-contain filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.22)] rounded-[2.5rem] border border-[#3e5f8a]/10 backdrop-blur-[2px] bg-white/5 p-2.5 pointer-events-auto cursor-grab transition-shadow duration-300 select-none"
                 />
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Floating Zoom Controls Pill */}
+      {isActive && (
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-[26%] md:bottom-[22%] z-30 pointer-events-auto flex items-center gap-3 bg-[#FAF5EF]/85 backdrop-blur-md px-4 py-2 rounded-full border border-[#3E5F8A]/15 shadow-xl select-none">
+          <button 
+            onClick={() => setZoom(prev => Math.max(1, prev - 0.5))}
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[#3E5F8A] hover:bg-[#3E5F8A]/10 active:scale-95 transition-all font-black text-lg focus:outline-none cursor-pointer"
+            title={lang === 'es' ? 'Disminuir zoom' : 'Zoom out'}
+          >
+            -
+          </button>
+          
+          <button 
+            onClick={() => setZoom(1)}
+            className="font-space text-[10px] font-bold tracking-widest text-[#3E5F8A]/80 hover:text-[#3E5F8A] transition-colors uppercase focus:outline-none px-2 cursor-pointer"
+            title={lang === 'es' ? 'Restablecer' : 'Reset'}
+          >
+            {zoom === 1 ? '100%' : `${Math.round(zoom * 100)}%`}
+          </button>
+
+          <button 
+            onClick={() => setZoom(prev => Math.min(3, prev + 0.5))}
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[#3E5F8A] hover:bg-[#3E5F8A]/10 active:scale-95 transition-all font-black text-lg focus:outline-none cursor-pointer"
+            title={lang === 'es' ? 'Aumentar zoom' : 'Zoom in'}
+          >
+            +
+          </button>
+        </div>
+      )}
 
       {/* Interactive Controls Overlay */}
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 flex-1 flex flex-col justify-between pt-24 pb-4 md:pt-28 md:pb-6 relative z-20 pointer-events-none">
