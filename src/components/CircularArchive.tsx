@@ -18,7 +18,7 @@ interface CircularArchiveProps {
   isActive?: boolean;
 }
 
-const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }) => {
+const CircularArchive: React.FC<CircularArchiveProps> = ({ t }) => {
   const { lang } = useAppStore();
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -48,65 +48,61 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }
       <div className="absolute inset-0 w-full h-full z-10 flex items-center justify-center pointer-events-none p-6 md:p-12">
         <div className="w-full max-w-5xl h-full flex items-center justify-center pt-24 pb-48 md:pt-28 md:pb-36">
           <AnimatePresence mode="wait">
-            {isActive && (
-              <motion.div
-                key={selectedIdx}
-                initial={{ opacity: 0, scale: 0.95, y: 15 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: -15 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full h-full flex items-center justify-center max-h-[42dvh] md:max-h-[52dvh]"
-              >
-                <motion.img
-                  drag={zoom > 1}
-                  dragConstraints={{ left: -250, right: 250, top: -250, bottom: 250 }}
-                  dragElastic={0.15}
-                  whileTap={{ cursor: 'grabbing' }}
-                  onDoubleClick={() => setZoom(prev => prev === 1 ? 2 : 1)}
-                  src={currentMaterial.img}
-                  alt={currentMaterial.t}
-                  animate={{ 
-                    scale: zoom,
-                    x: zoom === 1 ? 0 : undefined,
-                    y: zoom === 1 ? 0 : undefined
-                  }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="max-w-full max-h-full object-contain filter drop-shadow-[0_25px_50px_rgba(0,0,0,0.25)] pointer-events-auto cursor-grab select-none"
-                />
-              </motion.div>
-            )}
+            <motion.div
+              key={selectedIdx}
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -15 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full h-full flex items-center justify-center max-h-[42dvh] md:max-h-[52dvh]"
+            >
+              <motion.img
+                drag={zoom > 1}
+                dragConstraints={{ left: -250, right: 250, top: -250, bottom: 250 }}
+                dragElastic={0.15}
+                whileTap={{ cursor: 'grabbing' }}
+                onDoubleClick={() => setZoom(prev => prev === 1 ? 2 : 1)}
+                src={currentMaterial.img}
+                alt={currentMaterial.t}
+                animate={{ 
+                  scale: zoom,
+                  x: zoom === 1 ? 0 : undefined,
+                  y: zoom === 1 ? 0 : undefined
+                }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-full max-h-full object-contain filter drop-shadow-[0_25px_50px_rgba(0,0,0,0.25)] pointer-events-auto cursor-grab select-none"
+              />
+            </motion.div>
           </AnimatePresence>
         </div>
       </div>
 
       {/* Floating Zoom Controls - Ultra Minimalist & Borderless */}
-      {isActive && (
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-[26%] md:bottom-[22%] z-30 pointer-events-auto flex items-center gap-5 select-none opacity-40 hover:opacity-100 transition-opacity duration-300">
-          <button 
-            onClick={() => setZoom(prev => Math.max(1, prev - 0.5))}
-            className="w-5 h-5 flex items-center justify-center text-[#3E5F8A] hover:scale-125 active:scale-90 transition-all font-light text-base focus:outline-none cursor-pointer"
-            title={lang === 'es' ? 'Disminuir zoom' : 'Zoom out'}
-          >
-            -
-          </button>
-          
-          <button 
-            onClick={() => setZoom(1)}
-            className="font-space text-[8px] font-black tracking-[0.25em] text-[#3E5F8A] hover:underline focus:outline-none cursor-pointer uppercase"
-            title={lang === 'es' ? 'Restablecer' : 'Reset'}
-          >
-            {zoom === 1 ? '1.0x' : `${zoom.toFixed(1)}x`}
-          </button>
+      <div className="absolute left-1/2 -translate-x-1/2 bottom-[26%] md:bottom-[22%] z-30 pointer-events-auto flex items-center gap-5 select-none opacity-40 hover:opacity-100 transition-opacity duration-300">
+        <button 
+          onClick={() => setZoom(prev => Math.max(1, prev - 0.5))}
+          className="w-5 h-5 flex items-center justify-center text-[#3E5F8A] hover:scale-125 active:scale-90 transition-all font-light text-base focus:outline-none cursor-pointer"
+          title={lang === 'es' ? 'Disminuir zoom' : 'Zoom out'}
+        >
+          -
+        </button>
+        
+        <button 
+          onClick={() => setZoom(1)}
+          className="font-space text-[8px] font-black tracking-[0.25em] text-[#3E5F8A] hover:underline focus:outline-none cursor-pointer uppercase"
+          title={lang === 'es' ? 'Restablecer' : 'Reset'}
+        >
+          {zoom === 1 ? '1.0x' : `${zoom.toFixed(1)}x`}
+        </button>
 
-          <button 
-            onClick={() => setZoom(prev => Math.min(3, prev + 0.5))}
-            className="w-5 h-5 flex items-center justify-center text-[#3E5F8A] hover:scale-125 active:scale-90 transition-all font-light text-base focus:outline-none cursor-pointer"
-            title={lang === 'es' ? 'Aumentar zoom' : 'Zoom in'}
-          >
-            +
-          </button>
-        </div>
-      )}
+        <button 
+          onClick={() => setZoom(prev => Math.min(3, prev + 0.5))}
+          className="w-5 h-5 flex items-center justify-center text-[#3E5F8A] hover:scale-125 active:scale-90 transition-all font-light text-base focus:outline-none cursor-pointer"
+          title={lang === 'es' ? 'Aumentar zoom' : 'Zoom in'}
+        >
+          +
+        </button>
+      </div>
 
       {/* Interactive Controls Overlay */}
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 flex-1 flex flex-col justify-between pt-24 pb-4 md:pt-28 md:pb-6 relative z-20 pointer-events-none">

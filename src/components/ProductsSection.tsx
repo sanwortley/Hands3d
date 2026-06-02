@@ -36,8 +36,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   selectedModel, 
   setSelectedModel,
   isFichaOpen,
-  setIsFichaOpen,
-  isActive = false
+  setIsFichaOpen
 }) => {
   const { lang } = useAppStore();
   const currentIdx = models.findIndex(m => m.url === selectedModel);
@@ -60,7 +59,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     >
       {/* Borderless 3D STL Canvas filling the viewport stage */}
       <div className="absolute inset-0 w-full h-full z-10">
-        {isActive && <STLViewer modelUrl={selectedModel} />}
+        <STLViewer modelUrl={selectedModel} />
       </div>
 
 
