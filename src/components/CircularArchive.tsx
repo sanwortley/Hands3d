@@ -79,12 +79,12 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }
         </div>
       </div>
 
-      {/* Floating Zoom Controls Pill */}
+      {/* Floating Zoom Controls - Ultra Minimalist & Borderless */}
       {isActive && (
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-[26%] md:bottom-[22%] z-30 pointer-events-auto flex items-center gap-2 bg-[#FAF5EF]/55 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#3E5F8A]/10 shadow-md select-none">
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-[26%] md:bottom-[22%] z-30 pointer-events-auto flex items-center gap-5 select-none opacity-40 hover:opacity-100 transition-opacity duration-300">
           <button 
             onClick={() => setZoom(prev => Math.max(1, prev - 0.5))}
-            className="w-6 h-6 rounded-full flex items-center justify-center text-[#3E5F8A]/80 hover:bg-[#3E5F8A]/10 active:scale-90 transition-all font-bold text-sm focus:outline-none cursor-pointer"
+            className="w-5 h-5 flex items-center justify-center text-[#3E5F8A] hover:scale-125 active:scale-90 transition-all font-light text-base focus:outline-none cursor-pointer"
             title={lang === 'es' ? 'Disminuir zoom' : 'Zoom out'}
           >
             -
@@ -92,15 +92,15 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }
           
           <button 
             onClick={() => setZoom(1)}
-            className="font-space text-[9px] font-black tracking-widest text-[#3E5F8A]/80 hover:text-[#3E5F8A] transition-colors uppercase focus:outline-none px-2 cursor-pointer"
+            className="font-space text-[8px] font-black tracking-[0.25em] text-[#3E5F8A] hover:underline focus:outline-none cursor-pointer uppercase"
             title={lang === 'es' ? 'Restablecer' : 'Reset'}
           >
-            {zoom === 1 ? '100%' : `${Math.round(zoom * 100)}%`}
+            {zoom === 1 ? '1.0x' : `${zoom.toFixed(1)}x`}
           </button>
 
           <button 
             onClick={() => setZoom(prev => Math.min(3, prev + 0.5))}
-            className="w-6 h-6 rounded-full flex items-center justify-center text-[#3E5F8A]/80 hover:bg-[#3E5F8A]/10 active:scale-90 transition-all font-bold text-sm focus:outline-none cursor-pointer"
+            className="w-5 h-5 flex items-center justify-center text-[#3E5F8A] hover:scale-125 active:scale-90 transition-all font-light text-base focus:outline-none cursor-pointer"
             title={lang === 'es' ? 'Aumentar zoom' : 'Zoom in'}
           >
             +
