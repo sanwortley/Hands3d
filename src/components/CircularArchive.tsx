@@ -71,7 +71,7 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }
                     y: zoom === 1 ? 0 : undefined
                   }}
                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="max-w-full max-h-full object-contain filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.22)] rounded-[2.5rem] border border-[#3e5f8a]/10 backdrop-blur-[2px] bg-white/5 p-2.5 pointer-events-auto cursor-grab transition-shadow duration-300 select-none"
+                  className="max-w-full max-h-full object-contain filter drop-shadow-[0_25px_50px_rgba(0,0,0,0.25)] pointer-events-auto cursor-grab select-none"
                 />
               </motion.div>
             )}
@@ -81,10 +81,10 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }
 
       {/* Floating Zoom Controls Pill */}
       {isActive && (
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-[26%] md:bottom-[22%] z-30 pointer-events-auto flex items-center gap-3 bg-[#FAF5EF]/85 backdrop-blur-md px-4 py-2 rounded-full border border-[#3E5F8A]/15 shadow-xl select-none">
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-[26%] md:bottom-[22%] z-30 pointer-events-auto flex items-center gap-2 bg-[#FAF5EF]/55 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#3E5F8A]/10 shadow-md select-none">
           <button 
             onClick={() => setZoom(prev => Math.max(1, prev - 0.5))}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#3E5F8A] hover:bg-[#3E5F8A]/10 active:scale-95 transition-all font-black text-lg focus:outline-none cursor-pointer"
+            className="w-6 h-6 rounded-full flex items-center justify-center text-[#3E5F8A]/80 hover:bg-[#3E5F8A]/10 active:scale-90 transition-all font-bold text-sm focus:outline-none cursor-pointer"
             title={lang === 'es' ? 'Disminuir zoom' : 'Zoom out'}
           >
             -
@@ -92,7 +92,7 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }
           
           <button 
             onClick={() => setZoom(1)}
-            className="font-space text-[10px] font-bold tracking-widest text-[#3E5F8A]/80 hover:text-[#3E5F8A] transition-colors uppercase focus:outline-none px-2 cursor-pointer"
+            className="font-space text-[9px] font-black tracking-widest text-[#3E5F8A]/80 hover:text-[#3E5F8A] transition-colors uppercase focus:outline-none px-2 cursor-pointer"
             title={lang === 'es' ? 'Restablecer' : 'Reset'}
           >
             {zoom === 1 ? '100%' : `${Math.round(zoom * 100)}%`}
@@ -100,7 +100,7 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t, isActive = false }
 
           <button 
             onClick={() => setZoom(prev => Math.min(3, prev + 0.5))}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#3E5F8A] hover:bg-[#3E5F8A]/10 active:scale-95 transition-all font-black text-lg focus:outline-none cursor-pointer"
+            className="w-6 h-6 rounded-full flex items-center justify-center text-[#3E5F8A]/80 hover:bg-[#3E5F8A]/10 active:scale-90 transition-all font-bold text-sm focus:outline-none cursor-pointer"
             title={lang === 'es' ? 'Aumentar zoom' : 'Zoom in'}
           >
             +
