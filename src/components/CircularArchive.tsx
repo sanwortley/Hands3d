@@ -23,11 +23,13 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t }) => {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [zoom, setZoom] = useState(1);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const materials = t.materia.items;
   const currentMaterial = materials[selectedIdx];
 
   useEffect(() => {
+    setIsLoaded(false);
     setZoom(1);
   }, [selectedIdx]);
 
@@ -56,22 +58,32 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t }) => {
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="w-full h-full flex items-center justify-center max-h-[42dvh] md:max-h-[52dvh]"
             >
-              <motion.img
-                drag={zoom > 1}
-                dragConstraints={{ left: -250, right: 250, top: -250, bottom: 250 }}
-                dragElastic={0.15}
-                whileTap={{ cursor: 'grabbing' }}
-                onDoubleClick={() => setZoom(prev => prev === 1 ? 2 : 1)}
-                src={currentMaterial.img}
-                alt={currentMaterial.t}
-                animate={{ 
-                  scale: zoom,
-                  x: zoom === 1 ? 0 : undefined,
-                  y: zoom === 1 ? 0 : undefined
-                }}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-full max-h-full object-contain filter drop-shadow-[0_25px_50px_rgba(0,0,0,0.25)] pointer-events-auto cursor-grab select-none"
-              />
+              <div className="relative w-full h-full flex items-center justify-center">
+                {!isLoaded && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-8 h-8 border-2 border-[#3e5f8a]/10 border-t-[#3e5f8a] rounded-full animate-spin" />
+                  </div>
+                )}
+                <motion.img
+                  drag={zoom > 1}
+                  dragConstraints={{ left: -250, right: 250, top: -250, bottom: 250 }}
+                  dragElastic={0.15}
+                  whileTap={{ cursor: 'grabbing' }}
+                  onDoubleClick={() => setZoom(prev => prev === 1 ? 2 : 1)}
+                  src={currentMaterial.img}
+                  alt={currentMaterial.t}
+                  onLoad={() => setIsLoaded(true)}
+                  initial={{ opacity: 0 }}
+                  animate={{ 
+                    opacity: isLoaded ? 1 : 0,
+                    scale: zoom,
+                    x: zoom === 1 ? 0 : undefined,
+                    y: zoom === 1 ? 0 : undefined
+                  }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  className="max-w-full max-h-full object-contain filter drop-shadow-[0_25px_50px_rgba(0,0,0,0.25)] pointer-events-auto cursor-grab select-none"
+                />
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>

@@ -95,6 +95,20 @@ export const App: React.FC = () => {
     }
   }, [selectedModel]);
 
+  // Preload material spool images in the background to guarantee instant rendering
+  useEffect(() => {
+    const spools = [
+      '/brand/material_flex_v3.png',
+      '/brand/material_pla_flex_v3.png',
+      '/brand/material_abs_ht_v3.png',
+      '/brand/material_petg_pro_v3.png'
+    ];
+    spools.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
   // Section visibility observer for active indicators
   const handleScroll = () => {
     if (!containerRef.current) return;
