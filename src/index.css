@@ -28,13 +28,11 @@ html, body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  perspective: 2000px;
-  transform-style: preserve-3d;
 }
 
 .snap-section {
   scroll-snap-align: start;
-  scroll-snap-stop: always;
+  scroll-snap-stop: normal;
   height: auto;
   min-height: 100dvh;
   width: 100%;

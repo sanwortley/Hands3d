@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useAppStore } from '../lib/store';
 import { translations } from '../translations';
-import NavbarOverlay from './NavbarOverlay';
+
 
 const HeroSection: React.FC = () => {
   const { lang } = useAppStore();
@@ -23,8 +23,6 @@ const HeroSection: React.FC = () => {
         style={{ backgroundImage: "url('/brand/slate_blue_texture.webp')" }}
       >
         
-        {/* Render fully functional real HTML Navbar Overlay */}
-        <NavbarOverlay isHero={true} />
 
         {/* Gray hand illustrations centered horizontally at the bottom of the blue container */}
         <div className="w-full max-w-5xl mx-auto px-2 lg:px-6 h-[85%] lg:h-[70%] flex items-end justify-center gap-2.5 sm:gap-12 md:gap-24 relative z-20 translate-y-[42px]">

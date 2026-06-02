@@ -13,6 +13,7 @@ import BudgetSection from './components/BudgetSection';
 import WorldCupSection from './components/WorldCupSection';
 import CalculatorSection from './components/CalculatorSection';
 import MaterialModal from './components/MaterialModal';
+import NavbarOverlay from './components/NavbarOverlay';
 
 export const App: React.FC = () => {
   const { 
@@ -122,6 +123,9 @@ export const App: React.FC = () => {
     <>
       {/* Background grain noise layer for high aesthetics */}
       <div className="grain" />
+
+      {/* Single global fixed Navbar — works on all slides including iOS */}
+      <NavbarOverlay />
 
       {/* Snap vertical container */}
       <main 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useAppStore } from '../lib/store';
-import NavbarOverlay from './NavbarOverlay';
+
 
 const BudgetSection: React.FC = () => {
   const { lang } = useAppStore();
@@ -17,8 +17,6 @@ const BudgetSection: React.FC = () => {
       className="w-full h-[100dvh] flex flex-col relative overflow-hidden bg-[#FAF5EF] bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/brand/warm_beige_texture.webp')" }}
     >
-      {/* Real HTML header bar */}
-      <NavbarOverlay isHero={false} />
 
       {/* Main Content Area */}
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 flex-1 flex flex-col justify-between pt-20 pb-2 md:pt-24 md:pb-4 relative z-10">

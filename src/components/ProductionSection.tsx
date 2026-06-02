@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../lib/store';
-import NavbarOverlay from './NavbarOverlay';
+
 
 const ProductionSection: React.FC = () => {
   const { lang } = useAppStore();
@@ -28,11 +28,9 @@ const ProductionSection: React.FC = () => {
 
   return (
     <div 
-      className="w-full h-[100dvh] flex flex-col relative overflow-y-auto no-scrollbar md:overflow-hidden bg-[#FAF5EF] bg-cover bg-center bg-no-repeat"
+      className="w-full h-[100dvh] flex flex-col relative overflow-hidden bg-[#FAF5EF] bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/brand/warm_beige_texture.webp')" }}
     >
-      {/* Real HTML header bar */}
-      <NavbarOverlay isHero={false} />
 
       {/* Main Content Area */}
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 flex-1 flex flex-col justify-between pt-20 pb-4 md:pt-24 md:pb-4 relative z-10">

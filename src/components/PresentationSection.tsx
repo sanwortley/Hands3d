@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useAppStore } from '../lib/store';
 import { translations } from '../translations';
-import NavbarOverlay from './NavbarOverlay';
+
 
 const PresentationSection: React.FC = () => {
   const { lang } = useAppStore();
@@ -13,8 +13,6 @@ const PresentationSection: React.FC = () => {
       className="w-full h-full flex flex-col relative overflow-y-auto md:overflow-hidden bg-[#FAF5EF] bg-cover bg-center bg-no-repeat no-scrollbar"
       style={{ backgroundImage: "url('/brand/warm_beige_texture.webp')" }}
     >
-      {/* Real HTML header bar with solid Slate Blue backdrop */}
-      <NavbarOverlay isHero={false} />
 
       {/* Main Content Area */}
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 flex-1 flex flex-col justify-between pt-20 pb-4 md:pt-24 md:pb-4 h-auto md:h-full">

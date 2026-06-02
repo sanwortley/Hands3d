@@ -1,29 +1,80 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useAppStore } from '../lib/store';
-import NavbarOverlay from './NavbarOverlay';
 
-// Confetti SVG Component - renders a gorgeous vector soccer ball spinning slowly
-const ConfettiItem: React.FC<{ color: 'white' | 'gold'; rot: number; scale: number }> = ({ color, rot, scale }) => {
-  const strokeColor = color === 'gold' ? '#B58E45' : '#FFFFFF';
+
+// Soccer Field Confetti - 4 different shape types
+type ConfettiShape = 'field' | 'corner' | 'goal' | 'whistle' | 'trophy' | 'star';
+
+const ConfettiItem: React.FC<{ color: 'white' | 'gold'; rot: number; scale: number; shape: ConfettiShape }> = ({ color, rot, scale, shape }) => {
+  const strokeColor = color === 'gold' ? '#B58E45' : 'rgba(255,255,255,0.9)';
+  const fillColor   = color === 'gold' ? '#B58E45' : 'rgba(255,255,255,0.15)';
+
+  const sharedProps = {
+    width: '22',
+    height: '22',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: strokeColor,
+    strokeWidth: '1.3',
+    style: { transform: `rotate(${rot}deg) scale(${scale})` },
+    className: 'opacity-75',
+  };
+
+  // Mini soccer field top-down view
+  if (shape === 'field') return (
+    <svg {...sharedProps}>
+      <rect x="2" y="5" width="20" height="14" rx="1" fill={fillColor} />
+      <line x1="12" y1="5" x2="12" y2="19" />
+      <circle cx="12" cy="12" r="3" />
+      <rect x="2" y="9" width="4" height="6" />
+      <rect x="18" y="9" width="4" height="6" />
+    </svg>
+  );
+
+  // Corner flag
+  if (shape === 'corner') return (
+    <svg {...sharedProps}>
+      <line x1="8" y1="20" x2="8" y2="4" />
+      <polygon points="8,4 18,8 8,12" fill={color === 'gold' ? '#B58E45' : 'rgba(255,255,255,0.6)'} />
+    </svg>
+  );
+
+  // Goal post front view
+  if (shape === 'goal') return (
+    <svg {...sharedProps}>
+      <line x1="5" y1="18" x2="5" y2="8" />
+      <line x1="19" y1="18" x2="19" y2="8" />
+      <line x1="5" y1="8" x2="19" y2="8" />
+      <line x1="5" y1="10" x2="3" y2="8" />
+      <line x1="19" y1="10" x2="21" y2="8" />
+    </svg>
+  );
+
+  // Referee whistle
+  if (shape === 'whistle') return (
+    <svg {...sharedProps}>
+      <path d="M4 12 Q4 8 8 8 L18 8 Q20 8 20 10 Q20 12 18 12 L10 12" fill={fillColor} />
+      <circle cx="7" cy="15" r="3" fill={fillColor} />
+      <line x1="10" y1="15" x2="14" y2="12" />
+    </svg>
+  );
+
+  // Trophy silhouette (mini)
+  if (shape === 'trophy') return (
+    <svg {...sharedProps}>
+      <path d="M8 4 h8 v5 q0 5-4 7 q-4-2-4-7z" fill={fillColor} />
+      <line x1="12" y1="16" x2="12" y2="19" />
+      <line x1="8" y1="19" x2="16" y2="19" />
+      <path d="M8 6 Q5 6 5 9 Q5 12 8 12" />
+      <path d="M16 6 Q19 6 19 9 Q19 12 16 12" />
+    </svg>
+  );
+
+  // Star (celebration)
   return (
-    <svg 
-      width="20" 
-      height="20" 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke={strokeColor} 
-      strokeWidth="1.2"
-      style={{ transform: `rotate(${rot}deg) scale(${scale})` }}
-      className="opacity-70 animate-[spin_60s_linear_infinite]"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <polygon points="12,9 15,11.5 14,15.5 10,15.5 9,11.5" strokeLinejoin="round" />
-      <line x1="12" y1="9" x2="12" y2="2" />
-      <line x1="15" y1="11.5" x2="21" y2="10" />
-      <line x1="14" y1="15.5" x2="18" y2="21" />
-      <line x1="10" y1="15.5" x2="6" y2="21" />
-      <line x1="9" y1="11.5" x2="3" y2="10" />
+    <svg {...sharedProps}>
+      <polygon points="12,2 14.5,9.5 22,9.5 16,14 18.5,21.5 12,17 5.5,21.5 8,14 2,9.5 9.5,9.5" fill={fillColor} />
     </svg>
   );
 };
@@ -31,52 +82,67 @@ const ConfettiItem: React.FC<{ color: 'white' | 'gold'; rot: number; scale: numb
 const WorldCupSection: React.FC = () => {
   const { lang } = useAppStore();
 
-  // Position coordinates for floating confetti particles positioned in the middle band (25% - 60% of viewport)
-  const confettiParticles = [
-    // Left Zone (5% to 25%)
-    { top: '30%', left: '5%', rot: 15, scale: 0.8, color: 'white' },
-    { top: '45%', left: '12%', rot: -25, scale: 1.1, color: 'gold' },
-    { top: '58%', left: '7%', rot: 35, scale: 0.7, color: 'white' },
-    { top: '28%', left: '20%', rot: 45, scale: 0.9, color: 'white' },
-    { top: '52%', left: '18%', rot: -15, scale: 1.0, color: 'gold' },
-    
-    // Left-Center Zone (25% to 45%)
-    { top: '38%', left: '28%', rot: 60, scale: 0.8, color: 'gold' },
-    { top: '56%', left: '32%', rot: -30, scale: 1.0, color: 'white' },
-    { top: '26%', left: '36%', rot: 10, scale: 0.9, color: 'white' },
-    { top: '48%', left: '40%', rot: 75, scale: 0.7, color: 'gold' },
-    
-    // Center Zone (45% to 65%)
-    { top: '32%', left: '46%', rot: -20, scale: 1.2, color: 'white' },
-    { top: '54%', left: '50%', rot: 40, scale: 0.9, color: 'gold' },
-    { top: '28%', left: '56%', rot: -45, scale: 0.8, color: 'white' },
-    { top: '46%', left: '60%', rot: 15, scale: 1.1, color: 'gold' },
-    { top: '58%', left: '64%', rot: -10, scale: 0.7, color: 'white' },
-    
-    // Center-Right Zone (65% to 80%)
-    { top: '34%', left: '68%', rot: 50, scale: 1.0, color: 'white' },
-    { top: '50%', left: '72%', rot: -35, scale: 0.8, color: 'gold' },
-    { top: '26%', left: '76%', rot: 25, scale: 0.9, color: 'white' },
-    { top: '44%', left: '80%', rot: 65, scale: 1.1, color: 'gold' },
-    
-    // Right Zone (80% to 95%)
-    { top: '30%', left: '84%', rot: -15, scale: 0.8, color: 'white' },
-    { top: '56%', left: '87%', rot: 55, scale: 0.7, color: 'gold' },
-    { top: '42%', left: '92%', rot: 30, scale: 1.0, color: 'white' },
-    { top: '28%', left: '95%', rot: -50, scale: 0.9, color: 'gold' },
-    { top: '50%', left: '96%', rot: 20, scale: 0.8, color: 'white' }
+  // Massive dense confetti field - 42 particles covering the entire background
+  const confettiParticles: { top: string; left: string; rot: number; scale: number; color: 'white' | 'gold'; shape: ConfettiShape }[] = [
+    // Top band (5% - 20%)
+    { top: '8%',  left: '3%',  rot: 12,  scale: 0.65, color: 'white', shape: 'field' },
+    { top: '12%', left: '10%', rot: -20, scale: 0.7,  color: 'gold',  shape: 'star' },
+    { top: '7%',  left: '18%', rot: 35,  scale: 0.6,  color: 'white', shape: 'corner' },
+    { top: '15%', left: '27%', rot: -8,  scale: 0.75, color: 'gold',  shape: 'goal' },
+    { top: '9%',  left: '38%', rot: 55,  scale: 0.6,  color: 'white', shape: 'trophy' },
+    { top: '14%', left: '48%', rot: -30, scale: 0.7,  color: 'gold',  shape: 'star' },
+    { top: '8%',  left: '57%', rot: 15,  scale: 0.65, color: 'white', shape: 'field' },
+    { top: '13%', left: '67%', rot: 45,  scale: 0.7,  color: 'gold',  shape: 'corner' },
+    { top: '7%',  left: '76%', rot: -22, scale: 0.6,  color: 'white', shape: 'whistle' },
+    { top: '15%', left: '86%', rot: 30,  scale: 0.75, color: 'gold',  shape: 'goal' },
+    { top: '10%', left: '94%', rot: -45, scale: 0.65, color: 'white', shape: 'star' },
+
+    // Upper-middle band (20% - 38%)
+    { top: '22%', left: '6%',  rot: -18, scale: 0.8,  color: 'gold',  shape: 'goal' },
+    { top: '28%', left: '14%', rot: 40,  scale: 0.7,  color: 'white', shape: 'star' },
+    { top: '35%', left: '22%', rot: -55, scale: 0.85, color: 'gold',  shape: 'field' },
+    { top: '24%', left: '31%', rot: 20,  scale: 0.7,  color: 'white', shape: 'whistle' },
+    { top: '33%', left: '42%', rot: -15, scale: 0.8,  color: 'gold',  shape: 'corner' },
+    { top: '25%', left: '52%', rot: 65,  scale: 0.7,  color: 'white', shape: 'trophy' },
+    { top: '36%', left: '63%', rot: -28, scale: 0.85, color: 'gold',  shape: 'star' },
+    { top: '23%', left: '73%', rot: 10,  scale: 0.7,  color: 'white', shape: 'goal' },
+    { top: '32%', left: '82%', rot: -40, scale: 0.8,  color: 'gold',  shape: 'field' },
+    { top: '26%', left: '91%', rot: 50,  scale: 0.7,  color: 'white', shape: 'corner' },
+
+    // Middle band (38% - 62%) 
+    { top: '40%', left: '2%',  rot: -10, scale: 0.9,  color: 'white', shape: 'whistle' },
+    { top: '50%', left: '9%',  rot: 35,  scale: 1.0,  color: 'gold',  shape: 'star' },
+    { top: '42%', left: '19%', rot: -60, scale: 0.85, color: 'white', shape: 'goal' },
+    { top: '58%', left: '28%', rot: 25,  scale: 0.9,  color: 'gold',  shape: 'field' },
+    { top: '44%', left: '35%', rot: -35, scale: 0.8,  color: 'white', shape: 'corner' },
+    { top: '55%', left: '44%', rot: 50,  scale: 1.0,  color: 'gold',  shape: 'trophy' },
+    { top: '41%', left: '54%', rot: -15, scale: 0.85, color: 'white', shape: 'star' },
+    { top: '57%', left: '65%', rot: 40,  scale: 0.9,  color: 'gold',  shape: 'whistle' },
+    { top: '43%', left: '75%', rot: -50, scale: 0.8,  color: 'white', shape: 'field' },
+    { top: '52%', left: '84%', rot: 20,  scale: 1.0,  color: 'gold',  shape: 'goal' },
+    { top: '46%', left: '93%', rot: -30, scale: 0.85, color: 'white', shape: 'star' },
+
+    // Lower band (62% - 80%)
+    { top: '65%', left: '4%',  rot: 15,  scale: 0.75, color: 'gold',  shape: 'corner' },
+    { top: '72%', left: '15%', rot: -25, scale: 0.8,  color: 'white', shape: 'trophy' },
+    { top: '68%', left: '25%', rot: 45,  scale: 0.7,  color: 'gold',  shape: 'star' },
+    { top: '74%', left: '37%', rot: -55, scale: 0.75, color: 'white', shape: 'field' },
+    { top: '66%', left: '48%', rot: 30,  scale: 0.8,  color: 'gold',  shape: 'whistle' },
+    { top: '75%', left: '58%', rot: -10, scale: 0.7,  color: 'white', shape: 'goal' },
+    { top: '63%', left: '69%', rot: 55,  scale: 0.75, color: 'gold',  shape: 'corner' },
+    { top: '73%', left: '79%', rot: -40, scale: 0.8,  color: 'white', shape: 'star' },
+    { top: '67%', left: '89%', rot: 20,  scale: 0.7,  color: 'gold',  shape: 'field' },
+    { top: '76%', left: '97%', rot: -20, scale: 0.75, color: 'white', shape: 'trophy' },
   ];
 
   return (
     <div 
-      className="w-full h-[100dvh] flex flex-col relative overflow-hidden bg-[#FAF5EF] bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/brand/warm_beige_texture.webp')" }}
+      className="w-full h-[100dvh] flex flex-col relative overflow-hidden bg-[#FAF5EF] lg:bg-[#3E5F8A] bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/brand/slate_blue_texture.webp')" }}
     >
-      {/* Real HTML header bar */}
-      <NavbarOverlay isHero={false} />
 
-      {/* Native background stripes to match the Canva theme perfectly, dynamically, and with gorgeous grain texture */}
-      <div className="absolute inset-0 w-full h-full flex flex-col z-0 pointer-events-none select-none">
+      {/* Native background stripes — mobile only (hidden on desktop to keep trophy images clean) */}
+      <div className="lg:hidden absolute inset-0 w-full h-full flex flex-col z-0 pointer-events-none select-none">
         {/* Top slate blue textured stripe */}
         <div 
           className="w-full h-[52%] bg-[#3E5F8A] bg-cover bg-center relative"
@@ -97,7 +163,7 @@ const WorldCupSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Dynamic Outlined Confetti Particles scattered in the middle background area */}
+      {/* Dynamic Outlined Confetti Particles scattered in the background */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
         {confettiParticles.map((p, i) => (
           <motion.div
@@ -114,7 +180,7 @@ const WorldCupSection: React.FC = () => {
               ease: "easeInOut" 
             }}
           >
-            <ConfettiItem color={p.color as 'white' | 'gold'} rot={p.rot} scale={p.scale} />
+            <ConfettiItem color={p.color as 'white' | 'gold'} rot={p.rot} scale={p.scale} shape={p.shape} />
           </motion.div>
         ))}
       </div>

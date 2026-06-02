@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useAppStore } from '../lib/store';
 import STLViewer from './STLViewer';
-import NavbarOverlay from './NavbarOverlay';
+
 
 interface ProductSpec {
   material: string;
@@ -58,13 +58,11 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       className="w-full h-[100dvh] flex flex-col relative overflow-hidden bg-[#FAF5EF] bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/brand/warm_beige_texture.webp')" }}
     >
-      {/* Real HTML header bar */}
-      <NavbarOverlay isHero={false} />
-
       {/* Borderless 3D STL Canvas filling the viewport stage */}
       <div className="absolute inset-0 w-full h-full z-10">
         {isActive && <STLViewer modelUrl={selectedModel} />}
       </div>
+
 
       {/* Interactive Controls Overlay */}
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 flex-1 flex flex-col justify-between pt-24 pb-4 md:pt-28 md:pb-6 relative z-20 pointer-events-none">
