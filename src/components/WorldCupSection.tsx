@@ -227,12 +227,14 @@ const WorldCupSection: React.FC = () => {
                 className="flex flex-col items-center text-center group"
                 whileHover={{ scale: 1.03 }}
               >
-                <div className="h-[260px] lg:h-[280px] xl:h-[310px] flex items-end justify-center">
+                <div className="h-[260px] lg:h-[280px] xl:h-[310px] flex items-end justify-center relative w-full">
                   <img 
                     src="/brand/wc_trophy.png" 
                     alt="Copa 3D" 
-                    className="h-full w-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.55)] drop-shadow-[0_3px_10px_rgba(0,0,0,0.3)] contrast-[1.08] saturate-[1.15] brightness-[1.02] pointer-events-none select-none group-hover:scale-[1.02] transition-transform duration-300"
+                    className="h-full w-auto object-contain contrast-[1.08] saturate-[1.15] brightness-[1.02] pointer-events-none select-none group-hover:scale-[1.02] transition-transform duration-300 z-10"
                   />
+                  {/* Subtle 3D floor shadow */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[110px] lg:w-[120px] xl:w-[130px] h-[10px] bg-black/25 rounded-full blur-[6px] z-0" />
                 </div>
                 <span 
                   className="font-unbounded text-[11px] font-black text-white tracking-widest uppercase mt-3"
@@ -247,12 +249,14 @@ const WorldCupSection: React.FC = () => {
                 className="flex flex-col items-center text-center group"
                 whileHover={{ scale: 1.03 }}
               >
-                <div className="h-[260px] lg:h-[280px] xl:h-[310px] flex items-end justify-center">
+                <div className="h-[260px] lg:h-[280px] xl:h-[310px] flex items-end justify-center relative w-full">
                   <img 
                     src="/brand/wc_cup.png" 
                     alt="Vaso Copa" 
-                    className="h-full w-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.55)] drop-shadow-[0_3px_10px_rgba(0,0,0,0.3)] contrast-[1.08] saturate-[1.15] brightness-[1.02] pointer-events-none select-none group-hover:scale-[1.02] transition-transform duration-300"
+                    className="h-full w-auto object-contain contrast-[1.08] saturate-[1.15] brightness-[1.02] pointer-events-none select-none group-hover:scale-[1.02] transition-transform duration-300 z-10"
                   />
+                  {/* Subtle 3D floor shadow */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[110px] lg:w-[120px] xl:w-[130px] h-[10px] bg-black/25 rounded-full blur-[6px] z-0" />
                 </div>
                 <span 
                   className="font-unbounded text-[11px] font-black text-white tracking-widest uppercase mt-3"
@@ -321,12 +325,14 @@ const WorldCupSection: React.FC = () => {
                 className="flex flex-col items-center justify-between w-[108px] xs:w-[132px] h-[228px] xs:h-[270px] text-center"
                 whileHover={{ scale: 1.03 }}
               >
-                <div className="h-[180px] xs:h-[218px] flex items-end justify-center w-full">
+                <div className="h-[180px] xs:h-[218px] flex items-end justify-center w-full relative">
                   <img 
                     src="/brand/wc_keychain.png" 
                     alt="Llaveros" 
-                    className="h-full max-h-[80px] xs:max-h-[95px] w-auto object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.45)] pointer-events-none select-none"
+                    className="h-full max-h-[80px] xs:max-h-[95px] w-auto object-contain pointer-events-none select-none z-10"
                   />
+                  {/* Subtle 3D floor shadow */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[40px] xs:w-[45px] h-[6px] bg-black/20 rounded-full blur-[4px] z-0" />
                 </div>
                 <span 
                   className="font-unbounded text-[8px] xs:text-[9px] font-black text-white tracking-widest uppercase text-center mt-2 leading-none"
@@ -343,12 +349,14 @@ const WorldCupSection: React.FC = () => {
                 className="flex flex-col items-center justify-between w-[108px] xs:w-[132px] h-[228px] xs:h-[270px] text-center"
                 whileHover={{ scale: 1.03 }}
               >
-                <div className="h-[180px] xs:h-[218px] flex items-end justify-center w-full">
+                <div className="h-[180px] xs:h-[218px] flex items-end justify-center w-full relative">
                   <img 
                     src="/brand/wc_trophy.png" 
                     alt="Copa 3D" 
-                    className="h-full w-auto object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.45)] pointer-events-none select-none"
+                    className="h-full w-auto object-contain pointer-events-none select-none z-10"
                   />
+                  {/* Subtle 3D floor shadow */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[70px] xs:w-[85px] h-[8px] bg-black/25 rounded-full blur-[5px] z-0" />
                 </div>
                 <span 
                   className="font-unbounded text-[8px] xs:text-[9px] font-black text-white tracking-widest uppercase text-center mt-2 leading-none"
@@ -365,12 +373,14 @@ const WorldCupSection: React.FC = () => {
                 className="flex flex-col items-center justify-between w-[108px] xs:w-[132px] h-[228px] xs:h-[270px] text-center"
                 whileHover={{ scale: 1.03 }}
               >
-                <div className="h-[180px] xs:h-[218px] flex items-end justify-center w-full">
+                <div className="h-[180px] xs:h-[218px] flex items-end justify-center w-full relative">
                   <img 
                     src="/brand/wc_cup.png" 
                     alt="Vaso Copa" 
-                    className="h-full w-auto object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.45)] pointer-events-none select-none"
+                    className="h-full w-auto object-contain pointer-events-none select-none z-10"
                   />
+                  {/* Subtle 3D floor shadow */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[70px] xs:w-[85px] h-[8px] bg-black/25 rounded-full blur-[5px] z-0" />
                 </div>
                 <span 
                   className="font-unbounded text-[8px] xs:text-[9px] font-black text-white tracking-widest uppercase text-center mt-2 leading-none"
