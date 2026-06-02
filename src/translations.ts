@@ -99,7 +99,7 @@ export const translations: Record<'es' | 'en', Translation> = {
           t: 'PLA FLEX', 
           s: 'Architectural', 
           d: 'Perfect surface finish with a flexible touch for large-scale architectural models.',
-          img: '/brand/material_pla_flex.png',
+          img: '/brand/material_flex.png',
           density: '1.24 g/cm³',
           hardness: '80 Shore D',
           ld: 'Our PLA FLEX is optimized for flexibility and architectural visualization. It offers a smooth, matte finish that hides layer lines while maintaining sharp edge definition. Ideal for urban planning, kinetic models, and structural applications.'
@@ -108,7 +108,7 @@ export const translations: Record<'es' | 'en', Translation> = {
           t: 'ABS HT', 
           s: 'Structural', 
           d: 'High thermal resistance for industrial performance parts.',
-          img: '/brand/material_abs_ht.png',
+          img: '/brand/material_pla_flex.png',
           density: '1.05 g/cm³',
           hardness: '75 Shore D',
           ld: 'Engineered for high-temperature environments, ABS HT provides superior mechanical strength and impact resistance. It is the industrial standard for functional prototypes and tooling.'
@@ -117,7 +117,7 @@ export const translations: Record<'es' | 'en', Translation> = {
           t: 'PETG PRO', 
           s: 'Functional', 
           d: 'Chemically inert and impact resistant for functional prototypes.',
-          img: '/brand/material_petg_pro.png',
+          img: '/brand/material_abs_ht.png',
           density: '1.27 g/cm³',
           hardness: '78 Shore D',
           ld: 'PETG PRO combines the ease of printing with the strength of industrial materials. It is moisture resistant and chemically stable, making it perfect for custom mechanical components.'
@@ -126,7 +126,7 @@ export const translations: Record<'es' | 'en', Translation> = {
           t: 'FLEX', 
           s: 'Kinetic', 
           d: 'Variable shore hardness for elastic and ergonomic exploration.',
-          img: '/brand/material_flex.png',
+          img: '/brand/material_petg_pro.png',
           density: '1.20 g/cm³',
           hardness: '95 Shore A',
           ld: 'Our FLEX material allows for the creation of soft-touch, ergonomic, and shock-absorbing parts. With variable density control, we can tune the elasticity of each part individually.'
@@ -192,7 +192,7 @@ export const translations: Record<'es' | 'en', Translation> = {
           t: 'PLA FLEX', 
           s: 'Arquitectónico', 
           d: 'Acabado superficial perfecto con un toque flexible para modelos arquitectónicos a gran escala.',
-          img: '/brand/material_pla_flex.png',
+          img: '/brand/material_flex.png',
           density: '1.24 g/cm³',
           hardness: '80 Shore D',
           ld: 'Nuestro PLA FLEX está optimizado para flexibilidad y visualización arquitectónica. Ofrece un acabado mate suave que oculta las líneas de capa manteniendo bordes afilados. Ideal para planificación urbana, modelos cinéticos y aplicaciones estructurales.'
@@ -201,7 +201,7 @@ export const translations: Record<'es' | 'en', Translation> = {
           t: 'ABS HT', 
           s: 'Estructural', 
           d: 'Alta resistencia térmica para piezas de rendimiento industrial.',
-          img: '/brand/material_abs_ht.png',
+          img: '/brand/material_pla_flex.png',
           density: '1.05 g/cm³',
           hardness: '75 Shore D',
           ld: 'Diseñado para entornos de alta temperatura, el ABS HT proporciona una resistencia mecánica y al impacto superior. Es el estándar industrial para prototipos funcionales y herramental.'
@@ -210,7 +210,7 @@ export const translations: Record<'es' | 'en', Translation> = {
           t: 'PETG PRO', 
           s: 'Funcional', 
           d: 'Químicamente inerte y resistente al impacto para prototipos funcionales.',
-          img: '/brand/material_petg_pro.png',
+          img: '/brand/material_abs_ht.png',
           density: '1.27 g/cm³',
           hardness: '78 Shore D',
           ld: 'El PETG PRO combina la facilidad de impresión con la fuerza de materiales industriales. Es resistente a la humedad y químicamente estable, perfecto para componentes mecánicos personalizados.'
@@ -219,7 +219,7 @@ export const translations: Record<'es' | 'en', Translation> = {
           t: 'FLEX', 
           s: 'Kinetic', 
           d: 'Dureza variable para exploración elástica y ergonómica.',
-          img: '/brand/material_flex.png',
+          img: '/brand/material_petg_pro.png',
           density: '1.20 g/cm³',
           hardness: '95 Shore A',
           ld: 'Nuestro material FLEX permite la creación de piezas suaves al tacto, ergonómicas y que absorben impactos. Con control de densidad variable, podemos ajustar la elasticidad de cada pieza individualmente.'
