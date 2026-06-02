@@ -78,7 +78,7 @@ const CircularArchive: React.FC<CircularArchiveProps> = ({ t }) => {
       </div>
 
       {/* Floating Zoom Controls - Ultra Minimalist & Borderless */}
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-[26%] md:bottom-[22%] z-30 pointer-events-auto flex items-center gap-5 select-none opacity-40 hover:opacity-100 transition-opacity duration-300">
+      <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 bottom-[26%] md:bottom-[22%] z-30 pointer-events-auto items-center gap-5 select-none opacity-40 hover:opacity-100 transition-opacity duration-300">
         <button 
           onClick={() => setZoom(prev => Math.max(1, prev - 0.5))}
           className="w-5 h-5 flex items-center justify-center text-[#3E5F8A] hover:scale-125 active:scale-90 transition-all font-light text-base focus:outline-none cursor-pointer"
